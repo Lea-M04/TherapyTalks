@@ -12,16 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
+            $table->id('userID');
+            $table->string('firstName');
+            $table->string('lastName');
+            $table->string('phoneNumber')->nullable();
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->date('dateOfBirth')->nullable();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->enum('role', ['patient', 'professional', 'admin'])->default('patient');
+            $table->enum('status', ['active', 'inactive', 'banned'])->default('active');
+            $table->string('profileImage')->nullable();
+            $table->string('username')->unique();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
