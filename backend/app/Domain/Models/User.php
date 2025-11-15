@@ -1,45 +1,59 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-
-class User extends Authenticatable
+class User
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    public ?int $userID;
+    public string $firstName;
+    public string $lastName;
+    public ?string $phoneNumber;
+    public string $email;
+    public ?string $dateOfBirth;
+    public ?string $gender;
+    public string $role;
+    public string $status;
+    public ?string $profileImage;
+    public string $username;
+    public string $password;
+    public ?string $created_at;
+    public ?string $updated_at;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    public function __construct(array $data = [])
+    {
+        $this->userID = $data['userID'] ?? null;
+        $this->firstName = $data['firstName'] ?? '';
+        $this->lastName = $data['lastName'] ?? '';
+        $this->phoneNumber = $data['phoneNumber'] ?? null;
+        $this->email = $data['email'] ?? '';
+        $this->dateOfBirth = $data['dateOfBirth'] ?? null;
+        $this->gender = $data['gender'] ?? null;
+        $this->role = $data['role'] ?? 'patient';
+        $this->status = $data['status'] ?? 'active';
+        $this->profileImage = $data['profileImage'] ?? null;
+        $this->username = $data['username'] ?? '';
+        $this->password = $data['password'] ?? '';
+        $this->created_at = $data['created_at'] ?? null;
+        $this->updated_at = $data['updated_at'] ?? null;
+    }
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    public function toArray(): array
+    {
+        return [
+            'userID' => $this->userID,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'phoneNumber' => $this->phoneNumber,
+            'email' => $this->email,
+            'dateOfBirth' => $this->dateOfBirth,
+            'gender' => $this->gender,
+            'role' => $this->role,
+            'status' => $this->status,
+            'profileImage' => $this->profileImage,
+            'username' => $this->username,
+            'password' => $this->password,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
 }
