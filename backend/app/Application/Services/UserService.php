@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Services;
+namespace App\Application\Services;
+
 
 use Infrastructure\Persistence\Repositories\UserRepository;
 use Domain\Models\User;

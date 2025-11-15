@@ -4,11 +4,12 @@ namespace Infrastructure\Persistence\Eloquent;
 
 use App\Models\User as EloquentUser;
 use Domain\Models\User;
+use Domain\Interfaces\UserRepositoryInterface;
 use Infrastructure\Persistence\Repositories\UserRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class EloquentUserRepository implements UserRepository
+class EloquentUserRepository implements UserRepositoryInterface
 {
     private function mapToDomain(EloquentUser $u): User
     {
