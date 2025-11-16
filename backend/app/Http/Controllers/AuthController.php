@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Application\DTOs\CreateUserDTO;
-use Application\DTOs\LoginDTO;
-use Application\Services\AuthService;
+use App\Application\DTOs\CreateUserDTO;
+use App\Application\DTOs\LoginDTO;
+use App\Application\Services\AuthService;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -17,18 +17,40 @@ class AuthController extends Controller
     }
 
     public function register(Request $req)
-    {
-        $dto = new CreateUserDTO(
-            $req->name,
-            $req->email,
-            $req->password,
-            $req->role
-        );
+{
+    $validated = $req->validate([
+        'firstName'    => 'required|string',
+        'lastName'     => 'required|string',
+        'email'        => 'required|email|unique:users,email',
+        'username'     => 'required|string|unique:users,username',
+        'password'     => 'required|string|min:6',
 
-        $user = $this->auth->register($dto);
+        'phoneNumber'  => 'nullable|string',
+        'dateOfBirth'  => 'nullable|date',
+        'gender'       => 'nullable|in:male,female,other',
+        'role'         => 'nullable|in:patient,professional,admin',
+        'profileImage' => 'nullable|string',
+        'status'       => 'nullable|in:active,inactive,banned',
+    ]);
 
-        return response()->json($user, 201);
-    }
+    $dto = new CreateUserDTO(
+        $validated['firstName'],
+        $validated['lastName'],
+        $validated['email'],
+        $validated['username'],
+        $validated['password'],
+        $validated['phoneNumber'] ?? null,
+        $validated['dateOfBirth'] ?? null,
+        $validated['gender'] ?? null,
+        $validated['role'] ?? null,
+        $validated['profileImage'] ?? null,
+        $validated['status'] ?? null,
+    );
+
+    $user = $this->auth->register($dto);
+
+    return response()->json($user, 201);
+}
 
     public function login(Request $req)
     {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Domain\Models;
-
+namespace App\Domain\Models;
+use App\Domain\ValueObjects\Email;
 class User
 {
     public ?int $userID;
     public string $firstName;
     public string $lastName;
     public ?string $phoneNumber;
-    public string $email;
+    public Email $email;
     public ?string $dateOfBirth;
     public ?string $gender;
     public string $role;
@@ -21,11 +21,14 @@ class User
 
     public function __construct(array $data = [])
     {
-        $this->userID = $data['userID'] ?? null;
+        $this->userID = isset($data['userID']) ? (int) $data['userID'] : null;
         $this->firstName = $data['firstName'] ?? '';
         $this->lastName = $data['lastName'] ?? '';
         $this->phoneNumber = $data['phoneNumber'] ?? null;
-        $this->email = $data['email'] ?? '';
+        $this->email =
+        $data['email'] instanceof Email
+            ? $data['email']
+            : new Email($data['email']);
         $this->dateOfBirth = $data['dateOfBirth'] ?? null;
         $this->gender = $data['gender'] ?? null;
         $this->role = $data['role'] ?? 'patient';
@@ -44,7 +47,7 @@ class User
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
             'phoneNumber' => $this->phoneNumber,
-            'email' => $this->email,
+            'email' => (string) $this->email,
             'dateOfBirth' => $this->dateOfBirth,
             'gender' => $this->gender,
             'role' => $this->role,

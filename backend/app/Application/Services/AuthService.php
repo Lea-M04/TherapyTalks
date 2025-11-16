@@ -1,43 +1,48 @@
 <?php
 
-namespace Application\Services;
+namespace App\Application\Services;
 
-use Application\DTOs\CreateUserDTO;
-use Application\DTOs\LoginDTO;
-use Domain\Interfaces\UserRepositoryInterface;
-use Domain\Models\User;
-use Domain\ValueObjects\Email;
+use App\Application\DTOs\CreateUserDTO;
+use App\Application\DTOs\LoginDTO;
+use App\Domain\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
-    private UserRepositoryInterface $users;
+    private UserService $userService;
 
-    public function __construct(UserRepositoryInterface $users)
+    public function __construct(UserService $userService)
     {
-        $this->users = $users;
+        $this->userService = $userService;
     }
 
     public function register(CreateUserDTO $dto): User
     {
-        $user = new User(
-            uniqid(),
-            $dto->name,
-            new Email($dto->email),
-            Hash::make($dto->password),
-            $dto->role
-        );
+        $data = [
+            'userID'      => uniqid(),
+            'firstName'   => $dto->firstName,
+            'lastName'    => $dto->lastName,
+            'email'       => $dto->email,
+            'username'    => $dto->username,
+            'password'    => $dto->password,
+            'phoneNumber' => $dto->phoneNumber,
+            'dateOfBirth' => $dto->dateOfBirth,
+            'gender'      => $dto->gender,
+            'role'        => $dto->role ?? 'patient',
+            'status'      => $dto->status ?? 'active',
+            'profileImage'=> $dto->profileImage,
+        ];
 
-        return $this->users->create($user);
+        return $this->userService->create($data);
     }
 
     public function login(LoginDTO $dto): ?User
     {
-        $user = $this->users->findByEmail($dto->email);
+        $user = $this->userService->findByEmail($dto->email);
 
         if (!$user) return null;
 
-        if (!Hash::check($dto->password, $user->password())) {
+        if (!Hash::check($dto->password, $user->password)) {
             return null;
         }
 

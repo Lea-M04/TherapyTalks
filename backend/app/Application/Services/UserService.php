@@ -3,16 +3,16 @@
 namespace App\Application\Services;
 
 
-use Infrastructure\Persistence\Repositories\UserRepository;
-use Domain\Models\User;
+use App\Domain\Interfaces\UserRepositoryInterface;
+use App\Domain\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Arr;
 
 class UserService
 {
-    private UserRepository $repo;
+    private UserRepositoryInterface $repo;
 
-    public function __construct(UserRepository $repo)
+    public function __construct(UserRepositoryInterface $repo)
     {
         $this->repo = $repo;
     }
@@ -27,15 +27,17 @@ class UserService
         return $this->repo->findById($id);
     }
 
-    public function create(array $data): User
-    {
-
-        if (!empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
-
-        return $this->repo->create($data);
+public function create(array $data): User
+{
+    if (!empty($data['password'])) {
+        $data['password'] = Hash::make($data['password']);
     }
+
+    $user = new User($data);
+
+    return $this->repo->create($user);
+}
+
 
     public function update(int $id, array $data): ?User
     {
@@ -54,4 +56,10 @@ class UserService
     {
         return $this->repo->delete($id);
     }
+
+    public function findByEmail(string $email): ?User
+{
+    return $this->repo->findByEmail($email);
+}
+
 }

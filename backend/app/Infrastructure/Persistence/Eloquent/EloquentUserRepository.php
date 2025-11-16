@@ -1,13 +1,11 @@
 <?php
 
-namespace Infrastructure\Persistence\Eloquent;
+namespace App\Infrastructure\Persistence\Eloquent;
 
 use App\Models\User as EloquentUser;
-use Domain\Models\User;
-use Domain\Interfaces\UserRepositoryInterface;
-use Infrastructure\Persistence\Repositories\UserRepository;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
+use App\Domain\Models\User;
+use App\Domain\ValueObjects\Email;
+use App\Domain\Interfaces\UserRepositoryInterface;
 
 class EloquentUserRepository implements UserRepositoryInterface
 {
@@ -18,7 +16,7 @@ class EloquentUserRepository implements UserRepositoryInterface
             'firstName' => $u->firstName,
             'lastName' => $u->lastName,
             'phoneNumber' => $u->phoneNumber,
-            'email' => $u->email,
+            'email' => new Email($u->email),
             'dateOfBirth' => $u->dateOfBirth ? $u->dateOfBirth->toDateString() : null,
             'gender' => $u->gender,
             'role' => $u->role,
@@ -39,8 +37,12 @@ class EloquentUserRepository implements UserRepositoryInterface
 
     public function findAll(int $perPage = 15, int $page = 1): array
     {
-        $paginator = EloquentUser::orderBy('userID', 'desc')->paginate($perPage, ['*'], 'page', $page);
-        $data = $paginator->getCollection()->map(fn($u) => $this->mapToDomain($u))->all();
+        $paginator = EloquentUser::orderBy('userID', 'desc')
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        $data = $paginator->getCollection()
+            ->map(fn($u) => $this->mapToDomain($u))
+            ->all();
 
         return [
             'data' => $data,
@@ -64,18 +66,47 @@ class EloquentUserRepository implements UserRepositoryInterface
         $u = EloquentUser::where('username', $username)->first();
         return $u ? $this->mapToDomain($u) : null;
     }
-
-    public function create(array $data): User
+    public function create(User $user): User
     {
-        $eloquent = EloquentUser::create($data);
+        $eloquent = EloquentUser::create([
+            'userID' => $user->userID,
+            'firstName' => $user->firstName,
+            'lastName' => $user->lastName,
+            'phoneNumber' => $user->phoneNumber,
+            'email' => $user->email->value(),
+            'dateOfBirth' => $user->dateOfBirth,
+            'gender' => $user->gender,
+            'role' => $user->role,
+            'status' => $user->status,
+            'profileImage' => $user->profileImage,
+            'username' => $user->username,
+            'password' => $user->password,
+        ]);
+
         return $this->mapToDomain($eloquent);
     }
 
-    public function update(int $id, array $data): ?User
+    public function update(User $user): User
     {
-        $eloquent = EloquentUser::where('userID', $id)->first();
-        if (!$eloquent) return null;
-        $eloquent->update($data);
+        $eloquent = EloquentUser::where('userID', $user->userID)->first();
+        if (!$eloquent) {
+            throw new \Exception("User not found");
+        }
+
+        $eloquent->update([
+            'firstName' => $user->firstName,
+            'lastName' => $user->lastName,
+            'phoneNumber' => $user->phoneNumber,
+            'email' => $user->email->value(),
+            'dateOfBirth' => $user->dateOfBirth,
+            'gender' => $user->gender,
+            'role' => $user->role,
+            'status' => $user->status,
+            'profileImage' => $user->profileImage,
+            'username' => $user->username,
+            'password' => $user->password,
+        ]);
+
         return $this->mapToDomain($eloquent);
     }
 
