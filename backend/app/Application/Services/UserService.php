@@ -4,7 +4,7 @@ namespace App\Application\Services;
 
 
 use App\Domain\Interfaces\UserRepositoryInterface;
-use App\Domain\Models\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Arr;
 
@@ -28,15 +28,13 @@ class UserService
     }
 
 public function create(array $data): User
-{
-    if (!empty($data['password'])) {
-        $data['password'] = Hash::make($data['password']);
+    {
+        if (!empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        return User::create($data);
     }
-
-    $user = new User($data);
-
-    return $this->repo->create($user);
-}
 
 
     public function update(int $id, array $data): ?User
@@ -57,9 +55,9 @@ public function create(array $data): User
         return $this->repo->delete($id);
     }
 
-    public function findByEmail(string $email): ?User
+    public function findByEmail(string $email)
 {
-    return $this->repo->findByEmail($email);
+    return User::where('email', $email)->first();
 }
 
 }

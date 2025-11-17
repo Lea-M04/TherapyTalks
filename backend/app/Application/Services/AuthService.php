@@ -4,7 +4,7 @@ namespace App\Application\Services;
 
 use App\Application\DTOs\CreateUserDTO;
 use App\Application\DTOs\LoginDTO;
-use App\Domain\Models\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
@@ -19,7 +19,6 @@ class AuthService
     public function register(CreateUserDTO $dto): User
     {
         $data = [
-            'userID'      => uniqid(),
             'firstName'   => $dto->firstName,
             'lastName'    => $dto->lastName,
             'email'       => $dto->email,
