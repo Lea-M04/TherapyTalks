@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
-use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\Services\UserService;
+use App\Application\Services\UserService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -42,7 +42,7 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function store(UserStoreRequest $request)
+    public function store(RegisterUserRequest $request)
     {
         $payload = $request->validated();
         $user = $this->service->create($payload);

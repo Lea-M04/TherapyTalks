@@ -74,14 +74,14 @@ class AuthController extends Controller
 
     public function logout()
     {
-        auth('api')->logout(); // ✔ FIXED
+        auth('api')->logout();
         return response()->json(['message' => 'Logged out successfully']);
     }
 
     public function refresh()
     {
         return response()->json([
-            'token' => auth('api')->refresh() // ✔ FIXED
+            'token' => auth('api')->refresh()
         ]);
     }
 }

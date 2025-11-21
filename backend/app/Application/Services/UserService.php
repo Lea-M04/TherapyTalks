@@ -2,7 +2,7 @@
 
 namespace App\Application\Services;
 
-
+use App\Domain\Models\User as DomainUser;
 use App\Domain\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -22,32 +22,35 @@ class UserService
         return $this->repo->findAll($perPage, $page);
     }
 
-    public function get(int $id): ?User
+    public function get(int $id): ?DomainUser
     {
         return $this->repo->findById($id);
     }
 
-public function create(array $data): User
+public function create(array $data): DomainUser
     {
         if (!empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
-
-        return User::create($data);
+        $domainUser = new DomainUser($data);
+        return $this->repo->create($domainUser);
     }
 
 
-    public function update(int $id, array $data): ?User
+    public function update(int $id, array $data): ?DomainUser
     {
-     
+        $user = $this->repo->findById($id);
+
+    if (!$user) {
+        return null;
+    }
         if (array_key_exists('password', $data) && !empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
-           
-            unset($data['password']);
+           $data = Arr::except($data, ['password']);
         }
-
-        return $this->repo->update($id, $data);
+        $updatedUser = new DomainUser(array_merge($user->toArray(), $data));
+        return $this->repo->update($updatedUser);
     }
 
     public function delete(int $id): bool

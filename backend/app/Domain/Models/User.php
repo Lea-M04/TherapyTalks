@@ -47,7 +47,7 @@ class User
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
             'phoneNumber' => $this->phoneNumber,
-            'email' => (string) $this->email,
+            'email' => $this->email->value(),
             'dateOfBirth' => $this->dateOfBirth,
             'gender' => $this->gender,
             'role' => $this->role,
