@@ -7,6 +7,10 @@ use App\Domain\Interfaces\UserRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentUserRepository;
 use App\Domain\Interfaces\PatientRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentPatientRepository;
+use App\Domain\Interfaces\ProfessionalRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentProfessionalRepository;
+
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -22,6 +26,12 @@ $this->app->bind(
             PatientRepositoryInterface::class,
             EloquentPatientRepository::class
         );
+
+
+        $this->app->bind(
+            ProfessionalRepositoryInterface::class,
+            EloquentProfessionalRepository::class
+);
     }
 
     /**

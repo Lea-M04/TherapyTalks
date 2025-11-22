@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\ProfessionalController;
+use App\Http\Controllers\AdminProfessionalController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 Route::post('/login', [AuthController::class, 'login'])->name('login');;
@@ -26,5 +28,15 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/patients', [PatientController::class, 'index']);
     Route::get('/patients/{id}', [PatientController::class, 'show']);
     Route::delete('/patients/{id}', [PatientController::class, 'destroy']);
+
+    Route::post('/professionals', [ProfessionalController::class, 'store']);
+    Route::put('/professionals/{id}', [ProfessionalController::class, 'update']);
+    Route::get('/professionals', [ProfessionalController::class, 'index']);
+    Route::get('/professionals/{id}', [ProfessionalController::class, 'show']);
+    Route::delete('/professionals/{id}', [ProfessionalController::class, 'destroy']);
+
+    Route::get('/admin/professionals/pending', [AdminProfessionalController::class, 'pending']);
+    Route::post('/admin/professionals/{userID}/approve', [AdminProfessionalController::class, 'approve']);
+    Route::post('/admin/professionals/{userID}/reject', [AdminProfessionalController::class, 'reject']);
     
 });
