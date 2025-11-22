@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Application\Services\UserService;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,6 +22,8 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        $this->authorize('viewAny', User::class);
+
         $perPage = (int) $request->get('per_page', 15);
         $page = (int) $request->get('page', 1);
 
@@ -36,14 +39,20 @@ class UserController extends Controller
     public function show(int $id)
     {
         $user = $this->service->get($id);
+
         if (!$user) {
             return response()->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
+
+        $this->authorize('view', $user);
+
         return new UserResource($user);
     }
 
     public function store(RegisterUserRequest $request)
     {
+        $this->authorize('create', User::class);
+
         $payload = $request->validated();
         $user = $this->service->create($payload);
 
@@ -54,18 +63,30 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, int $id)
     {
-        $payload = $request->validated();
-        $user = $this->service->update($id, $payload);
+        $user = $this->service->get($id);
 
         if (!$user) {
             return response()->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
 
-        return new UserResource($user);
+        $this->authorize('update', $user);
+
+        $payload = $request->validated();
+        $updated = $this->service->update($id, $payload);
+
+        return new UserResource($updated);
     }
 
     public function destroy(int $id)
     {
+        $user = $this->service->get($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $this->authorize('delete', $user);
+
         $deleted = $this->service->delete($id);
 
         if (!$deleted) {
