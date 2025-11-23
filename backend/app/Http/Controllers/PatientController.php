@@ -19,61 +19,79 @@ class PatientController extends Controller
 
 
     public function index(Request $request)
-    {
-        $perPage = (int) $request->get('per_page', 15);
-        $page = (int) $request->get('page', 1);
+{
+    $this->authorize('viewAny', Patient::class);
 
-        $result = $this->service->list($perPage, $page);
-        $collection = array_map(fn($p) => new PatientResource($p), $result['data']);
+    $perPage = (int) $request->get('per_page', 15);
+    $page = (int) $request->get('page', 1);
 
-        return response()->json([
+    $result = $this->service->list($perPage, $page);
+    $collection = array_map(fn($p) => new PatientResource($p), $result['data']);
+
+    return response()->json([
         'data' => $collection,
         'meta' => $result['meta'],
-        ]);
+    ]);
+}
+
+public function show(int $id)
+{
+    $patient = $this->service->get($id);
+
+    if (!$patient) {
+        return response()->json(['message' => 'Patient not found'], 404);
     }
 
+    $this->authorize('view', $patient);
 
-    public function show(int $id)
-    {
-        $patient = $this->service->get($id);
-        if (!$patient) {
-        return response()->json(['message' => 'Patient not found'], Response::HTTP_NOT_FOUND);
-        }
-        return new PatientResource($patient);
-    }
+    return new PatientResource($patient);
+}
 
+public function store(CreatePatientRequest $request)
+{
+    $this->authorize('create', Patient::class);
 
-    public function store(CreatePatientRequest $request)
-    {
-        $payload = $request->validated();
-        $patient = $this->service->create($payload);
+    $payload = $request->validated();
+    $patient = $this->service->create($payload);
 
-        return (new PatientResource($patient))
+    return (new PatientResource($patient))
         ->response()
-        ->setStatusCode(Response::HTTP_CREATED);
+        ->setStatusCode(201);
+}
+
+public function update(UpdatePatientRequest $request, int $id)
+{
+    $patient = $this->service->get($id);
+
+    if (!$patient) {
+        return response()->json(['message' => 'Patient not found'], 404);
     }
 
+    $this->authorize('update', $patient);
 
-    public function update(UpdatePatientRequest $request, int $id)
-    {
-        $payload = $request->validated();
-        $patient = $this->service->update($id, $payload);
-        if (!$patient) {
-        return response()->json(['message' => 'Patient not found'], Response::HTTP_NOT_FOUND);
-        }
+    $payload = $request->validated();
+    $updated = $this->service->update($id, $payload);
 
-        return new PatientResource($patient);
+    return new PatientResource($updated);
+}
+
+public function destroy(int $id)
+{
+    $patient = $this->service->get($id);
+
+    if (!$patient) {
+        return response()->json(['message' => 'Patient not found'], 404);
     }
 
+    $this->authorize('delete', $patient);
 
-    public function destroy(int $id)
-    {
-        $deleted = $this->service->delete($id);
+    $deleted = $this->service->delete($id);
 
-        if (!$deleted) {
-        return response()->json(['message' => 'Patient not found or cannot be deleted'], Response::HTTP_NOT_FOUND);
-        }
+    if (!$deleted) {
+        return response()->json(['message' => 'Patient not found or cannot be deleted'], 404);
+    }
 
-        return response()->json(null, Response::HTTP_NO_CONTENT);
-        }
+    return response()->json(null, 204);
+}
+
 }
