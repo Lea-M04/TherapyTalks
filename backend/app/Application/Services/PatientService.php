@@ -3,15 +3,18 @@
 namespace App\Application\Services;
 use App\Domain\Interfaces\PatientRepositoryInterface;
 use App\Domain\Models\Patient as DomainPatient;
+use App\Application\Services\AuditLogService;
+
 
 class PatientService
 {
     private PatientRepositoryInterface $repo;
+    private AuditLogService $audit;
 
-
-    public function __construct(PatientRepositoryInterface $repo)
+    public function __construct(PatientRepositoryInterface $repo, AuditLogService $audit)
 {
         $this->repo = $repo;
+        $this->audit = $audit;
 }
 
 
@@ -36,7 +39,15 @@ class PatientService
     public function create(array $data): DomainPatient
 {
         $patient = new DomainPatient($data);
-        return $this->repo->create($patient);
+        $created= $this->repo->create($patient);
+       $this->audit->write(
+            action: 'patient_created',
+            targetType: 'Patient',
+            targetID: $created->patientID,
+            status: 'success',
+            performedBy: $created->userID 
+        );
+        return $created;
 }
 
 
@@ -47,12 +58,34 @@ class PatientService
         return null;
 }
         $updated = new DomainPatient(array_merge($existing->toArray(), $data));
-        return $this->repo->update($updated);
+        $result= $this->repo->update($updated);
+        $this->audit->write(
+            action: 'patient_updated',
+            targetType: 'Patient',
+            targetID: $result->patientID,
+            status: 'success',
+            performedBy: $result->userID 
+        );
+    
+        return $result;
 }
 
 
     public function delete(int $id): bool
     {
-        return $this->repo->delete($id);
+        $existing = $this->repo->findById($id);
+         if (!$existing) {
+        return false;
+    }
+        $deleted = $this->repo->delete($id);
+        $this->audit->write(
+            action: 'patient_deleted',
+            targetType: 'Patient',
+            targetID: $existing->patientID,
+            status:  $deleted ? 'success' : 'failed',
+            performedBy: auth()->id() ?? $existing->userID
+        );
+    
+        return $deleted;
     }
 }

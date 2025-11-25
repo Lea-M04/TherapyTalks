@@ -4,14 +4,17 @@ namespace App\Application\Services;
 
 use App\Domain\Interfaces\ProfessionalRepositoryInterface;
 use App\Domain\Models\Professional as DomainProfessional;
+use App\Application\Services\AuditLogService;
 
 class ProfessionalService
 {
     private ProfessionalRepositoryInterface $repo;
+    private AuditLogService $audit;
 
-    public function __construct(ProfessionalRepositoryInterface $repo)
+    public function __construct(ProfessionalRepositoryInterface $repo, AuditLogService $audit)
     {
         $this->repo = $repo;
+        $this->audit = $audit;
     }
 
     public function list(int $perPage = 15, int $page = 1): array
@@ -31,10 +34,17 @@ class ProfessionalService
 
     public function create(array $data): DomainProfessional
     {
-        // ensure default status pending
         $data['status'] = $data['status'] ?? 'pending';
         $professional = new DomainProfessional($data);
-        return $this->repo->create($professional);
+        $created= $this->repo->create($professional);
+        $this->audit->write(
+            action: 'professional_created',
+            targetType: 'Professional',
+            targetID: $created->professionalID,
+            status: 'success',
+            performedBy: $created->userID 
+        );
+        return $created;
     }
 
     public function update(int $id, array $data): ?DomainProfessional
@@ -44,11 +54,33 @@ class ProfessionalService
             return null;
         }
         $updated = new DomainProfessional(array_merge($existing->toArray(), $data));
-        return $this->repo->update($updated);
+        $result= $this->repo->update($updated);
+        $this->audit->write(
+            action: 'professional_updated',
+            targetType: 'Professional',
+            targetID: $result->professionalID,
+            status: 'success',
+            performedBy: $result->userID 
+        );
+    
+        return $result;
     }
 
     public function delete(int $id): bool
     {
-        return $this->repo->delete($id);
+        $existing = $this->repo->findById($id);
+        if (!$existing) {
+        return false;
+    }
+        $deleted= $this->repo->delete($id);
+        $this->audit->write(
+            action: 'professional_deleted',
+            targetType: 'Professional',
+            targetID: $existing->professionalID,
+            status:  $deleted ? 'success' : 'failed',
+            performedBy: auth()->id() ?? $existing->userID
+        );
+    
+        return $deleted;
     }
 }
