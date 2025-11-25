@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\AdminProfessionalController;
+use App\Http\Controllers\ConsentRecordController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 Route::post('/login', [AuthController::class, 'login'])->name('login');;
@@ -38,5 +39,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/admin/professionals/pending', [AdminProfessionalController::class, 'pending']);
     Route::post('/admin/professionals/{userID}/approve', [AdminProfessionalController::class, 'approve']);
     Route::post('/admin/professionals/{userID}/reject', [AdminProfessionalController::class, 'reject']);
+
+    Route::post('/consent_record', [ConsentRecordController::class, 'store']);
+    Route::put('/consent_record/{id}', [ConsentRecordController::class, 'update']);
+    Route::get('/consent_record', [ConsentRecordController::class, 'index']);
+    Route::get('/consent_record/{id}', [ConsentRecordController::class, 'show']);
+    Route::delete('/consent_record/{id}', [ConsentRecordController::class, 'destroy']);
     
 });

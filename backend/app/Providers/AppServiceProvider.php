@@ -9,6 +9,9 @@ use App\Domain\Interfaces\PatientRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentPatientRepository;
 use App\Domain\Interfaces\ProfessionalRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentProfessionalRepository;
+use App\Domain\Interfaces\ConsentRecordRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentConsentRecordRepository;
+
 
 
 class AppServiceProvider extends ServiceProvider
@@ -32,6 +35,12 @@ $this->app->bind(
             ProfessionalRepositoryInterface::class,
             EloquentProfessionalRepository::class
 );
+
+$this->app->bind(
+    ConsentRecordRepositoryInterface::class,
+    EloquentConsentRecordRepository::class
+);
+
     }
 
     /**
