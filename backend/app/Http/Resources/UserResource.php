@@ -18,7 +18,9 @@ class UserResource extends JsonResource
                 'firstName' => $u->firstName,
                 'lastName' => $u->lastName,
                 'phoneNumber' => $u->phoneNumber,
-                'email' => $this->email->value(),
+                 'email' => $u->email instanceof \App\Domain\ValueObjects\Email
+            ? $u->email->value()
+            : $u->email,
                 'dateOfBirth' => $u->dateOfBirth,
                 'gender' => $u->gender,
                 'role' => $u->role,
@@ -35,7 +37,7 @@ class UserResource extends JsonResource
             'firstName' => $u->firstName,
             'lastName' => $u->lastName,
             'phoneNumber' => $u->phoneNumber,
-            'email' => $this->email->value(),
+            'email' => $u->email,
               'dateOfBirth' => $u->dateOfBirth instanceof \DateTimeInterface ? $u->dateOfBirth->format('Y-m-d') : $u->dateOfBirth,
             'role' => $u->role,
             'status' => $u->status,
