@@ -8,6 +8,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\AdminProfessionalController;
 use App\Http\Controllers\ConsentRecordController;
+use App\Http\Controllers\ChatRoomController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 Route::post('/login', [AuthController::class, 'login'])->name('login');;
@@ -45,5 +46,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/consent_record', [ConsentRecordController::class, 'index']);
     Route::get('/consent_record/{id}', [ConsentRecordController::class, 'show']);
     Route::delete('/consent_record/{id}', [ConsentRecordController::class, 'destroy']);
+
+    Route::post('/chat_rooms', [ChatRoomController::class, 'store']);
+    Route::put('/chat_rooms/{id}', [ChatRoomController::class, 'update']);
+    Route::get('/chat_rooms', [ChatRoomController::class, 'index']);
+    Route::get('/chat_rooms/{id}', [ChatRoomController::class, 'show']);
+    Route::delete('/chat_rooms/{id}', [ChatRoomController::class, 'destroy']);
     
 });

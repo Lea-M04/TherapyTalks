@@ -13,6 +13,8 @@ use App\Domain\Interfaces\AuditLogRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentAuditLogRepository;
 use App\Domain\Interfaces\ConsentRecordRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentConsentRecordRepository;
+use App\Domain\Interfaces\ChatRoomRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentChatRoomRepository;
 
 
 
@@ -46,6 +48,13 @@ $this->app->bind(
     ConsentRecordRepositoryInterface::class,
     EloquentConsentRecordRepository::class
 );
+
+$this->app->bind(
+    ChatRoomRepositoryInterface::class,
+    EloquentChatRoomRepository::class
+);
+
+
 
     }
 
