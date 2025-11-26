@@ -24,7 +24,6 @@ class CreateProfessionalRequest extends FormRequest
             'clinicStreet' => 'nullable|string|max:255',
             'clinicCity' => 'nullable|string|max:255',
             'isOnline' => 'nullable|boolean',
-            // status should not be set by normal user ideally, but if needed:
             'status' => 'sometimes|in:pending,approved,rejected',
         ];
     }

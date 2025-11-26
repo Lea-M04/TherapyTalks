@@ -3,6 +3,7 @@
 namespace App\Application\Services;
 
 use App\Domain\Interfaces\ProfessionalRepositoryInterface;
+use App\Domain\Interfaces\AvailabilityRepositoryInterface;
 use App\Domain\Models\Professional as DomainProfessional;
 use App\Application\Services\AuditLogService;
 
@@ -62,7 +63,15 @@ class ProfessionalService
             status: 'success',
             performedBy: $result->userID 
         );
-    
+        if (isset($data['isOnline'])) {
+            if($data['isOnline'] === false) {
+            app(AvailabilityRepositoryInterface::class)
+            ->setAllUnavailable($result->professionalID);
+            }else{
+                app(AvailabilityRepositoryInterface::class)
+            ->setAllAvailable($result->professionalID);
+            }
+    }
         return $result;
     }
 
