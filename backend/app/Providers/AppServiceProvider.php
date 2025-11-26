@@ -14,7 +14,9 @@ use App\Infrastructure\Persistence\Eloquent\EloquentAuditLogRepository;
 use App\Domain\Interfaces\ConsentRecordRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentConsentRecordRepository;
 use App\Domain\Interfaces\AvailabilityRepositoryInterface;
-use App\Infrastructure\Persistence\Eloquent\EloquentAvailabilityRepository;
+use App\Infrastructure\Persistence\Eloquent\EloquentAvailabilityRepository;use App\Domain\Interfaces\ChatRoomRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentChatRoomRepository;
+
 use App\Domain\Interfaces\ServiceRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentServiceRepository;
 
@@ -54,6 +56,13 @@ $this->app->bind(
     AvailabilityRepositoryInterface::class,
     EloquentAvailabilityRepository::class
 );
+
+$this->app->bind(
+    ChatRoomRepositoryInterface::class,
+    EloquentChatRoomRepository::class
+);
+
+
 
      $this->app->bind(
     ServiceRepositoryInterface::class,
