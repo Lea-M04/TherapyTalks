@@ -20,6 +20,10 @@ use App\Infrastructure\Persistence\Eloquent\EloquentChatRoomRepository;
 use App\Domain\Interfaces\ServiceRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentServiceRepository;
 
+use App\Domain\Interfaces\MessageRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentMessageRepository;
+
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -67,6 +71,11 @@ $this->app->bind(
      $this->app->bind(
     ServiceRepositoryInterface::class,
     EloquentServiceRepository::class
+);
+
+ $this->app->bind(
+    MessageRepositoryInterface::class,
+    EloquentMessageRepository::class
 );
 
     }

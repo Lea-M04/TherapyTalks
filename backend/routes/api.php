@@ -12,6 +12,7 @@ use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\AvailabilityController;
 use App\Http\Controllers\ChatRoomController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\MessageController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 Route::post('/login', [AuthController::class, 'login'])->name('login');;
@@ -70,5 +71,13 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/services', [ServiceController::class, 'store']);
     Route::put('/services/{id}', [ServiceController::class, 'update']);
     Route::delete('/services/{id}', [ServiceController::class, 'destroy']);
+
+    Route::get('/chat_rooms/{chatRoomID}/messages', [MessageController::class, 'indexByChatRoom']);
+    Route::post('/chat_rooms/{chatRoomID}/messages', [MessageController::class, 'store']);
+    Route::get('/messages', [MessageController::class, 'myMessages']); 
+    Route::get('/messages/{id}', [MessageController::class, 'show']);
+    Route::put('/messages/{id}', [MessageController::class, 'update']);
+    Route::patch('/messages/{id}/read', [MessageController::class, 'markRead']);
+    Route::delete('/messages/{id}', [MessageController::class, 'destroy']);
 
 });
