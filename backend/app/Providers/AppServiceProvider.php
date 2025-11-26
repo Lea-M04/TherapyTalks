@@ -13,7 +13,8 @@ use App\Domain\Interfaces\AuditLogRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentAuditLogRepository;
 use App\Domain\Interfaces\ConsentRecordRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentConsentRecordRepository;
-use App\Domain\Interfaces\ChatRoomRepositoryInterface;
+use App\Domain\Interfaces\AvailabilityRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentAvailabilityRepository;use App\Domain\Interfaces\ChatRoomRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentChatRoomRepository;
 
 
@@ -47,6 +48,11 @@ class AppServiceProvider extends ServiceProvider
 $this->app->bind(
     ConsentRecordRepositoryInterface::class,
     EloquentConsentRecordRepository::class
+);
+
+    $this->app->bind(
+    AvailabilityRepositoryInterface::class,
+    EloquentAvailabilityRepository::class
 );
 
 $this->app->bind(

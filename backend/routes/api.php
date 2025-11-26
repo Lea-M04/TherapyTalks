@@ -8,6 +8,8 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\AdminProfessionalController;
 use App\Http\Controllers\ConsentRecordController;
+use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\AvailabilityController;
 use App\Http\Controllers\ChatRoomController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
@@ -46,11 +48,19 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/consent_record', [ConsentRecordController::class, 'index']);
     Route::get('/consent_record/{id}', [ConsentRecordController::class, 'show']);
     Route::delete('/consent_record/{id}', [ConsentRecordController::class, 'destroy']);
+    
+    Route::get('/audit_logs', [AuditLogController::class, 'index']);
+
+    Route::get('/availability/{professionalID}', [AvailabilityController::class, 'index']);
+    Route::get('/availability/{id}', [AvailabilityController::class, 'show']);
+    Route::post('/availability', [AvailabilityController::class, 'store']);
+    Route::put('/availability/{id}', [AvailabilityController::class, 'update']);
+    Route::delete('/availability/{id}', [AvailabilityController::class, 'destroy']);
 
     Route::post('/chat_rooms', [ChatRoomController::class, 'store']);
     Route::put('/chat_rooms/{id}', [ChatRoomController::class, 'update']);
     Route::get('/chat_rooms', [ChatRoomController::class, 'index']);
     Route::get('/chat_rooms/{id}', [ChatRoomController::class, 'show']);
     Route::delete('/chat_rooms/{id}', [ChatRoomController::class, 'destroy']);
-    
+
 });
