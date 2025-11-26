@@ -12,6 +12,7 @@ use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\AvailabilityController;
 use App\Http\Controllers\ChatRoomController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\VerificationRequestController;
 use App\Http\Controllers\MessageController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
@@ -41,10 +42,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/professionals/{id}', [ProfessionalController::class, 'show']);
     Route::delete('/professionals/{id}', [ProfessionalController::class, 'destroy']);
 
-    Route::get('/admin/professionals/pending', [AdminProfessionalController::class, 'pending']);
-    Route::post('/admin/professionals/{userID}/approve', [AdminProfessionalController::class, 'approve']);
-    Route::post('/admin/professionals/{userID}/reject', [AdminProfessionalController::class, 'reject']);
-
     Route::post('/consent_record', [ConsentRecordController::class, 'store']);
     Route::put('/consent_record/{id}', [ConsentRecordController::class, 'update']);
     Route::get('/consent_record', [ConsentRecordController::class, 'index']);
@@ -71,6 +68,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/services', [ServiceController::class, 'store']);
     Route::put('/services/{id}', [ServiceController::class, 'update']);
     Route::delete('/services/{id}', [ServiceController::class, 'destroy']);
+
+    Route::post('/verification/submit', [VerificationRequestController::class, 'submit']);
+    Route::post('/verification/{id}/approve', [VerificationRequestController::class, 'approve']);
+    Route::post('/verification/{id}/reject', [VerificationRequestController::class, 'reject']);
 
     Route::get('/chat_rooms/{chatRoomID}/messages', [MessageController::class, 'indexByChatRoom']);
     Route::post('/chat_rooms/{chatRoomID}/messages', [MessageController::class, 'store']);
