@@ -8,7 +8,7 @@ class AvailabilityPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->role === 'admin' || $user->role === 'moderator';
+        return true;
     }
 
     public function view(User $user, Availability $a): bool

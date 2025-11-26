@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminProfessionalController;
 use App\Http\Controllers\ConsentRecordController;
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\AvailabilityController;
+use App\Http\Controllers\ServiceController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 Route::post('/login', [AuthController::class, 'login'])->name('login');;
@@ -55,5 +56,12 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/availability', [AvailabilityController::class, 'store']);
     Route::put('/availability/{id}', [AvailabilityController::class, 'update']);
     Route::delete('/availability/{id}', [AvailabilityController::class, 'destroy']);
+
+    Route::get('/professionals/{id}/services', [ServiceController::class, 'index']);
+    Route::get('/services', [ServiceController::class, 'index']);
+    Route::get('/services/{id}', [ServiceController::class, 'show']);
+    Route::post('/services', [ServiceController::class, 'store']);
+    Route::put('/services/{id}', [ServiceController::class, 'update']);
+    Route::delete('/services/{id}', [ServiceController::class, 'destroy']);
 
 });

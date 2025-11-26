@@ -13,6 +13,8 @@ use App\Domain\Models\ConsentRecord;
 use App\Policies\ConsentRecordPolicy;
 use App\Domain\Models\Availability;
 use App\Policies\AvailabilityPolicy;
+use App\Domain\Models\Service;
+use App\Policies\ServicePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -24,6 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         AuditLog::class => AuditLogPolicy::class,
         ConsentRecord::class => ConsentRecordPolicy::class,
         Availability::class => AvailabilityPolicy::class,
+        Service::class => ServicePolicy::class,
     ];
 
     public function boot(): void

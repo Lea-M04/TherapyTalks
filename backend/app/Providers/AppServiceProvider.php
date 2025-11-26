@@ -15,6 +15,8 @@ use App\Domain\Interfaces\ConsentRecordRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentConsentRecordRepository;
 use App\Domain\Interfaces\AvailabilityRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentAvailabilityRepository;
+use App\Domain\Interfaces\ServiceRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentServiceRepository;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -51,6 +53,11 @@ $this->app->bind(
     $this->app->bind(
     AvailabilityRepositoryInterface::class,
     EloquentAvailabilityRepository::class
+);
+
+     $this->app->bind(
+    ServiceRepositoryInterface::class,
+    EloquentServiceRepository::class
 );
 
     }
