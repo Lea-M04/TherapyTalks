@@ -17,6 +17,8 @@ use App\Domain\Models\ChatRoom;
 use App\Policies\ChatRoomPolicy;
 use App\Domain\Models\Service;
 use App\Policies\ServicePolicy;
+use App\Domain\Models\VerificationRequest;
+use App\Policies\VerificationRequestPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -30,6 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         Availability::class => AvailabilityPolicy::class,
         ChatRoom::class => ChatRoomPolicy::class,
         Service::class => ServicePolicy::class,
+        VerificationRequest::class => VerificationRequestPolicy::class,
     ];
 
     public function boot(): void
