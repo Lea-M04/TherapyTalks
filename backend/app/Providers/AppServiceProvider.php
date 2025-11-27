@@ -23,6 +23,8 @@ use App\Domain\Interfaces\VerificationRequestRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentVerificationRequestRepository;
 use App\Domain\Interfaces\MessageRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentMessageRepository;
+use App\Domain\Interfaces\ConsentHistoryRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentConsentHistoryRepository;
 use App\Domain\Interfaces\RejectReasonRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentRejectReasonRepository;
 
@@ -85,6 +87,10 @@ $this->app->bind(
  $this->app->bind(
     MessageRepositoryInterface::class,
     EloquentMessageRepository::class
+);
+$this->app->bind(
+    ConsentHistoryRepositoryInterface::class,
+    EloquentConsentHistoryRepository::class
 );
 
      $this->app->bind(

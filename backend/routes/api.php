@@ -14,6 +14,7 @@ use App\Http\Controllers\ChatRoomController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VerificationRequestController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ConsentHistoryController;
 use App\Http\Controllers\RejectReasonController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
@@ -85,6 +86,10 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/messages/{id}', [MessageController::class, 'update']);
     Route::patch('/messages/{id}/read', [MessageController::class, 'markRead']);
     Route::delete('/messages/{id}', [MessageController::class, 'destroy']);
+
+
+    Route::get('/consent_history', [ConsentHistoryController::class, 'index']);
+    Route::get('/consent_history/{id}', [ConsentHistoryController::class, 'show']);
 
     Route::get('/reject_reasons', [RejectReasonController::class, 'index']);
     Route::get('/reject_reasons/{id}', [RejectReasonController::class, 'show']);
