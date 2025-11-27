@@ -14,7 +14,9 @@ class ReviewVerificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'comments' => 'nullable|string'
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'adminComment' => 'nullable|string'
         ];
     }
 }

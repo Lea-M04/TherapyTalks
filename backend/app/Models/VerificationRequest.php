@@ -35,4 +35,10 @@ class VerificationRequest extends Model
     {
         return $this->belongsTo(AdminPanel::class, 'reviewedBy', 'adminID');
     }
+
+    public function rejectReasons()
+{
+    return $this->hasMany(RejectReason::class, 'requestID', 'requestID');
+}
+
 }

@@ -10,4 +10,5 @@ interface VerificationRequestRepositoryInterface
     public function findById(int $id): ?VerificationRequest;
     public function findPending(): array;
     public function findByProfessional(int $professionalID): array;
+    public function all(): array;
 }
