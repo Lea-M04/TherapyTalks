@@ -30,9 +30,10 @@ class EloquentVerificationRequestRepository implements VerificationRequestReposi
 
     public function update(VerificationRequest $vr): VerificationRequest
     {
-        $e = EloquentModel::findOrFail($vr->requestID);
-        $e->update($vr->toArray());
-        return $this->map($e);
+       $e = EloquentModel::findOrFail($vr->requestID);
+    $e->update($vr->toArray());
+    $e->refresh();
+    return $this->map($e);
     }
 
     public function findById(int $id): ?VerificationRequest
@@ -56,4 +57,11 @@ class EloquentVerificationRequestRepository implements VerificationRequestReposi
             ->map(fn($m) => $this->map($m))
             ->all();
     }
+
+    public function all(): array
+{
+    return EloquentModel::all()
+        ->map(fn($m) => $this->map($m))
+        ->all();
+}
 }
