@@ -12,8 +12,6 @@ class UpdateConsentRecordRequest extends FormRequest
     {
         return [
             'description' => 'sometimes|string|nullable',
-            'isRevoked' => 'sometimes|boolean',
-            'revokedAt' => 'sometimes|nullable|date',
         ];
     }
 }

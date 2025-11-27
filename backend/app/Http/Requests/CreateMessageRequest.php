@@ -7,13 +7,13 @@ class CreateMessageRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // authorization do bëhet në controller/service
+        return true; 
     }
 
     public function rules(): array
     {
         return [
-            // content nullable only if attachments in future; for now require string
+
             'content' => 'required_without:attachment|nullable|string',
             'receiverID' => 'required|exists:users,userID',
             'chatRoomID' => 'required|exists:chat_rooms,chatRoomID',

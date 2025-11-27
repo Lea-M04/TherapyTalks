@@ -28,10 +28,8 @@ class MessageService
 
         $created = $this->repo->create($m);
 
-        // FIRE EVENT këtu 👇
         event(new \App\Events\MessageSent($created));
 
-        // Audit log
         $this->audit->write(
             action: 'message_sent',
             targetType: 'Message',
@@ -90,17 +88,14 @@ class MessageService
         return $deleted;
     }
 
-    // helper: validate that a user is member of chat room
+
     public function isUserInChatRoom(int $userID, int $chatRoomID): bool
     {
         $c = EloquentChatRoom::where('chatRoomID', $chatRoomID)->first();
         if (!$c) return false;
-        // map patientID/professionalID -> they store ids of patient/professional (not userID)
-        // but chat_rooms.patientID/professionalID in your db are patientID/professionalID.
-        // we need to check if $userID equals createdBy (userID), OR equals userID of patient/professional.
         if ($c->createdBy == $userID) return true;
 
-        // try to resolve patient.userID and professional.userID
+
         $patient = \App\Models\Patient::where('patientID', $c->patientID)->first();
         if ($patient && $patient->userID == $userID) return true;
 

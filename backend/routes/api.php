@@ -14,6 +14,7 @@ use App\Http\Controllers\ChatRoomController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VerificationRequestController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ConsentHistoryController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 Route::post('/login', [AuthController::class, 'login'])->name('login');;
@@ -80,5 +81,9 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/messages/{id}', [MessageController::class, 'update']);
     Route::patch('/messages/{id}/read', [MessageController::class, 'markRead']);
     Route::delete('/messages/{id}', [MessageController::class, 'destroy']);
+
+
+    Route::get('/consent_history', [ConsentHistoryController::class, 'index']);
+    Route::get('/consent_history/{id}', [ConsentHistoryController::class, 'show']);
 
 });

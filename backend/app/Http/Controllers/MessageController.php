@@ -18,7 +18,6 @@ class MessageController extends Controller
         $this->service = $service;
     }
 
-    // GET /chat_rooms/{chatRoomID}/messages
     public function indexByChatRoom(Request $request, int $chatRoomID)
     {
         $user = auth()->user();
@@ -38,7 +37,7 @@ class MessageController extends Controller
         ]);
     }
 
-    // POST /chat_rooms/{chatRoomID}/messages
+
     public function store(CreateMessageRequest $request, int $chatRoomID)
     {
         $user = auth()->user();
@@ -57,7 +56,7 @@ class MessageController extends Controller
 
         $message = $this->service->create($payload);
 
-        // *** FIRE EVENT REALTIME ***
+
         event(new MessageSent($message));
 
 
@@ -66,7 +65,7 @@ class MessageController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    // GET /messages/{id}
+
     public function show(int $id)
     {
         $message = $this->service->get($id);
@@ -79,7 +78,7 @@ class MessageController extends Controller
         return new MessageResource($message);
     }
 
-    // PUT /messages/{id}
+
     public function update(UpdateMessageRequest $request, int $id)
     {
         $message = $this->service->get($id);
@@ -91,14 +90,13 @@ class MessageController extends Controller
 
         $updated = $this->service->update($id, $request->validated());
 
-        // broadcast update message
         event(new MessageSent($updated));
 
 
         return new MessageResource($updated);
     }
 
-    // PATCH /messages/{id}/read
+
     public function markRead(int $id)
     {
         $message = $this->service->get($id);
@@ -120,7 +118,7 @@ class MessageController extends Controller
         return new MessageResource($updated);
     }
 
-    // DELETE /messages/{id}
+
     public function destroy(int $id)
     {
         $message = $this->service->get($id);
@@ -135,7 +133,7 @@ class MessageController extends Controller
         return response()->json(null, 204);
     }
 
-    // GET /messages (my messages)
+
     public function myMessages(Request $request)
     {
         $user = auth()->user();
