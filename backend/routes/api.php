@@ -15,6 +15,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VerificationRequestController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ConsentHistoryController;
+use App\Http\Controllers\DiagnosisController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 Route::post('/login', [AuthController::class, 'login'])->name('login');;
@@ -85,5 +86,12 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/consent_history', [ConsentHistoryController::class, 'index']);
     Route::get('/consent_history/{id}', [ConsentHistoryController::class, 'show']);
+
+    Route::get('/diagnosis', [DiagnosisController::class, 'index']);
+    Route::get('/diagnosis/patient/{patientID}', [DiagnosisController::class, 'listByPatient']);
+    Route::get('/diagnosis/{id}', [DiagnosisController::class, 'show']);
+    Route::post('/diagnosis', [DiagnosisController::class, 'store']);
+    Route::put('/diagnosis/{id}', [DiagnosisController::class, 'update']);
+    Route::delete('/diagnosis/{id}', [DiagnosisController::class, 'destroy']);
 
 });

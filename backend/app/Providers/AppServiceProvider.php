@@ -25,6 +25,8 @@ use App\Domain\Interfaces\MessageRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentMessageRepository;
 use App\Domain\Interfaces\ConsentHistoryRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentConsentHistoryRepository;
+use App\Domain\Interfaces\DiagnosisRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentDiagnosisRepository;
 
 
 
@@ -90,6 +92,10 @@ $this->app->bind(
 $this->app->bind(
     ConsentHistoryRepositoryInterface::class,
     EloquentConsentHistoryRepository::class
+);
+$this->app->bind(
+    DiagnosisRepositoryInterface::class,
+    EloquentDiagnosisRepository::class
 );
 
     }

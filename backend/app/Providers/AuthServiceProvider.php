@@ -23,6 +23,8 @@ use App\Domain\Models\Message;
 use App\Policies\MessagePolicy;
 use App\Domain\Models\ConsentHistory;
 use App\Policies\ConsentHistoryPolicy;
+use App\Domain\Models\Diagnosis;
+use App\Policies\DiagnosisPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -39,6 +41,7 @@ class AuthServiceProvider extends ServiceProvider
         VerificationRequest::class => VerificationRequestPolicy::class,
         Message::class => MessagePolicy::class,
         ConsentHistory::class => ConsentHistoryPolicy::class,
+        Diagnosis::class => DiagnosisPolicy::class,
     ];
 
     public function boot(): void
