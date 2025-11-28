@@ -26,11 +26,14 @@ use App\Infrastructure\Persistence\Eloquent\EloquentMessageRepository;
 use App\Domain\Interfaces\ConsentHistoryRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentConsentHistoryRepository;
 use App\Domain\Interfaces\RejectReasonRepositoryInterface;
-use App\Infrastructure\Persistence\Eloquent\EloquentRejectReasonRepository;use App\Domain\Interfaces\DiagnosisRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentRejectReasonRepository;
+use App\Domain\Interfaces\DiagnosisRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentDiagnosisRepository;
 
 use App\Domain\Interfaces\NotificationRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentNotificationRepository;
+use App\Domain\Interfaces\NotificationSettingRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentNotificationSettingRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -116,6 +119,12 @@ $this->app->bind(
     DiagnosisRepositoryInterface::class,
     EloquentDiagnosisRepository::class
 );
+
+    $this->app->bind(
+    NotificationSettingRepositoryInterface::class,
+    EloquentNotificationSettingRepository::class
+);
+
 
     }
 

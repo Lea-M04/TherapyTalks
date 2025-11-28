@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id('settingsID');
             $table->unsignedBigInteger('userID')->unique();
             $table->boolean('emailNotifications')->default(true);
-            $table->boolean('smsNotifications')->default(false);
             $table->boolean('pushNotifications')->default(true);
             $table->timestamps();
             $table->foreign('userID')->references('userID')->on('users')->onDelete('cascade');

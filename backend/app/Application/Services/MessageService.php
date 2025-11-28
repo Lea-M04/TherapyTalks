@@ -6,6 +6,7 @@ use App\Domain\Models\Message as DomainMessage;
 use App\Application\Services\AuditLogService;
 use App\Models\ChatRoom as EloquentChatRoom;
 use App\Models\User;
+use App\Models\Message;
 
 class MessageService
 {
@@ -27,8 +28,8 @@ class MessageService
         }
 
         $created = $this->repo->create($m);
-
-        event(new \App\Events\MessageSent($created));
+        $eloquentMessage = Message::with('sender')->find($created->messageID);
+        event(new \App\Events\MessageSent($eloquentMessage));
 
         $this->audit->write(
             action: 'message_sent',

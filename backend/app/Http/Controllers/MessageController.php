@@ -56,10 +56,6 @@ class MessageController extends Controller
 
         $message = $this->service->create($payload);
 
-
-        event(new MessageSent($message));
-
-
         return (new MessageResource($message))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
