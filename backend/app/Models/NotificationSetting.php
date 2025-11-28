@@ -12,13 +12,11 @@ class NotificationSetting extends Model
     protected $fillable = [
         'userID',
         'emailNotifications',
-        'smsNotifications',
         'pushNotifications'
     ];
 
     protected $casts = [
         'emailNotifications'=>'boolean',
-        'smsNotifications'=>'boolean',
         'pushNotifications'=>'boolean'
     ];
 

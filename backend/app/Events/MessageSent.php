@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Domain\Models\Message;
+use App\Models\Message;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
