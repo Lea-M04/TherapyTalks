@@ -27,7 +27,8 @@ use App\Domain\Interfaces\ConsentHistoryRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentConsentHistoryRepository;
 use App\Domain\Interfaces\RejectReasonRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentRejectReasonRepository;
-
+use App\Domain\Interfaces\NotificationRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentNotificationRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -97,6 +98,12 @@ $this->app->bind(
     RejectReasonRepositoryInterface::class,
     EloquentRejectReasonRepository::class
 );
+
+       $this->app->bind(
+    NotificationRepositoryInterface::class,
+    EloquentNotificationRepository::class
+);
+
 
 
     }
