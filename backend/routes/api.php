@@ -18,6 +18,7 @@ use App\Http\Controllers\ConsentHistoryController;
 use App\Http\Controllers\RejectReasonController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\BookingController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 Route::post('/login', [AuthController::class, 'login'])->name('login');;
@@ -109,5 +110,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/notifications/{id}', [NotificationController::class,'show']);
     Route::patch('/notifications/{id}/read', [NotificationController::class,'markRead']);
     Route::delete('/notifications/{id}', [NotificationController::class,'destroy']);
+
+    Route::get('/booking', [BookingController::class, 'index']);
+    Route::get('/booking/{id}', [BookingController::class, 'show']);
+    Route::post('/booking', [BookingController::class, 'store']);
+    Route::put('/booking/{id}', [BookingController::class, 'update']);
+    Route::delete('/booking/{id}', [BookingController::class, 'destroy']);
+
 
 });

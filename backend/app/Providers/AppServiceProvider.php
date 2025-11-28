@@ -32,6 +32,10 @@ use App\Infrastructure\Persistence\Eloquent\EloquentDiagnosisRepository;
 use App\Domain\Interfaces\NotificationRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentNotificationRepository;
 
+use App\Domain\Interfaces\BookingRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentBookingRepository;
+
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -115,6 +119,11 @@ $this->app->bind(
 $this->app->bind(
     DiagnosisRepositoryInterface::class,
     EloquentDiagnosisRepository::class
+);
+
+$this->app->bind(
+    BookingRepositoryInterface::class,
+    EloquentBookingRepository::class
 );
 
     }
