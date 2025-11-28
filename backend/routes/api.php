@@ -16,6 +16,7 @@ use App\Http\Controllers\VerificationRequestController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ConsentHistoryController;
 use App\Http\Controllers\RejectReasonController;
+use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\NotificationController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
@@ -95,6 +96,13 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/reject_reasons', [RejectReasonController::class, 'index']);
     Route::get('/reject_reasons/{id}', [RejectReasonController::class, 'show']);
     Route::delete('/reject_reasons/{id}', [RejectReasonController::class, 'destroy']);
+
+    Route::get('/diagnosis', [DiagnosisController::class, 'index']);
+    Route::get('/diagnosis/patient/{patientID}', [DiagnosisController::class, 'listByPatient']);
+    Route::get('/diagnosis/{id}', [DiagnosisController::class, 'show']);
+    Route::post('/diagnosis', [DiagnosisController::class, 'store']);
+    Route::put('/diagnosis/{id}', [DiagnosisController::class, 'update']);
+    Route::delete('/diagnosis/{id}', [DiagnosisController::class, 'destroy']);
 
 
     Route::get('/notifications', [NotificationController::class,'index']);

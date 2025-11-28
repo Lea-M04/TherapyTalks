@@ -26,7 +26,9 @@ use App\Infrastructure\Persistence\Eloquent\EloquentMessageRepository;
 use App\Domain\Interfaces\ConsentHistoryRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentConsentHistoryRepository;
 use App\Domain\Interfaces\RejectReasonRepositoryInterface;
-use App\Infrastructure\Persistence\Eloquent\EloquentRejectReasonRepository;
+use App\Infrastructure\Persistence\Eloquent\EloquentRejectReasonRepository;use App\Domain\Interfaces\DiagnosisRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentDiagnosisRepository;
+
 use App\Domain\Interfaces\NotificationRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentNotificationRepository;
 
@@ -105,6 +107,15 @@ $this->app->bind(
 );
 
 
+       $this->app->bind(
+    NotificationRepositoryInterface::class,
+    EloquentNotificationRepository::class
+);
+
+$this->app->bind(
+    DiagnosisRepositoryInterface::class,
+    EloquentDiagnosisRepository::class
+);
 
     }
 
