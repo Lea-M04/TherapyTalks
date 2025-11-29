@@ -19,7 +19,7 @@ use App\Http\Controllers\RejectReasonController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NotificationSettingController;
-
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\BookingController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
@@ -124,5 +124,9 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/booking/{id}', [BookingController::class, 'update']);
     Route::delete('/booking/{id}', [BookingController::class, 'destroy']);
 
-
+    Route::post('/payments/booking/{bookingID}', [PaymentController::class, 'createFromBooking']);
+    Route::post('/payments/stripe-intent', [PaymentController::class, 'createIntent']);
+    Route::post('/payments/confirm', [PaymentController::class, 'confirmStripe']);
+    Route::get('/payments', [PaymentController::class, 'index']);
+    Route::get('/payments/my', [PaymentController::class, 'myPayments']);
 });

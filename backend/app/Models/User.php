@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\Professional;
+use App\Models\Patient;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -55,6 +56,11 @@ class User extends Authenticatable implements JWTSubject
 public function professional()
 {
     return $this->hasOne(Professional::class, 'userID','userID');
+}
+
+public function patient()
+{
+    return $this->hasOne(Patient::class, 'userID','userID');
 }
 
 

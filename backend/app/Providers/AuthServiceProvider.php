@@ -31,6 +31,8 @@ use App\Domain\Models\NotificationSetting;
 use App\Policies\NotificationSettingPolicy;
 use App\Domain\Models\Booking;
 use App\Policies\BookingPolicy;
+use App\Domain\Models\Payment;
+use App\Policies\PaymentPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -51,6 +53,7 @@ class AuthServiceProvider extends ServiceProvider
         NotificationSetting::class => NotificationSettingPolicy::class,
         Diagnosis::class => DiagnosisPolicy::class,
         Booking::class => BookingPolicy::class,
+        Payment::class => PaymentPolicy::class,
     ];
 
     public function boot(): void

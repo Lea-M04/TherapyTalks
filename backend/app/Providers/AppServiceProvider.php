@@ -29,14 +29,14 @@ use App\Domain\Interfaces\RejectReasonRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentRejectReasonRepository;
 use App\Domain\Interfaces\DiagnosisRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentDiagnosisRepository;
-
 use App\Domain\Interfaces\NotificationRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentNotificationRepository;
 use App\Domain\Interfaces\NotificationSettingRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentNotificationSettingRepository;
-
 use App\Domain\Interfaces\BookingRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentBookingRepository;
+use App\Domain\Interfaces\PaymentRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentPaymentRepository;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -133,6 +133,11 @@ $this->app->bind(
 $this->app->bind(
     BookingRepositoryInterface::class,
     EloquentBookingRepository::class
+);
+
+    $this->app->bind(
+    PaymentRepositoryInterface::class,
+    EloquentPaymentRepository::class
 );
 
     }
