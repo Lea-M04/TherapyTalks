@@ -34,4 +34,24 @@ class BookingPolicy
     {
         return $user->role === 'admin';
     }
+    
+public function createVirtualRoom(User $user, Booking $booking): bool
+{
+   
+    if (in_array($user->role, ['admin','superadmin'])) return true;
+
+    
+    if ($user->professional && $user->professional->professionalID == $booking->professionalID) return true;
+
+    if ($user->patient && $user->patient->patientID == $booking->patientID) return true;
+
+    return false;
+}
+
+public function viewVirtualRoom(User $user, Booking $booking): bool
+{
+
+    return $this->createVirtualRoom($user, $booking);
+}
+
 }

@@ -37,6 +37,8 @@ use App\Domain\Interfaces\BookingRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentBookingRepository;
 use App\Domain\Interfaces\PaymentRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\EloquentPaymentRepository;
+use App\Domain\Interfaces\VirtualRoomRepositoryInterface;
+use App\Infrastructure\Persistence\Eloquent\EloquentVirtualRoomRepository;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -139,6 +141,12 @@ $this->app->bind(
     PaymentRepositoryInterface::class,
     EloquentPaymentRepository::class
 );
+
+$this->app->bind(
+    VirtualRoomRepositoryInterface::class,
+    EloquentVirtualRoomRepository::class
+);
+
 
     }
 

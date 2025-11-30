@@ -21,6 +21,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NotificationSettingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\VirtualRoomController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 Route::post('/login', [AuthController::class, 'login'])->name('login');;
@@ -129,4 +130,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/payments/confirm', [PaymentController::class, 'confirmStripe']);
     Route::get('/payments', [PaymentController::class, 'index']);
     Route::get('/payments/my', [PaymentController::class, 'myPayments']);
+
+
+    Route::post('/booking/{bookingID}/virtual-room', [VirtualRoomController::class, 'store']);
+    Route::get('/booking/{bookingID}/virtual-room', [VirtualRoomController::class, 'show']);
+
 });
