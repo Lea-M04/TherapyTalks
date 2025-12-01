@@ -24,12 +24,12 @@ class AuditLogService
     ): void
     {
         $log = new AuditLog(
-            action: $action,
-            targetType: $targetType,
-            targetID: $targetID,
-            timestamp: now()->toDateTimeString(),
-            status: $status,
-             userID: $performedBy ?? Auth::id() ?? 0
+        action: $action,
+    targetType: $targetType,
+    targetID: $targetID,
+    timestamp: now()->toDateTimeString(),
+    status: $status,
+    userID: $performedBy ?? Auth::id() ?? null
         );
 
         $this->repo->save($log);

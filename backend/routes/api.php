@@ -26,9 +26,7 @@ use App\Http\Controllers\VirtualRoomController;
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 Route::post('/login', [AuthController::class, 'login'])->name('login');;
 Route::middleware('auth:api')->group(function () {
-    Route::get('/me', function () {
-        return auth()->user();
-    });
+    Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
 

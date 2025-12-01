@@ -9,7 +9,7 @@ class AuditLog
     public ?int $targetID;
     public string $timestamp;
     public string $status;
-    public int $userID;
+    public ?int $userID;
 
     public function __construct(
         string $action,
@@ -17,7 +17,7 @@ class AuditLog
         ?int $targetID,
          string $timestamp,
         string $status,
-        int $userID,
+        int|null $userID,
     ) {
         $this->action = $action;
         $this->targetType = $targetType;
