@@ -19,7 +19,7 @@ class ProfessionalPolicy
 
     public function create(User $user): bool
     {
-        return $user->role === 'admin';
+        return in_array($user->role, ['admin', 'professional']);
     }
 
     public function update(User $user, DomainProfessional $model): bool

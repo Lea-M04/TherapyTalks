@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
-import { register as registerUser } from "@/lib/auth";
+import { register as registerUser, setAuthToken } from "@/lib/auth";
 import { useRouter } from "next/navigation";
+
 
 export default function RegisterPage() {
     const router=useRouter();
@@ -22,13 +23,21 @@ export default function RegisterPage() {
   };
 
   const handleSubmit = async (e) => {
-    try{
     e.preventDefault();
-    const res = await registerUser(form);
-     console.log(res);
-    router.push("/auth/login");
-    }catch(err){
-    console.log("Register failed:", err);
+    try {
+      const res = await registerUser(form);
+
+setAuthToken(res.token); 
+localStorage.setItem("registeredUserID", res.user.id);
+
+      if (form.role === "patient") {
+        router.push("/auth/complete-profile/patient");
+      } else {
+        router.push("/auth/complete-profile/professional");
+      }
+
+    } catch (err) {
+      console.log("Register failed:", err);
     }
   };
 

@@ -19,7 +19,7 @@ class PatientPolicy
 
     public function create(User $user): bool
     {
-        return $user->role === 'admin';
+         return in_array($user->role, ['patient', 'admin']);
     }
 
     public function update(User $user, DomainPatient $model): bool
