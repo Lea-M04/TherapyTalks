@@ -12,27 +12,15 @@ export function setAuthToken(token) {
 }
 
 export async function login(email, password) {
- try {
-    const res = await api.post("/login", { email, password });
-  return res.data;
- }catch(err){
-    console.log("LOGIN ERROR:", err.response.data);
-    throw err;
- }
-}
+  const res = await api.post("/login", { email, password });
 
-export async function register(userData) {
-  try {
-    const res = await api.post("/register", userData);
-    return res.data;
-  } catch (err) {
-    console.log("REGISTER ERROR:", err.response.data);
-    throw err;
-  }
+  return {
+    access_token: res.data.access_token,
+    user: res.data.user
+  };
 }
-
 
 export async function me() {
   const res = await api.get("/me");
-  return res.data;
+  return res.data.user;
 }
