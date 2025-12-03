@@ -19,8 +19,12 @@ export function AuthProvider({ children }) {
 
     setAuthToken(token);
 
-    meApi()
-      .then((user) => setUser(user))
+  meApi()
+    .then((user) => { 
+      console.log("ME RESPONSE:", user);
+      console.log("ROLE:", user.role);
+      setUser(user);
+    })
       .catch(() => {
         setAuthToken(null);
         setUser(null);

@@ -22,7 +22,7 @@ export default function LoginPage() {
       setUser(res.user);
 
       if (res.user.role === "admin") router.push("/dashboard/admin");
-      else router.push("/dashboard");
+      else router.push("/");
     } catch (err) {
       console.log("LOGIN ERROR:", err.response?.data || err.message);
       alert("Invalid credentials");
