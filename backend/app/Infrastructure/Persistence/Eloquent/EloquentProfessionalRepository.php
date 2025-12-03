@@ -13,6 +13,13 @@ class EloquentProfessionalRepository implements ProfessionalRepositoryInterface
         return new Professional([
             'professionalID' => $p->professionalID,
             'userID' => $p->userID,
+             'user' => $p->user ? [
+            'firstName' => $p->user->firstName,
+            'lastName' => $p->user->lastName,
+            'email' => $p->user->email,
+            'phoneNumber' => $p->user->phoneNumber,
+            'profileImage' => $p->user->profileImage,
+        ] : null,
             'specialization' => $p->specialization,
             'licenseNumber' => $p->licenseNumber,
             'experienceYears' => $p->experienceYears,
@@ -51,19 +58,19 @@ class EloquentProfessionalRepository implements ProfessionalRepositoryInterface
 
     public function findById(int $id): ?Professional
     {
-        $p = EloquentProfessional::where('professionalID', $id)->first();
+        $p = EloquentProfessional::with('user')->where('professionalID', $id)->first();
         return $p ? $this->mapToDomain($p) : null;
     }
 
     public function findByUserId(int $userID): ?Professional
     {
-        $p = EloquentProfessional::where('userID', $userID)->first();
+        $p = EloquentProfessional::with('user')->where('userID', $userID)->first();
         return $p ? $this->mapToDomain($p) : null;
     }
 
     public function findAll(int $perPage = 15, int $page = 1): array
     {
-        $paginator = EloquentProfessional::orderBy('professionalID', 'desc')
+        $paginator = EloquentProfessional::with('user')->orderBy('professionalID', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
 
         $data = $paginator->getCollection()

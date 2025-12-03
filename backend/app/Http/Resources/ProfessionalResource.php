@@ -13,6 +13,14 @@ class ProfessionalResource extends JsonResource
         return [
             'professionalID' => $p->professionalID,
             'userID' => $p->userID,
+            'user' => [
+            'firstName' => $p->user['firstName'] ?? null,
+            'lastName' => $p->user['lastName'] ?? null,
+            'email' => $p->user['email'] ?? null,
+            'phoneNumber' => $p->user['phoneNumber'] ?? null,
+            'profileImage' => $p->user['profileImage'] ?? null,
+            ],
+            
             'specialization' => $p->specialization,
             'licenseNumber' => $p->licenseNumber,
             'experienceYears' => $p->experienceYears,

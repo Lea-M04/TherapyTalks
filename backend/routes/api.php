@@ -25,6 +25,9 @@ use App\Http\Controllers\VirtualRoomController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');;
 Route::post('/login', [AuthController::class, 'login'])->name('login');;
+Route::get('/professionals', [ProfessionalController::class, 'index']);
+Route::get('/professionals/{id}', [ProfessionalController::class, 'show']);
+
 Route::middleware('auth:api')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -44,8 +47,6 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/professionals', [ProfessionalController::class, 'store']);
     Route::put('/professionals/{id}', [ProfessionalController::class, 'update']);
-    Route::get('/professionals', [ProfessionalController::class, 'index']);
-    Route::get('/professionals/{id}', [ProfessionalController::class, 'show']);
     Route::delete('/professionals/{id}', [ProfessionalController::class, 'destroy']);
 
     Route::post('/consent_record', [ConsentRecordController::class, 'store']);

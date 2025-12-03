@@ -4,6 +4,7 @@ export const NAV_ROUTES = {
   SERVICES: "/services",
   BOOKINGS: "/bookings",
   CHAT: "/chat",
+  Availability:"/availability",
   PAYMENTS: "/payments",
 };
 

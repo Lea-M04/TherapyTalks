@@ -15,7 +15,7 @@ class AvailabilityPolicy
     {
         return $user->role === 'admin'
             || $user->role === 'moderator'
-            || $user->id === $a->professionalID;
+            || $user->userID === $a->professionalID;
     }
 
     public function create(User $user): bool
@@ -27,12 +27,12 @@ class AvailabilityPolicy
     public function update(User $user, Availability $a): bool
     {
         return $user->role === 'admin'
-            || $user->id === $a->professionalID;
+            || $user->userID === $a->professionalID;
     }
 
     public function delete(User $user, Availability $a): bool
     {
         return $user->role === 'admin'
-            || $user->id === $a->professionalID;
+            || $user->userID === $a->professionalID;
     }
 }
