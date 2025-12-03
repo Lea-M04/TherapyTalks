@@ -1,0 +1,19 @@
+export const NAV_ROUTES = {
+  HOME: "/",
+  PROFESSIONALS: "/professionals",
+  SERVICES: "/services",
+  BOOKINGS: "/bookings",
+  CHAT: "/chat",
+  PAYMENTS: "/payments",
+};
+
+export const DASHBOARD_ROUTES = {
+  ROOT: "/dashboard",
+  PATIENT: "/dashboard/patient",
+  PROFESSIONAL: "/dashboard/professional",
+  ADMIN: "/dashboard/admin",
+  ADMIN_USERS: "/dashboard/admin/users",
+  ADMIN_SERVICES: "/dashboard/admin/services",
+  ADMIN_PROFESSIONALS: "/dashboard/admin/professionals",
+  ADMIN_AUDIT: "/dashboard/admin/audit",
+};

@@ -1,15 +1,18 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Onest, TikTok_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/context/AuthContext";
+import ClientLayout from "@/components/layout/ClientLayout";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const onest = Onest({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-onest"
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const tiktok = TikTok_Sans({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-tiktok"
 });
 
 export const metadata = {
@@ -21,10 +24,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${onest.variable} ${tiktok.variable} antialiased`}
       >
-         <AuthProvider>
-          {children}
+          <AuthProvider>
+          <ClientLayout>
+            {children}
+          </ClientLayout>
         </AuthProvider>
       </body>
     </html>
