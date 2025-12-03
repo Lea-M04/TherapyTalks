@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { login, setAuthToken } from "@/lib/auth";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/context/AuthContext";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { setUser } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,9 +17,12 @@ export default function LoginPage() {
 
     try {
       const res = await login(email, password);
-      setAuthToken(res.token);
-      router.push("/");
 
+      setAuthToken(res.access_token);
+      setUser(res.user);
+
+      if (res.user.role === "admin") router.push("/dashboard/admin");
+      else router.push("/dashboard");
     } catch (err) {
       console.log("LOGIN ERROR:", err.response?.data || err.message);
       alert("Invalid credentials");

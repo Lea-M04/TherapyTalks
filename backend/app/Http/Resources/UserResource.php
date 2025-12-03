@@ -18,9 +18,9 @@ class UserResource extends JsonResource
                 'firstName' => $u->firstName,
                 'lastName' => $u->lastName,
                 'phoneNumber' => $u->phoneNumber,
-                 'email' => $u->email instanceof \App\Domain\ValueObjects\Email
-            ? $u->email->value()
-            : $u->email,
+                'email' => is_object($u->email)
+    ? (method_exists($u->email, 'value') ? $u->email->value() : '')
+    : $u->email,
                 'dateOfBirth' => $u->dateOfBirth,
                 'gender' => $u->gender,
                 'role' => $u->role,

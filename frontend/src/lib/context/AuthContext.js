@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { login as loginApi, me as meApi, setAuthToken } from "../auth";
+import { me as meApi, setAuthToken } from "@/lib/auth";
 
 const AuthContext = createContext();
 
@@ -20,9 +20,7 @@ export function AuthProvider({ children }) {
     setAuthToken(token);
 
     meApi()
-      .then((data) => {
-        setUser(data);
-      })
+      .then((user) => setUser(user))
       .catch(() => {
         setAuthToken(null);
         setUser(null);
@@ -30,33 +28,11 @@ export function AuthProvider({ children }) {
       .finally(() => setLoading(false));
   }, []);
 
-
-  const login = async (email, password) => {
-    const data = await loginApi(email, password);
-
-    const token = data.access_token;
-
-    setAuthToken(token);
-
-    const me = await meApi();
-    setUser(me);
-
-    return me;
-  };
-
-  
-  const logout = () => {
-    setAuthToken(null);
-    setUser(null);
-  };
-
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, setUser, loading }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
+export const useAuth = () => useContext(AuthContext);
