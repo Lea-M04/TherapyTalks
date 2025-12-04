@@ -24,3 +24,9 @@ export async function me() {
   const res = await api.get("/me");
   return res.data.user;
 }
+
+export async function getFullProfile() {
+  const res = await api.get("/my-profile-data");
+  return res.data;
+}
+

@@ -39,4 +39,10 @@ class Professional extends Model
     {
         return $this->belongsTo(User::class, 'userID', 'userID');
     }
+
+    public function availability()
+{
+    return $this->hasMany(Availability::class, 'professionalID', 'professionalID');
+}
+
 }

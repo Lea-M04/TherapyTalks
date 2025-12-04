@@ -2,7 +2,7 @@
 
 import { deleteAvailability } from "@/lib/availability";
 
-export default function AvailabilityList({ items }) {
+export default function AvailabilityList({ items=[] }) {
   async function remove(id) {
     await deleteAvailability(id);
     window.location.reload();
@@ -10,10 +10,16 @@ export default function AvailabilityList({ items }) {
 
   return (
     <div className="mt-6">
-      {items?.map(item => (
-        <div key={item.id} className="border p-3 flex justify-between">
-          <span>{item.day} {item.start_time} - {item.end_time}</span>
-          <button onClick={() => remove(item.id)}>Delete</button>
+      {items.map(item => (
+        <div key={item.availabilityID} className="border p-3 flex justify-between">
+         <span>
+        {item.dayOfWeek} {item.startTime} - {item.endTime}
+      </span>
+
+    <button onClick={() => remove(item.availabilityID)}>
+      Delete
+    </button>
+
         </div>
       ))}
     </div>

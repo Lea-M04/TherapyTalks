@@ -32,7 +32,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-
+    Route::get('/my-profile-data', [AuthController::class, 'myProfileData']);
     Route::post('/users', [UserController::class, 'store']); //store->create user
     Route::put('/users/{id}', [UserController::class, 'update']); //update-> me perditesu
     Route::get('/users', [UserController::class, 'index']);// index->nje liste te users

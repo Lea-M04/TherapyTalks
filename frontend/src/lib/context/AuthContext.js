@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { me as meApi, setAuthToken } from "@/lib/auth";
+import { me as meApi, setAuthToken, getFullProfile } from "@/lib/auth";
 
 const AuthContext = createContext();
 
@@ -19,17 +19,21 @@ export function AuthProvider({ children }) {
 
     setAuthToken(token);
 
-  meApi()
-    .then((user) => { 
-      console.log("ME RESPONSE:", user);
-      console.log("ROLE:", user.role);
-      setUser(user);
+ getFullProfile()
+    .then((data) => {
+      console.log("FULL PROFILE:", data);
+
+      setUser({
+        ...data.user,
+        professionalID: data.professional?.professionalID ?? null,
+        patientID: data.patient?.patientID ?? null
+      });
     })
-      .catch(() => {
-        setAuthToken(null);
-        setUser(null);
-      })
-      .finally(() => setLoading(false));
+    .catch(() => {
+      setAuthToken(null);
+      setUser(null);
+    })
+    .finally(() => setLoading(false));
   }, []);
 
   return (

@@ -34,6 +34,8 @@ class ProfessionalResource extends JsonResource
             'status' => $p->status,
             'created_at' => $p->created_at,
             'updated_at' => $p->updated_at,
+            'availability' => $p->availability ?? [],
+
         ];
     }
 }

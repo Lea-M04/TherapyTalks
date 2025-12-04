@@ -33,6 +33,17 @@ class EloquentProfessionalRepository implements ProfessionalRepositoryInterface
             'status' => $p->status,
             'created_at' => $p->created_at ?? null,
             'updated_at' => $p->updated_at ?? null,
+            'availability' => $p->availability ? $p->availability->map(function ($a) {
+    return [
+        'availabilityID' => $a->availabilityID,
+        'professionalID' => $a->professionalID,
+        'dayOfWeek' => $a->dayOfWeek,
+        'startTime' => $a->startTime,
+        'endTime' => $a->endTime,
+        'created_at' => $a->created_at,
+    ];
+})->toArray() : null,
+
         ]);
     }
 
@@ -58,19 +69,19 @@ class EloquentProfessionalRepository implements ProfessionalRepositoryInterface
 
     public function findById(int $id): ?Professional
     {
-        $p = EloquentProfessional::with('user')->where('professionalID', $id)->first();
+        $p = EloquentProfessional::with(['user', 'availability'])->where('professionalID', $id)->first();
         return $p ? $this->mapToDomain($p) : null;
     }
 
     public function findByUserId(int $userID): ?Professional
     {
-        $p = EloquentProfessional::with('user')->where('userID', $userID)->first();
+        $p = EloquentProfessional::with(['user', 'availability'])->where('userID', $userID)->first();
         return $p ? $this->mapToDomain($p) : null;
     }
 
     public function findAll(int $perPage = 15, int $page = 1): array
     {
-        $paginator = EloquentProfessional::with('user')->orderBy('professionalID', 'desc')
+        $paginator = EloquentProfessional::with(['user', 'availability'])->orderBy('professionalID', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
 
         $data = $paginator->getCollection()

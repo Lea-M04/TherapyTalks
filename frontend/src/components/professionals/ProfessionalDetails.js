@@ -55,6 +55,23 @@ export default function ProfessionalDetails({ professional }) {
                 <strong>Rating:</strong> {professional.rating ?? "No ratings yet"}
             </p>
 
+            {professional.availability && professional.availability.length > 0 && (
+    <div className="mt-4">
+        <h2 className="text-xl font-semibold">Availability</h2>
+
+        <div className="mt-2 space-y-2">
+            {professional.availability.map((slot, index) => (
+                <div
+                    key={index}
+                    className="p-3 border rounded-lg bg-primary-50 flex justify-between"
+                >
+                    <span className="font-medium">{slot.dayOfWeek}</span>
+                    <span>{slot.startTime} - {slot.endTime}</span>
+                </div>
+            ))}
+        </div>
+    </div>
+)}
           
             <div className="flex items-center gap-3 mt-3">
                 <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded">

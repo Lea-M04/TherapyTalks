@@ -4,7 +4,6 @@ export const NAV_ROUTES = {
   SERVICES: "/services",
   BOOKINGS: "/bookings",
   CHAT: "/chat",
-  Availability:"/availability",
   PAYMENTS: "/payments",
 };
 
@@ -17,4 +16,5 @@ export const DASHBOARD_ROUTES = {
   ADMIN_SERVICES: "/dashboard/admin/services",
   ADMIN_PROFESSIONALS: "/dashboard/admin/professionals",
   ADMIN_AUDIT: "/dashboard/admin/audit",
+  PROFESSIONAL_AVAILABILITY: "/dashboard/professional/availability",
 };

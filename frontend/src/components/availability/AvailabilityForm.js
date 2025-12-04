@@ -4,7 +4,7 @@ import { createAvailability } from "@/lib/availability";
 
 export default function AvailabilityForm({ professionalID, token, onCreated }) {
     const [form, setForm] = useState({
-        dayOfWeek: "Monday",
+        dayOfWeek: "Mon",
         startTime: "09:00",
         endTime: "17:00",
         isAvailable: true,
@@ -31,11 +31,13 @@ export default function AvailabilityForm({ professionalID, token, onCreated }) {
                 value={form.dayOfWeek}
                 onChange={(e) => setForm({ ...form, dayOfWeek: e.target.value })}
             >
-                <option>Mon</option>
-                <option>Tue</option>
-                <option>Wed</option>
-                <option>Thurs</option>
-                <option>Fri</option>
+                <option value="Mon">Mon</option>
+                <option value="Tue">Tue</option>
+                <option value="Wed">Wed</option>
+                <option value="Thu">Thu</option>
+                <option value="Fri">Fri</option>
+                <option value="Sat">Sat</option>
+                <option value="Sun">Sun</option>
             </select>
 
             <label className="block mt-3 mb-2">Start Time:</label>

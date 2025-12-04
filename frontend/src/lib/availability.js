@@ -3,7 +3,7 @@ import api from "@/lib/axios";
 export async function getAvailabilityByProfessional(professionalID) {
     try {
         const res = await api.get(`/availability/${professionalID}`);
-        return res.data;
+        return res.data.data;
     } catch (error) {
         console.error("Error getting availability:", error);
         throw error;

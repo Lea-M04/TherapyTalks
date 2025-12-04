@@ -92,4 +92,27 @@ class AuthController extends Controller
     ]);
 }
 
+    public function myProfileData()
+{
+    $user = auth('api')->user();
+
+    if ($user->role === 'professional') {
+        $professional = \App\Models\Professional::where('userID', $user->userID)->first();
+        return response()->json([
+            'user' => $user,
+            'professional' => $professional
+        ]);
+    }
+
+    if ($user->role === 'patient') {
+        $patient = \App\Models\Patient::where('userID', $user->userID)->first();
+        return response()->json([
+            'user' => $user,
+            'patient' => $patient
+        ]);
+    }
+
+    return response()->json(['user' => $user]);
+}
+
 }

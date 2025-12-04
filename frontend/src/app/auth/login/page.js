@@ -21,8 +21,13 @@ export default function LoginPage() {
       setAuthToken(res.access_token);
       setUser(res.user);
 
-      if (res.user.role === "admin") router.push("/dashboard/admin");
-      else router.push("/");
+      if (res.user.role === "admin") {
+  router.push("/dashboard/admin");
+} else if (res.user.role === "professional") {
+  router.push("/dashboard/professional");
+} else {
+  router.push("/");
+}
     } catch (err) {
       console.log("LOGIN ERROR:", err.response?.data || err.message);
       alert("Invalid credentials");
