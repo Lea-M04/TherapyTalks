@@ -6,7 +6,7 @@ use App\Http\Requests\SubmitVerificationRequest;
 use App\Http\Requests\ReviewVerificationRequest;
 use App\Http\Resources\VerificationRequestResource;
 use Illuminate\Http\Request;
-use App\Domain\Models\VerificationRequest;
+use App\Models\VerificationRequest;
 use Illuminate\Support\Facades\Auth;
 
 class VerificationRequestController extends Controller
@@ -79,10 +79,7 @@ class VerificationRequestController extends Controller
 
    public function show($id)
 {
-    $this->authorize('view', VerificationRequest::class);
-
     $request = VerificationRequest::with('rejectReasons')
-        ->where('professionalID', auth()->id())
         ->where('requestID', $id)
         ->firstOrFail();
 
