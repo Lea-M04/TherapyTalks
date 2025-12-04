@@ -1,6 +1,15 @@
+"use client";
+import { useEffect, useState } from "react";
+import { getServicesByProfessional } from "@/lib/services";
+
 export default function ProfessionalDetails({ professional }) {
     const user = professional.user || {};
+ const [services, setServices] = useState([]);
 
+    useEffect(() => {
+        getServicesByProfessional(professional.professionalID)
+            .then(setServices);
+    }, [professional.professionalID]);
     return (
         <div className="p-6 border rounded-xl shadow space-y-4">
 
@@ -87,7 +96,25 @@ export default function ProfessionalDetails({ professional }) {
                 </span>
             </div>
 
-           
+           {services.length > 0 && (
+  <div>
+    <h2 className="text-xl font-semibold mt-4">Services Offered</h2>
+
+    <div className="mt-2 space-y-2">
+      {services.map(s => (
+        <div key={s.serviceID} className="p-3 border rounded-lg shadow">
+          <h3 className="font-medium text-lg">{s.serviceName}</h3>
+          <p className="text-gray-600">{s.description}</p>
+          <p className="text-gray-700">{s.durationMinutes} min • ${s.price}</p>
+
+          <button className="mt-2 bg-blue-600 text-white px-4 py-2 rounded">
+            Book
+          </button>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
         </div>
     );
 }

@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { DASHBOARD_ROUTES } from "@/lib/routes";
+import { useAuth } from "@/lib/context/AuthContext";
 
 export default function Sidebar({ role }) {
+  const { user, logout } = useAuth();
   const items = {
     patient: [
       { label: "My Dashboard", href: DASHBOARD_ROUTES.PATIENT },
@@ -15,6 +17,7 @@ export default function Sidebar({ role }) {
       { label: "Bookings", href: "/dashboard/professional/bookings" },
       { label: "Chat", href: "/dashboard/professional/chat" },
       { label: "Availability", href: DASHBOARD_ROUTES.PROFESSIONAL_AVAILABILITY },
+      { label: "Services", href: DASHBOARD_ROUTES.PROFESSIONAL_SERVICES },
 
     ],
     admin: [
@@ -34,6 +37,8 @@ export default function Sidebar({ role }) {
           {item.label}
         </Link>
       ))}
+      <button onClick={logout} 
+            className="px-3 py-1 rounded bg-red-600 text-white">Logout</button>
     </aside>
   );
 }

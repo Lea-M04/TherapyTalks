@@ -27,7 +27,10 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');;
 Route::get('/professionals', [ProfessionalController::class, 'index']);
 Route::get('/professionals/{id}', [ProfessionalController::class, 'show']);
-
+ Route::get('/professionals/{id}/services', [ServiceController::class, 'index']);
+  Route::get('/services', [ServiceController::class, 'index']);
+ Route::get('/services/{id}', [ServiceController::class, 'show']);
+ 
 Route::middleware('auth:api')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -69,9 +72,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/chat_rooms/{id}', [ChatRoomController::class, 'show']);
     Route::delete('/chat_rooms/{id}', [ChatRoomController::class, 'destroy']);
 
-    Route::get('/professionals/{id}/services', [ServiceController::class, 'index']);
-    Route::get('/services', [ServiceController::class, 'index']);
-    Route::get('/services/{id}', [ServiceController::class, 'show']);
     Route::post('/services', [ServiceController::class, 'store']);
     Route::put('/services/{id}', [ServiceController::class, 'update']);
     Route::delete('/services/{id}', [ServiceController::class, 'destroy']);

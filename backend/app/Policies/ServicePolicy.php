@@ -7,15 +7,16 @@ use App\Domain\Models\Service as DomainService;
 
 class ServicePolicy
 {
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
-        return in_array($user->role, ['admin', 'professional']);
+        return true;
     }
 
     public function view(User $user, DomainService $service): bool
     {
         return $user->role === 'admin'
-            || $user->id === $service->professionalID;
+             || ($user->role === 'professional'
+                && $user->professional->professionalID === $service->professionalID);
     }
 
     public function create(User $user): bool
@@ -26,12 +27,14 @@ class ServicePolicy
     public function update(User $user, DomainService $service): bool
     {
         return $user->role === 'admin'
-            || $user->id === $service->professionalID;
+           || ($user->role === 'professional'
+                && $user->professional->professionalID === $service->professionalID);
     }
 
     public function delete(User $user, DomainService $service): bool
     {
         return $user->role === 'admin'
-            || $user->id === $service->professionalID;
+          || ($user->role === 'professional'
+                && $user->professional->professionalID === $service->professionalID);
     }
 }

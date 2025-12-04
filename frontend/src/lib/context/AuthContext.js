@@ -36,8 +36,14 @@ export function AuthProvider({ children }) {
     .finally(() => setLoading(false));
   }, []);
 
+     const logout = () => {
+    localStorage.removeItem("token");
+    setAuthToken(null);  
+    setUser(null);
+     window.location.href = "/";
+  };
   return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
+    <AuthContext.Provider value={{ user, setUser, loading , logout}}>
       {children}
     </AuthContext.Provider>
   );

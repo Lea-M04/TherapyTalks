@@ -1,7 +1,8 @@
 "use client";
-
+import ProfessionalGuard from "@/components/guards/ProfessionalGuard";
 export default function ProfessionalHome() {
   return (
+    <ProfessionalGuard>
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Welcome, Professional 👋</h1>
 
@@ -28,5 +29,6 @@ export default function ProfessionalHome() {
 
       </div>
     </div>
+    </ProfessionalGuard>
   );
 }
