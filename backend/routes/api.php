@@ -83,6 +83,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/verification/{id}/reject', [VerificationRequestController::class, 'reject']);
     Route::post('/verification/{id}/resubmit', [VerificationRequestController::class, 'resubmit']);
     Route::get('/verification/my', [VerificationRequestController::class, 'myRequests']);
+    Route::get('/verification/{id}', [VerificationRequestController::class, 'show']);
+
 
     Route::get('/chat_rooms/{chatRoomID}/messages', [MessageController::class, 'indexByChatRoom']);
     Route::post('/chat_rooms/{chatRoomID}/messages', [MessageController::class, 'store']);
