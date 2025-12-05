@@ -5,6 +5,8 @@ namespace App\Application\Services;
 use App\Domain\Interfaces\AvailabilityRepositoryInterface;
 use App\Domain\Models\Availability;
 use App\Application\Services\AuditLogService;
+use App\Models\Booking;
+
 
 class AvailabilityService
 {
@@ -87,6 +89,13 @@ class AvailabilityService
 
         return $deleted;
     }
+public function checkAvailability($professionalID, $date, $time)
+{
+    return !Booking::where('professionalID', $professionalID)
+        ->where('appointmentDate', $date)
+        ->where('appointmentTime', $time)
+        ->exists();
+}
 
 
 }

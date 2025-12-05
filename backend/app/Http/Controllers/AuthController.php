@@ -85,10 +85,13 @@ class AuthController extends Controller
             'token' => auth('api')->refresh()
         ]);
     }
-    public function me()
+    public function me(Request $request)
 {
+    $user = $request->user();
+
     return response()->json([
-        'user' => auth('api')->user()
+        'user' => $user,
+        'patient' => $user->patient, 
     ]);
 }
 

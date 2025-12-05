@@ -52,4 +52,12 @@ class EloquentBookingRepository implements BookingRepositoryInterface
     {
         return (bool) EloquentBooking::where('bookingID', $id)->delete();
     }
+    public function findConflict(int $professionalID, string $date, string $time): bool
+{
+    return EloquentBooking::where('professionalID', $professionalID)
+        ->where('appointmentDate', $date)
+        ->where('appointmentTime', $time)
+        ->exists();
+}
+
 }

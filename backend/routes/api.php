@@ -125,6 +125,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/booking', [BookingController::class, 'store']);
     Route::put('/booking/{id}', [BookingController::class, 'update']);
     Route::delete('/booking/{id}', [BookingController::class, 'destroy']);
+    Route::get('/bookings/professional/{id}', [BookingController::class, 'getProfessionalBookings']);
+
 
     Route::post('/payments/booking/{bookingID}', [PaymentController::class, 'createFromBooking']);
     Route::post('/payments/stripe-intent', [PaymentController::class, 'createIntent']);

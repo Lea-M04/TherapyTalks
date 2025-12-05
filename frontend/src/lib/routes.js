@@ -12,6 +12,7 @@ export const DASHBOARD_ROUTES = {
   PROFESSIONAL: "/dashboard/professional",
   ADMIN: "/dashboard/admin",
   ADMIN_USERS: "/dashboard/admin/users",
+  ADMIN_VERIFICATION: "/dashboard/admin/verification",
   ADMIN_SERVICES: "/dashboard/admin/services",
   ADMIN_PROFESSIONALS: "/dashboard/admin/professionals",
   ADMIN_AUDIT: "/dashboard/admin/audit",

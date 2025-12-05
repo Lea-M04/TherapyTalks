@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateBookingRequest;
 use App\Http\Resources\BookingResource;
 use Illuminate\Http\Request;
 
+
 class BookingController extends Controller
 {
     private BookingService $service;
@@ -18,19 +19,23 @@ class BookingController extends Controller
     }
 
     public function index(Request $request)
-    {
-        $this->authorize('viewAny', \App\Domain\Models\Booking::class);
+{
+    
+    $query = \App\Models\Booking::query();
 
-        $perPage = (int) $request->get('per_page', 15);
-        $page = (int) $request->get('page', 1);
-
-        $result = $this->service->list($perPage, $page);
-
-        return response()->json([
-            'data' => array_map(fn($b) => new BookingResource($b), $result['data']),
-            'meta' => $result['meta']
-        ]);
+    if ($request->has('professionalID')) {
+        $query->where('professionalID', $request->professionalID);
     }
+
+    if ($request->has('patientID')) {
+        $query->where('patientID', $request->patientID);
+    }
+
+    return response()->json([
+        'data' => $query->get()
+    ]);
+}
+
 
     public function show(int $id)
     {
@@ -86,4 +91,17 @@ class BookingController extends Controller
 
         return response()->json(null, 204);
     }
+    public function getProfessionalBookings(Request $request, int $professionalID)
+{
+    $date = $request->query('date');
+
+    $bookings = \App\Models\Booking::where('professionalID', $professionalID)
+        ->where('appointmentDate', $date)
+        ->get(['appointmentTime', 'duration']);
+
+    return response()->json([
+        'data' => $bookings
+    ]);
+}
+
 }

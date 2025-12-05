@@ -26,6 +26,7 @@ export default function Sidebar({ role }) {
       { label: "Services", href: DASHBOARD_ROUTES.ADMIN_SERVICES },
       { label: "Professionals", href: DASHBOARD_ROUTES.ADMIN_PROFESSIONALS },
       { label: "Audit Logs", href: DASHBOARD_ROUTES.ADMIN_AUDIT },
+      { label: "Verification", href: DASHBOARD_ROUTES.ADMIN_VERIFICATION },
 
     ],
   };

@@ -5,16 +5,19 @@ namespace App\Application\Services;
 use App\Domain\Interfaces\BookingRepositoryInterface;
 use App\Domain\Models\Booking;
 use App\Application\Services\AuditLogService;
+use App\Application\Services\AvailabilityService;
 
 class BookingService
 {
     private BookingRepositoryInterface $repo;
     private AuditLogService $audit;
+    private AvailabilityService $availabilityService;
 
-    public function __construct(BookingRepositoryInterface $repo, AuditLogService $audit)
+    public function __construct(BookingRepositoryInterface $repo, AuditLogService $audit, AvailabilityService $availabilityService)
     {
         $this->repo = $repo;
         $this->audit = $audit;
+        $this->availabilityService = $availabilityService;
     }
 
     public function list(int $perPage = 15, int $page = 1): array
@@ -28,21 +31,44 @@ class BookingService
     }
 
     public function create(array $data): Booking
-    {
-        $booking = new Booking($data);
+{
 
-        $created = $this->repo->create($booking);
+    $isAvailable = $this->availabilityService->checkAvailability(
+        $data['professionalID'],
+        $data['appointmentDate'],
+        $data['appointmentTime'],
+        $data['duration'] ?? null
+    );
 
-        $this->audit->write(
-            action: 'booking_created',
-            targetType: 'Booking',
-            targetID: $created->bookingID,
-            status: 'success',
-            performedBy: auth()->id() ?? null
-        );
-
-        return $created;
+    if (!$isAvailable) {
+        throw new \Exception("Professional is not available at this time.");
     }
+
+    $hasConflict = $this->repo->findConflict(
+    $data['professionalID'],
+    $data['appointmentDate'],
+    $data['appointmentTime']
+);
+
+
+    if ($hasConflict) {
+        throw new \Exception("This time slot is already booked.");
+    }
+
+    $booking = new Booking($data);
+    $created = $this->repo->create($booking);
+
+    $this->audit->write(
+        action: 'booking_created',
+        targetType: 'Booking',
+        targetID: $created->bookingID,
+        status: 'success',
+        performedBy: auth()->id() ?? null
+    );
+
+    return $created;
+}
+
 
     public function update(int $id, array $data): ?Booking
     {

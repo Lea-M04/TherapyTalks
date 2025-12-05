@@ -7,7 +7,7 @@ import { getServicesByProfessional } from "@/lib/services";
 
 export default function ProfessionalServicesPage() {
   const { user } = useAuth();
-  const professionalID = user?.professionalID; // FIX
+  const professionalID = user?.professionalID;
 
   const [items, setItems] = useState([]);
   const [editingService, setEditingService] = useState(null);
