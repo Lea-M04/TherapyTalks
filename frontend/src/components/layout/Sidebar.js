@@ -19,9 +19,11 @@ export default function Sidebar({ role }) {
     admin: [
       { label: "Dashboard", href: DASHBOARD_ROUTES.ADMIN },
       { label: "Users", href: DASHBOARD_ROUTES.ADMIN_USERS },
-      { label: "Services", href: DASHBOARD_ROUTES.ADMIN_SERVICES },
       { label: "Professionals", href: DASHBOARD_ROUTES.ADMIN_PROFESSIONALS },
+      { label: "Patients", href: DASHBOARD_ROUTES.ADMIN_PATIENTS },
+      { label: "Services", href: DASHBOARD_ROUTES.ADMIN_SERVICES },
       { label: "Audit Logs", href: DASHBOARD_ROUTES.ADMIN_AUDIT },
+      { label: "Verification Requests", href: DASHBOARD_ROUTES.ADMIN_VERIFICATIONS},
 
     ],
   };

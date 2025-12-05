@@ -15,7 +15,9 @@ export const DASHBOARD_ROUTES = {
   ADMIN_USERS: "/dashboard/admin/users",
   ADMIN_SERVICES: "/dashboard/admin/services",
   ADMIN_PROFESSIONALS: "/dashboard/admin/professionals",
+  ADMIN_PATIENTS: "/dashboard/admin/patients",
   ADMIN_AUDIT: "/dashboard/admin/audit",
   PROFESSIONAL_AVAILABILITY: "/dashboard/professional/availability",
   PROFESSIONAL_SERVICES: "/dashboard/professional/services",
+  ADMIN_VERIFICATIONS: "/dashboard/admin/verification",
 };

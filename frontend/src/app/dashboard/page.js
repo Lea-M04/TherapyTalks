@@ -1,5 +1,5 @@
 "use client";
-import AdminSidebar from "./admin/components/AdminSidebar";
+import AdminSidebar from "./admin/professionals/components/AdminSidebar";
 
 export default function AdminDashboard() {
   return (

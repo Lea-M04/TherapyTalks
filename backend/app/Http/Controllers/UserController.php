@@ -107,4 +107,14 @@ return new UserResource($updated);
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
+
+    public function usersWithoutProfessional()
+{
+    return User::whereDoesntHave('professional')->get();
+}
+
+        public function usersWithoutPatient()
+{
+    return User::whereDoesntHave('patient')->get();
+}
 }
