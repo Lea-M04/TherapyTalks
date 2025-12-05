@@ -30,3 +30,37 @@ export async function getFullProfile() {
   return res.data;
 }
 
+export async function getPatientById(id) {
+  const res = await api.get(`/patients/${id}`);
+  return res.data;
+}
+
+export async function updatePatient(id, data) {
+  const res = await api.put(`/patients/${id}`, data);
+  return res.data;
+}
+
+export function updateProfessional(id, data) {
+  return api.put(`/professionals/${id}`, data).then(res => res.data);
+}
+export async function updateUser(id, data) {
+  const formData = new FormData();
+
+  Object.keys(data).forEach((key) => {
+    if (key === "profileImage") {
+      if (data.profileImage instanceof File) {
+        formData.append("profileImage", data.profileImage);
+      }
+    } else {
+      formData.append(key, data[key]);
+    }
+  });
+
+  const res = await api.post(`/users/${id}?_method=PUT`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return res.data;
+}

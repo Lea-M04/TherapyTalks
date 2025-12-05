@@ -14,7 +14,7 @@ class PatientPolicy
 
     public function view(User $user, DomainPatient $model): bool
     {
-        return $user->role === 'admin' || $user->id === $model->patientID;
+         return $user->role === 'admin' || $user->userID === $model->userID;
     }
 
     public function create(User $user): bool
@@ -24,7 +24,7 @@ class PatientPolicy
 
     public function update(User $user, DomainPatient $model): bool
     {
-        return $user->role === 'admin' || $user->id === $model->patientID;
+        return $user->role === 'admin' || $user->userID === $model->userID;
     }
 
     public function delete(User $user, DomainPatient $model): bool

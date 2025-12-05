@@ -25,8 +25,10 @@ export function AuthProvider({ children }) {
 
       setUser({
         ...data.user,
-        professionalID: data.professional?.professionalID ?? null,
-        patientID: data.patient?.patientID ?? null
+      professional: data.professional || null,
+      patient: data.patient || null,
+      professionalID: data.professional?.professionalID ?? null,
+      patientID: data.patient?.patientID ?? null
       });
     })
     .catch(() => {

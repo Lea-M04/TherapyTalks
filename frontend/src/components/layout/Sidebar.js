@@ -1,18 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { DASHBOARD_ROUTES } from "@/lib/routes";
+import { DASHBOARD_ROUTES, NAV_ROUTES} from "@/lib/routes";
 import { useAuth } from "@/lib/context/AuthContext";
 
 export default function Sidebar({ role }) {
   const { user, logout } = useAuth();
   const items = {
-    patient: [
-      { label: "My Dashboard", href: DASHBOARD_ROUTES.PATIENT },
-      { label: "My Bookings", href: "/bookings" },
-      { label: "Payments", href: "/payments" },
-    ],
     professional: [
+      { label: "Home", href: NAV_ROUTES.HOME },
       { label: "Dashboard", href: DASHBOARD_ROUTES.PROFESSIONAL },
       { label: "Bookings", href: "/dashboard/professional/bookings" },
       { label: "Chat", href: "/dashboard/professional/chat" },
