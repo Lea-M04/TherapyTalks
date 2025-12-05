@@ -4,6 +4,7 @@ export const NAV_ROUTES = {
   BOOKINGS: "/bookings",
   CHAT: "/chat",
   PAYMENTS: "/payments",
+  PROFILE: "/profile",
 };
 
 export const DASHBOARD_ROUTES = {
@@ -15,7 +16,9 @@ export const DASHBOARD_ROUTES = {
   ADMIN_VERIFICATION: "/dashboard/admin/verification",
   ADMIN_SERVICES: "/dashboard/admin/services",
   ADMIN_PROFESSIONALS: "/dashboard/admin/professionals",
+  ADMIN_PATIENTS: "/dashboard/admin/patients",
   ADMIN_AUDIT: "/dashboard/admin/audit",
   PROFESSIONAL_AVAILABILITY: "/dashboard/professional/availability",
   PROFESSIONAL_SERVICES: "/dashboard/professional/services",
+  ADMIN_VERIFICATIONS: "/dashboard/admin/verification",
 };

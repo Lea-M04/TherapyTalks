@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { NAV_ROUTES } from "@/lib/routes";
+import { DASHBOARD_ROUTES, NAV_ROUTES } from "@/lib/routes";
 import Button from "../ui/Button";
 import { useAuth } from "@/lib/context/AuthContext";
 
@@ -18,11 +18,20 @@ export default function Navbar() {
         <Link href={NAV_ROUTES.PROFESSIONALS}>Professionals</Link>
         <Link href={NAV_ROUTES.CHAT}>Chat</Link>
         <Link href={NAV_ROUTES.BOOKINGS}>Bookings</Link>
+        {user && user.role==="professional" && (
+            <Link href={DASHBOARD_ROUTES.PROFESSIONAL}>Dashboard</Link>
+        )}
+         {user && user.role==="admin" && (
+           <Link href={DASHBOARD_ROUTES.ADMIN}>Dashboard</Link>
+        )}
         {user ? (
           <div className="flex items-center gap-4">
             <span className="text-white">
               Welcome, {user.firstName}
             </span>
+             {user && user.role==="patient" && (
+            <Link href={NAV_ROUTES.PROFILE}>Profile</Link>
+        )}
             <button onClick={logout} 
             className="px-3 py-1 rounded bg-red-600 text-white">Logout</button>
           </div>

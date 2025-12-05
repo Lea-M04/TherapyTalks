@@ -42,6 +42,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/users/{id}', [UserController::class, 'show']);  //show-> nje user te caktum
     Route::delete('/users/{id}', [UserController::class, 'destroy']); //destroy->me fshi
 
+    Route::get('/admin/users/no-professional', [UserController::class, 'usersWithoutProfessional']);
+    Route::get('/admin/users/no-patient', [UserController::class, 'usersWithoutPatient']);
+
     Route::post('/patients', [PatientController::class, 'store']); 
     Route::put('/patients/{id}', [PatientController::class, 'update']);
     Route::get('/patients', [PatientController::class, 'index']);

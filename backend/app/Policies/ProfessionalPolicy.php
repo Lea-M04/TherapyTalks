@@ -24,7 +24,7 @@ class ProfessionalPolicy
 
     public function update(User $user, DomainProfessional $model): bool
     {
-        return $user->role === 'admin' || $user->id === $model->userID;
+        return $user->role === 'admin' || $user->userID === $model->userID;
     }
 
     public function delete(User $user, DomainProfessional $model): bool

@@ -63,15 +63,27 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, int $id)
     {
-        $user = $this->service->get($id);
+        $user = \App\Models\User::find($id);
 
         if (!$user) {
             return response()->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
-
+            
         $this->authorize('update', $user);
 
         $payload = $request->validated();
+        $payload = $request->validated();
+
+if ($request->hasFile('profileImage')) {
+    $file = $request->file('profileImage');
+    $filename = time() . '_' . $file->getClientOriginalName();
+    $file->move(public_path('uploads/profile_images'), $filename);
+    $payload['profileImage'] = $filename;
+}
+
+$updated = $this->service->update($id, $payload);
+return new UserResource($updated);
+
         $updated = $this->service->update($id, $payload);
 
         return new UserResource($updated);
@@ -95,4 +107,14 @@ class UserController extends Controller
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
+
+    public function usersWithoutProfessional()
+{
+    return User::whereDoesntHave('professional')->get();
+}
+
+        public function usersWithoutPatient()
+{
+    return User::whereDoesntHave('patient')->get();
+}
 }

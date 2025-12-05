@@ -35,3 +35,8 @@ export async function getProfessionalById(id) {
   }
   return res.data.data;
 }
+
+export const getUsersWithoutProfessional = async () => {
+  const res = await api.get("/admin/users/no-professional");
+  return res.data;
+};

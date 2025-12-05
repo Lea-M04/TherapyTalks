@@ -15,9 +15,9 @@ export default function UsersPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Users</h1>
+      <h1 className="text-2xl text-primary-dark font-bold mb-4">Users</h1>
 
-      <table className="w-full border">
+      <table className="w-full text-primary-dark border">
         <thead className="bg-gray-100">
           <tr>
             <th className="p-2 border">ID</th>

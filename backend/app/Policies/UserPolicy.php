@@ -14,7 +14,7 @@ class UserPolicy
 
     public function view(User $user, DomainUser $model): bool
     {
-        return $user->role === 'admin' || $user->id === $model->userID;
+        return $user->role === 'admin' || $user->userID === $model->userID;
     }
 
     public function create(User $user): bool
@@ -22,9 +22,9 @@ class UserPolicy
         return $user->role === 'admin';
     }
 
-    public function update(User $user, DomainUser $model): bool
+    public function update(User $user, User $model): bool
     {
-        return $user->role === 'admin' || $user->id === $model->userID;
+        return $user->role === 'admin' || $user->userID === $model->userID;
     }
 
     public function delete(User $user, DomainUser $model): bool
