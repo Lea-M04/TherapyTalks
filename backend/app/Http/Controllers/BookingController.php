@@ -7,6 +7,8 @@ use App\Http\Requests\CreateBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Http\Resources\BookingResource;
 use Illuminate\Http\Request;
+use App\Models\Booking;
+
 
 
 class BookingController extends Controller
@@ -20,8 +22,7 @@ class BookingController extends Controller
 
     public function index(Request $request)
 {
-    
-    $query = \App\Models\Booking::query();
+    $query = \App\Models\Booking::with(['professional', 'service', 'patient']);
 
     if ($request->has('professionalID')) {
         $query->where('professionalID', $request->professionalID);
@@ -31,10 +32,9 @@ class BookingController extends Controller
         $query->where('patientID', $request->patientID);
     }
 
-    return response()->json([
-        'data' => $query->get()
-    ]);
+    return BookingResource::collection($query->get());
 }
+
 
 
     public function show(int $id)
@@ -55,9 +55,9 @@ class BookingController extends Controller
 
         $created = $this->service->create($request->validated());
 
-        return (new BookingResource($created))
-            ->response()
-            ->setStatusCode(201);
+        return new BookingResource(\App\Models\Booking::with(['service', 'patient.user', 'professional.user'])
+    ->find($created->bookingID));
+
     }
 
     public function update(UpdateBookingRequest $request, int $id)
@@ -71,7 +71,9 @@ class BookingController extends Controller
 
         $updated = $this->service->update($id, $request->validated());
 
-        return new BookingResource($updated);
+        return new BookingResource(\App\Models\Booking::with(['service', 'patient.user', 'professional.user'])
+    ->find($updated->bookingID));
+
     }
 
     public function destroy(int $id)
@@ -104,4 +106,24 @@ class BookingController extends Controller
     ]);
 }
 
+public function updateStatus(Request $request, $id)
+{
+    $request->validate([
+        'status' => 'required|in:confirmed,canceled,completed'
+    ]);
+
+    $booking = Booking::findOrFail($id);
+
+    $booking->status = $request->status;
+    $booking->save();
+
+    return response()->json([
+        'message' => 'Status updated',
+        'data' => new BookingResource(
+    Booking::with(['service', 'patient.user', 'professional.user'])
+        ->find($booking->bookingID)
+)
+
+    ]);
+}
 }

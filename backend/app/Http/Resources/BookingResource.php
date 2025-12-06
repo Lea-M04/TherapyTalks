@@ -8,20 +8,23 @@ class BookingResource extends JsonResource
 {
     public function toArray($request)
     {
-        $b = $this->resource;
-
         return [
-            'bookingID' => $b->bookingID,
-            'patientID' => $b->patientID,
-            'professionalID' => $b->professionalID,
-            'serviceID' => $b->serviceID,
-            'appointmentDate' => $b->appointmentDate,
-            'appointmentTime' => $b->appointmentTime,
-            'duration' => $b->duration,
-            'status' => $b->status,
-            'notes' => $b->notes,
-            'created_at' => $b->created_at,
-            'updated_at' => $b->updated_at,
+            'bookingID' => $this->bookingID,
+            'patientID' => $this->patientID,
+            'professionalID' => $this->professionalID,
+            'serviceID' => $this->serviceID,
+            'appointmentDate' => $this->appointmentDate,
+            'appointmentTime' => $this->appointmentTime,
+            'duration' => $this->duration,
+            'status' => $this->status,
+            'notes' => $this->notes,
+            'serviceName' => $this->service?->serviceName,
+            'professionalFirstName' => $this->professional?->user?->firstName,
+            'professionalLastName' => $this->professional?->user?->lastName,
+            'patientFirstName' => $this->patient?->user?->firstName,
+            'patientLastName' => $this->patient?->user?->lastName,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

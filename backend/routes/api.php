@@ -129,6 +129,8 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/booking/{id}', [BookingController::class, 'update']);
     Route::delete('/booking/{id}', [BookingController::class, 'destroy']);
     Route::get('/bookings/professional/{id}', [BookingController::class, 'getProfessionalBookings']);
+    Route::put('/booking/{id}/status', [BookingController::class, 'updateStatus']);
+
 
 
     Route::post('/payments/booking/{bookingID}', [PaymentController::class, 'createFromBooking']);

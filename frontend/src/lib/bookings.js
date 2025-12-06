@@ -30,3 +30,7 @@ export async function getProfessionalBookings(professionalID, date) {
   const res = await api.get(`/bookings/professional/${professionalID}?date=${date}`);
   return res.data;
 }
+export async function updateBookingStatus(id, status) {
+  const res = await api.put(`/booking/${id}/status`, { status });
+  return res.data;
+}

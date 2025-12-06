@@ -20,4 +20,24 @@ class Booking extends Model
         'status',
         'notes'
     ];
+  public function professional()
+{
+    return $this->belongsTo(\App\Models\Professional::class, 'professionalID', 'professionalID');
+}
+public function user()
+{
+    return $this->belongsTo(\App\Models\User::class, 'userID', 'userID');
+}
+
+
+public function patient()
+{
+    return $this->belongsTo(\App\Models\Patient::class, 'patientID', 'patientID');
+}
+
+public function service()
+{
+    return $this->belongsTo(Service::class, 'serviceID', 'serviceID');
+}
+
 }

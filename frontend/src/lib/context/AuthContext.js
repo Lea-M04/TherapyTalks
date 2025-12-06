@@ -24,7 +24,13 @@ export function AuthProvider({ children }) {
       console.log("FULL PROFILE:", data);
 
       setUser({
-        ...data.user,
+      userID: data.user?.userID ?? null,
+  firstName: data.user?.firstName ?? "",
+  lastName: data.user?.lastName ?? "",
+  email: data.user?.email ?? "",
+  phoneNumber: data.user?.phoneNumber ?? "",
+  profileImage: data.user?.profileImage ?? "",
+
       professional: data.professional || null,
       patient: data.patient || null,
       professionalID: data.professional?.professionalID ?? null,
