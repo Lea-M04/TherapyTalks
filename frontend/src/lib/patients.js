@@ -17,10 +17,11 @@ export const deletePatient = async (id) => {
   return res.data;
 };
 
-export async function getPatients() {
-  const res = await api.get("/patients");
-  return res.data.data;
+export async function getPatients(url = "/patients?page=1") {
+  const res = await api.get(url);
+  return res.data;
 }
+
 
 export async function getPatientById(id) {
   const res = await api.get(`/patients/${id}`);

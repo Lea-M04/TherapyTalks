@@ -56,9 +56,12 @@ const loadPage = (page) => {
           ))}
         </tbody>
       </table>
+
+    <div className="flex justify-center items-center gap-6">
       <button
   disabled={!pagination.prev_page_url}
   onClick={() => loadPage(pagination.current_page - 1)}
+  className="text-primary-dark font-bold text-lg"
 >
   Prev
 </button>
@@ -66,9 +69,10 @@ const loadPage = (page) => {
 <button
   disabled={!pagination.next_page_url}
   onClick={() => loadPage(pagination.current_page + 1)}
+   className="text-primary-dark font-bold text-lg"
 >
   Next
-</button>
+</button></div>
     </div>
   );
 }

@@ -42,10 +42,20 @@ class EloquentProfessionalRepository implements ProfessionalRepositoryInterface
         'endTime' => $a->endTime,
         'created_at' => $a->created_at,
     ];
-})->toArray() : null,
-
-        ]);
-    }
+    })->toArray() : null,
+    'services' => $p->services ? $p->services->map(function ($s) {
+        return[   
+        'serviceID' => $s->serviceID,
+            'serviceName' => $s->serviceName,
+            'description' => $s->description,
+            'durationMinutes' => $s->durationMinutes,
+            'price' => $s->price,
+            'category' => $s->category,
+            'isActive' => $s->isActive,
+        ];
+    })->toArray() : null,
+            ]);
+        }   
 
     public function create(Professional $professional): Professional
     {
@@ -69,19 +79,19 @@ class EloquentProfessionalRepository implements ProfessionalRepositoryInterface
 
     public function findById(int $id): ?Professional
     {
-        $p = EloquentProfessional::with(['user', 'availability'])->where('professionalID', $id)->first();
+        $p = EloquentProfessional::with(['user', 'availability', 'services'])->where('professionalID', $id)->first();
         return $p ? $this->mapToDomain($p) : null;
     }
 
     public function findByUserId(int $userID): ?Professional
     {
-        $p = EloquentProfessional::with(['user', 'availability'])->where('userID', $userID)->first();
+        $p = EloquentProfessional::with(['user', 'availability', 'services'])->where('userID', $userID)->first();
         return $p ? $this->mapToDomain($p) : null;
     }
 
     public function findAll(int $perPage = 15, int $page = 1): array
     {
-        $paginator = EloquentProfessional::with(['user', 'availability'])->orderBy('professionalID', 'desc')
+        $paginator = EloquentProfessional::with(['user', 'availability', 'services'])->orderBy('professionalID', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
 
         $data = $paginator->getCollection()

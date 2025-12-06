@@ -1,48 +1,59 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import { getProfessionalsAdmin, deleteProfessional } from "@/lib/professionals";
+import { getAllServices, deleteService } from "@/lib/services";
+import { getProfessionalById } from "@/lib/professionals"; 
 import Link from "next/link";
 import Modal from "@/components/ui/Modal";
 
-export default function ProfessionalsPage() {
-  const [professionals, setProfessionals] = useState([]);
+export default function ServicesPage() {
+  const [services, setServices] = useState([]);
   const [deleteId, setDeleteId] = useState(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 const [pagination, setPagination] = useState({});
 
- const loadPage = async (page = 1) => {
+  const loadData = async (page = 1) => {
   try {
-    const res = await getProfessionalsAdmin(`/professionals?page=${page}`);
-    setProfessionals(res.data);    
-    setPagination(res.meta);  
+    const result = await getAllServices(page);
+console.log(JSON.stringify(result, null, 2));
+
+ const servicesData = result.data ?? result; 
+    const paginationData = {
+      ...result.meta,
+      prev_page_url: result.prev_page_url,
+      next_page_url: result.next_page_url
+    };
+
+    setServices(servicesData);
+    setPagination(paginationData);
+
   } catch (err) {
     console.error(err);
-    alert("Failed to load professionals.");
+    alert("Failed to load services.");
   }
 };
-  useEffect(() => {
-    loadPage(1);
-  }, []);
 
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const confirmDelete = async () => {
     try {
-      await deleteProfessional(deleteId);
+      await deleteService(deleteId);
       setOpenDeleteModal(false);
       setDeleteId(null);
-
       await loadData();
     } catch (err) {
       console.error(err);
-      alert("Error deleting professional.");
+      alert("Error deleting service.");
     }
   };
 
   return (
     <div className="p-6">
       <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
-        <h2 className="text-xl font-bold mb-4">Delete Professional</h2>
-        <p className="mb-4">Are you sure you want to delete this professional?</p>
+        <h2 className="text-xl font-bold mb-4">Delete Service</h2>
+        <p className="mb-4">Are you sure you want to delete this service?</p>
 
         <div className="flex justify-end gap-3">
           <button
@@ -62,13 +73,13 @@ const [pagination, setPagination] = useState({});
       </Modal>
 
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl text-primary-dark font-bold">Professionals</h1>
+        <h1 className="text-2xl text-primary-dark font-bold">Services</h1>
 
         <Link
-          href="/dashboard/admin/professionals/create"
+          href="/dashboard/admin/services/create"
           className="bg-primary-dark text-white px-4 py-2 rounded"
         >
-          + Create Professional
+          + Create Service
         </Link>
       </div>
 
@@ -76,36 +87,30 @@ const [pagination, setPagination] = useState({});
         <thead className="bg-gray-100">
           <tr>
             <th className="p-2 border">ID</th>
-            <th className="p-2 border">User</th>
-            <th className="p-2 border">Specialization</th>
-            <th className="p-2 border">License</th>
-            <th className="p-2 border">Experience</th>
-            <th className="p-2 border">Education</th>
-            <th className="p-2 border">Clinic</th>
-            <th className="p-2 border">Bio</th>
+            <th className="p-2 border">Professional</th>
+            <th className="p-2 border">Service Name</th>
+            <th className="p-2 border">Price</th>
+            <th className="p-2 border">Category</th>
+            <th className="p-2 border">Active</th>
             <th className="p-2 border">Actions</th>
           </tr>
         </thead>
 
         <tbody>
-          {professionals.map((p) => (
-            <tr key={p.professionalID}>
-              <td className="p-2 border">{p.professionalID}</td>
-              <td className="p-2 border">
-                {p.user?.firstName} {p.user?.lastName}
-              </td>
-              <td className="p-2 border">{p.specialization}</td>
-              <td className="p-2 border">{p.licenseNumber}</td>
-              <td className="p-2 border">{p.experienceYears}</td>
-              <td className="p-2 border">{p.education}</td>
-              <td className="p-2 border">
-                {p.clinicName} — {p.clinicCity}, {p.clinicStreet}
-              </td>
-              <td className="p-2 border">{p.bio}</td>
+          {services.map((s) => (
+            <tr key={s.serviceID}>
+              <td className="p-2 border">{s.serviceID}</td>
+<td className="p-2 border">
+  {s.professional?.user?.firstName} {s.professional?.user?.lastName}
+</td>
+              <td className="p-2 border">{s.serviceName}</td>
+              <td className="p-2 border">{s.price}€</td>
+              <td className="p-2 border">{s.category}</td>
+              <td className="p-2 border">{s.isActive ? "Yes" : "No"}</td>
 
               <td className="p-2 border flex gap-2">
                 <Link
-                  href={`/dashboard/admin/professionals/${p.professionalID}/edit`}
+                  href={`/dashboard/admin/services/${s.serviceID}/edit`}
                   className="px-3 py-1 bg-primary-pink text-white rounded"
                 >
                   Edit
@@ -113,7 +118,7 @@ const [pagination, setPagination] = useState({});
 
                 <button
                   onClick={() => {
-                    setDeleteId(p.professionalID);
+                    setDeleteId(s.serviceID);
                     setOpenDeleteModal(true);
                   }}
                   className="px-3 py-1 bg-primary-purple text-white rounded"
@@ -124,10 +129,10 @@ const [pagination, setPagination] = useState({});
             </tr>
           ))}
 
-          {professionals.length === 0 && (
+          {services.length === 0 && (
             <tr>
-              <td colSpan="9" className="p-4 text-center">
-                No professionals found
+              <td colSpan="7" className="p-4 text-center">
+                No services found
               </td>
             </tr>
           )}
@@ -136,16 +141,16 @@ const [pagination, setPagination] = useState({});
        <div className="flex justify-center items-center gap-6">
       <button
   disabled={!pagination.prev_page_url}
-  onClick={() => loadPage(pagination.current_page - 1)}
-  className="text-primary-dark font-bold text-lg disabled:opacity-40"
+  onClick={() => loadData(pagination.current_page - 1)}
+  className="text-primary-dark font-bold text-lg "
 >
   Prev
 </button>
 
 <button
   disabled={!pagination.next_page_url}
-  onClick={() => loadPage(pagination.current_page + 1)}
-   className="text-primary-dark font-bold text-lg disabled:opacity-40"
+  onClick={() => loadData(pagination.current_page + 1)}
+   className="text-primary-dark font-bold text-lg"
 >
   Next
 </button></div>

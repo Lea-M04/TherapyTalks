@@ -10,10 +10,10 @@ export async function getServicesByProfessional(professionalID) {
   }
 }
 
-export async function getAllServices() {
+export async function getAllServices(page = 1) {
   try {
-    const res = await api.get(`/services`);
-    return res.data.data ?? res.data;
+    const res = await api.get(`/services?page=${page}`);
+    return res.data;
   } catch (error) {
     console.error("Error getting all services:", error);
     throw error;
@@ -49,3 +49,16 @@ export async function deleteService(id) {
     throw error;
   }
 }
+
+export async function getServiceById(id) {
+  const res = await api.get(`/services/${id}`);
+  if (res.status !== 200) {
+    throw new Error("Failed to fetch service");
+  }
+  return res.data.data;
+}
+
+export const getProfessionals = async () => {
+  const res = await api.get("/professionals");
+  return res.data.data;
+};

@@ -17,6 +17,9 @@ class ServiceResource extends JsonResource
             'price' => $this->price,
             'category' => $this->category,
             'isActive' => $this->isActive,
+          'professional' => $this->professional,
+
+
         ];
     }
 }

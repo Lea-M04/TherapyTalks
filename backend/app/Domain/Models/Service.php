@@ -12,6 +12,7 @@ class Service
     public float $price;
     public ?string $category;
     public bool $isActive;
+    public ?array $professional=null;
 
     public function __construct(array $data = [])
     {
@@ -23,6 +24,8 @@ class Service
         $this->price = (float)($data['price'] ?? 0);
         $this->category = $data['category'] ?? null;
         $this->isActive = (bool)($data['isActive'] ?? true);
+        $this->professional = $data['professional'] ?? null;
+
     }
 
     public function toArray(): array

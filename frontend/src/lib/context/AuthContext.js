@@ -30,16 +30,18 @@ export function AuthProvider({ children }) {
   email: data.user?.email ?? "",
   phoneNumber: data.user?.phoneNumber ?? "",
   profileImage: data.user?.profileImage ?? "",
-
+ role: data.user?.role ?? null, 
       professional: data.professional || null,
       patient: data.patient || null,
       professionalID: data.professional?.professionalID ?? null,
       patientID: data.patient?.patientID ?? null
       });
     })
-    .catch(() => {
-      setAuthToken(null);
-      setUser(null);
+    .catch((err) => {
+      if (err.response?.status === 401) {
+    setAuthToken(null);
+    setUser(null);
+  }
     })
     .finally(() => setLoading(false));
   }, []);

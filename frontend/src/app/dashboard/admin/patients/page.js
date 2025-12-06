@@ -8,19 +8,21 @@ export default function PatientsPage() {
   const [patients, setPatients] = useState([]);
   const [deleteId, setDeleteId] = useState(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [pagination, setPagination] = useState({});
 
-  const loadData = async () => {
-    try {
-      const data = await getPatients();
-      setPatients(data);
-    } catch (err) {
-      console.error(err);
-      alert("Failed to load patients.");
-    }
-  };
+ const loadPage = async (page = 1) => {
+  try {
+    const res = await getPatients(`/patients?page=${page}`);
 
+    setPatients(res.data);    
+    setPagination(res.meta);  
+  } catch (err) {
+    console.error(err);
+    alert("Failed to load patients.");
+  }
+};
   useEffect(() => {
-    loadData();
+    loadPage(1);
   }, []);
 
   const confirmDelete = async () => {
@@ -129,6 +131,22 @@ export default function PatientsPage() {
           )}
         </tbody>
       </table>
+       <div className="flex justify-center items-center gap-6">
+      <button
+  disabled={!pagination.prev_page_url}
+  onClick={() => loadPage(pagination.current_page - 1)}
+  className="text-primary-dark font-bold text-lg disabled:opacity-40"
+>
+  Prev
+</button>
+
+<button
+  disabled={!pagination.next_page_url}
+  onClick={() => loadPage(pagination.current_page + 1)}
+   className="text-primary-dark font-bold text-lg disabled:opacity-40"
+>
+  Next
+</button></div>
     </div>
   );
 }

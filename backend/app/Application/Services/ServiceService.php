@@ -22,10 +22,11 @@ class ServiceService
         return $this->repo->findByProfessional($professionalID);
     }
 
-    public function listAll(): array
-    {
-        return $this->repo->all();
-    }
+    public function listAll(int $perPage = 15, int $page = 1): array
+{
+    return $this->repo->findAll($perPage, $page);
+}
+
 
 
     public function get(int $id): ?Service

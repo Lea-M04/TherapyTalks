@@ -8,6 +8,7 @@ class Professional
     public int $userID;
     public ?array $user; 
     public ?array $availability;
+    public ?array $services;
     public ?string $specialization;
     public ?string $licenseNumber;
     public ?int $experienceYears;
@@ -28,6 +29,7 @@ class Professional
         $this->userID = isset($data['userID']) ? (int)$data['userID'] : 0;
          $this->user = $data['user'] ?? null;
           $this->availability = $data['availability'] ?? null;
+          $this->services = $data['services'] ?? null;
         $this->specialization = $data['specialization'] ?? null;
         $this->licenseNumber = $data['licenseNumber'] ?? null;
         $this->experienceYears = isset($data['experienceYears']) ? (int)$data['experienceYears'] : null;
@@ -51,6 +53,7 @@ class Professional
             'user' => $this->user,
             'availability'=>$this->availability,
             'specialization' => $this->specialization,
+            'services' => $this->services,
             'licenseNumber' => $this->licenseNumber,
             'experienceYears' => $this->experienceYears,
             'education' => $this->education,

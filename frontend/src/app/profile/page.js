@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/context/AuthContext";
 import { updateUser, updatePatient , getFullProfile} from "@/lib/auth";
 import PatientGuard from "@/components/guards/PatientGuard"; 
-
+import NotificationSettings from "@/components/NotificationSettings";
+import Modal from "@/components/ui/Modal";
 export default function PatientProfilePage() {
   const { user, setUser } = useAuth();
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
+const [openNotifications, setOpenNotifications] = useState(false);
 
   const API_URL = process.env.NEXT_PUBLIC_URL;
   const [userForm, setUserForm] = useState({
@@ -79,6 +81,10 @@ useEffect(() => {
       setLoading(false);
     }
   };
+const saveNotificationSettings = () => {
+  alert("Saved");
+  setOpenNotifications(false);
+};
 
   if (!user) return <p className="text-white p-6">Loading...</p>;
 
@@ -86,7 +92,14 @@ useEffect(() => {
     <PatientGuard>
     <div className="p-6">
       <h1 className="text-2xl text-white font-bold mb-4">My Patient Profile</h1>
-
+ <button 
+  onClick={() => setOpenNotifications(true)}
+  className="bg-gray-700 text-white px-4 py-2 rounded"
+>
+  Notification Settings
+</button>
+<br></br>
+<br></br>
       {!editing ? (
         <div className="bg-white p-4 rounded shadow text-black space-y-3">
 
@@ -231,6 +244,14 @@ useEffect(() => {
         </div>
       )}
     </div>
+   
+      <Modal open={openNotifications} onClose={() => setOpenNotifications(false)}>
+        <h2 className="text-xl font-bold text-primary-dark mb-4">Notification Settings</h2>
+        <p className="mb-4 text-primary-dark">Customize how you want to get notifications</p>
+        <NotificationSettings user={user} onSave={saveNotificationSettings} />
+        <div className="flex justify-end gap-3">
+        </div>
+      </Modal>
     </PatientGuard>
   );
 }

@@ -45,4 +45,9 @@ class Professional extends Model
     return $this->hasMany(Availability::class, 'professionalID', 'professionalID');
 }
 
+public function services()
+{
+    return $this->hasMany(Service::class, 'professionalID', 'professionalID');
+}
+
 }

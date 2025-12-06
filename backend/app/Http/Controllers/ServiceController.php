@@ -21,16 +21,18 @@ class ServiceController extends Controller
 
     public function index(Request $request, $professionalID = null)
 {
-    $this->authorize('viewAny', Service::class);
+      $this->authorize('viewAny', Service::class);
 
     if ($professionalID) {
         $services = $this->service->listByProfessional($professionalID);
         return ServiceResource::collection($services);
     }
 
-    $services = $this->service->listAll();
+    $page = $request->get('page', 1);
+    $perPage = $request->get('per_page', 15);
 
-    return ServiceResource::collection($services);
+    $services = $this->service->listAll($perPage, $page);
+    return response()->json($services, 200);
 }
 
 

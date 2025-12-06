@@ -19,18 +19,25 @@ class EloquentServiceRepository implements ServiceRepositoryInterface
             'price' => $s->price,
             'category' => $s->category,
             'isActive' => $s->isActive,
+             'professional' => $s->professional ? [
+            'user' => $s->professional->user ? [
+                'firstName' => $s->professional->user->firstName,
+                'lastName'  => $s->professional->user->lastName,
+            ] : null
+        ] : null,
+            
         ]);
     }
 
     public function findById(int $id): ?Service
     {
-        $s = EloquentService::find($id);
+        $s = EloquentService::with(['professional.user'])->find($id);
         return $s ? $this->map($s) : null;
     }
 
     public function findByProfessional(int $professionalID): array
     {
-        return EloquentService::where('professionalID', $professionalID)
+        return EloquentService::with(['professional.user'])->where('professionalID', $professionalID)
             ->get()
             ->map(fn($s) => $this->map($s))
             ->all();
@@ -56,9 +63,32 @@ class EloquentServiceRepository implements ServiceRepositoryInterface
 
     public function all(): array
 {
-    return EloquentService::all()
+    return EloquentService::with(['professional.user'])->get()
         ->map(fn($s) => $this->map($s))
         ->all();
 }
 
+public function findAll(int $perPage = 15, int $page = 1): array
+{
+    $paginator = EloquentService::with(['professional.user'])->orderBy('serviceID', 'desc')
+        ->paginate($perPage, ['*'], 'page', $page);
+
+    $data = $paginator->getCollection()
+        ->map(fn($s) => $this->map($s))
+        ->all();
+
+    return [
+        'data' => $data,
+        'meta' => [
+            'total' => $paginator->total(),
+            'per_page' => $paginator->perPage(),
+            'current_page' => $paginator->currentPage(),
+            'last_page' => $paginator->lastPage(),
+        ],
+        'prev_page_url' => $paginator->previousPageUrl(),
+        'next_page_url' => $paginator->nextPageUrl(),
+    ];
 }
+
+}
+

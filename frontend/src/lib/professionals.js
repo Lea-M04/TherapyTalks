@@ -28,6 +28,11 @@ export async function getProfessionals() {
   return json.data;
 }
 
+export async function getProfessionalsAdmin(url = "/professionals?page=1") {
+  const res = await api.get(url);
+  return res.data;
+}
+
 export async function getProfessionalById(id) {
   const res = await api.get(`/professionals/${id}`);
   if (res.status !== 200) {
