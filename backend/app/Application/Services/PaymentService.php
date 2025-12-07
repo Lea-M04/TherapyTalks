@@ -23,6 +23,10 @@ class PaymentService
         $booking = EloquentBooking::findOrFail($bookingID);
         $service = EloquentService::findOrFail($booking->serviceID);
 
+        if ($service->price <= 0) {
+         throw new \Exception("Cannot create payment: Service price is zero.");
+    }
+
         $payment = new DomainPayment([
             'bookingID' => $bookingID,
             'patientID' => $booking->patientID,

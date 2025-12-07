@@ -30,6 +30,7 @@ Route::get('/professionals/{id}', [ProfessionalController::class, 'show']);
  Route::get('/professionals/{id}/services', [ServiceController::class, 'index']);
   Route::get('/services', [ServiceController::class, 'index']);
  Route::get('/services/{id}', [ServiceController::class, 'show']);
+  Route::post('/payments/confirm', [PaymentController::class, 'confirmStripe']);
  
 Route::middleware('auth:api')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
@@ -137,7 +138,6 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/payments/booking/{bookingID}', [PaymentController::class, 'createFromBooking']);
     Route::post('/payments/stripe-intent', [PaymentController::class, 'createIntent']);
-    Route::post('/payments/confirm', [PaymentController::class, 'confirmStripe']);
     Route::get('/payments', [PaymentController::class, 'index']);
     Route::get('/payments/my', [PaymentController::class, 'myPayments']);
 
