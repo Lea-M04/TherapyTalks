@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { getServicesByProfessional } from "@/lib/services";
 import BookingModal from "@/app/professionals/[id]/BookingModal";
-
+import StartChatButton from "@/components/chat/StartChatButton";
 export default function ProfessionalDetails({ professional }) {
   const user = professional.user || {};
   const [services, setServices] = useState([]);
@@ -18,6 +18,7 @@ export default function ProfessionalDetails({ professional }) {
   return (
     <div className="p-6 border rounded-xl shadow space-y-4">
 
+<StartChatButton professionalID={professional.professionalID} />
       <h1 className="text-3xl font-semibold">
         {user.firstName} {user.lastName}
       </h1>

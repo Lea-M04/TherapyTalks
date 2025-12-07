@@ -11,9 +11,10 @@ export default function Sidebar({ role }) {
       { label: "Home", href: NAV_ROUTES.HOME },
       { label: "Dashboard", href: DASHBOARD_ROUTES.PROFESSIONAL },
       { label: "Bookings", href: "/dashboard/professional/bookings" },
-      { label: "Chat", href: "/dashboard/professional/chat" },
+      { label: "Chat", href: "/chat" },
       { label: "Availability", href: DASHBOARD_ROUTES.PROFESSIONAL_AVAILABILITY },
       { label: "Services", href: DASHBOARD_ROUTES.PROFESSIONAL_SERVICES },
+      { label: "My Patients", href: DASHBOARD_ROUTES.PROFESSIONAL_PATIENTS },
 
     ],
     admin: [

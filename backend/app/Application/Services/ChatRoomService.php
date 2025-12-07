@@ -7,7 +7,7 @@ use App\Domain\Models\ChatRoom;
 use App\Models\Patient;
 use App\Models\Professional;
 use App\Application\Services\AuditLogService;
-
+use App\Models\User;
 class ChatRoomService
 {
     private ChatRoomRepositoryInterface $repo;
@@ -85,8 +85,10 @@ class ChatRoomService
 
     public function listForUser(int $userID): array
 {
-   $patientID = $this->getPatientIDFromUser($userID);
-    $professionalID = $this->getProfessionalIDFromUser($userID);
+    $user = User::with(['patient', 'professional'])->find($userID);
+
+    $patientID = $user->patient?->patientID;
+    $professionalID = $user->professional?->professionalID;
 
     return $this->repo->findForUser($userID, $patientID, $professionalID);
 }

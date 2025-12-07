@@ -9,6 +9,7 @@ use App\Http\Resources\ProfessionalResource;
 use App\Models\Professional;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use \App\Models\Booking;
 
 class ProfessionalController extends Controller
 {
@@ -95,4 +96,15 @@ class ProfessionalController extends Controller
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
+
+
+  public function myPatients($professionalID)
+{
+    $patients = $this->service->getMyPatients($professionalID);
+
+    return response()->json([
+        'data' => $patients,
+    ]);
+}
+
 }

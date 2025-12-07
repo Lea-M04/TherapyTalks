@@ -17,6 +17,8 @@ class EloquentChatRoomRepository implements ChatRoomRepositoryInterface
             'patientID' => $c->patientID,
             'created_at' => $c->created_at,
             'updated_at' => $c->updated_at,
+            'patient' => $c->patient,
+        'professional' => $c->professional,
         ]);
     }
 
@@ -70,21 +72,25 @@ class EloquentChatRoomRepository implements ChatRoomRepositoryInterface
     }
 
     
-   public function findForUser(int $userID, ?int $patientID, ?int $professionalID): array
+  public function findForUser(int $userID, ?int $patientID, ?int $professionalID): array
 {
     $query = EloquentChatRoom::query();
 
-    $query->where('createdBy', $userID);
+    $query->where(function ($q) use ($userID, $patientID, $professionalID) {
+        $q->where('createdBy', $userID);
 
-    if ($patientID) {
-        $query->orWhere('patientID', $patientID);
-    }
+        if ($patientID) {
+            $q->orWhere('patientID', $patientID);
+        }
 
-    if ($professionalID) {
-        $query->orWhere('professionalID', $professionalID);
-    }
+        if ($professionalID) {
+            $q->orWhere('professionalID', $professionalID);
+        }
+    });
 
-    $rows = $query->get();
+    $rows = $query
+        ->with(['patient.user', 'professional.user'])
+        ->get();
 
     return $rows->map(fn($c) => $this->mapToDomain($c))->all();
 }

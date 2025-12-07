@@ -11,4 +11,5 @@ interface ChatRoomRepositoryInterface
     public function findAll(int $perPage = 15, int $page = 1): array;
     public function update(ChatRoom $chatRoom): ChatRoom;
     public function delete(int $id): bool;
+    public function findForUser(int $userID, ?int $patientID, ?int $professionalID): array;
 }

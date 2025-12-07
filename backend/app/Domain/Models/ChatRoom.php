@@ -10,6 +10,8 @@ class ChatRoom
     public ?int $patientID;
     public ?string $created_at;
     public ?string $updated_at;
+    public ?object $patient = null;    
+    public ?object $professional = null; 
 
     public function __construct(array $data = [])
     {
@@ -19,6 +21,8 @@ class ChatRoom
         $this->patientID = $data['patientID'] ?? null;
         $this->created_at = $data['created_at'] ?? null;
         $this->updated_at = $data['updated_at'] ?? null;
+         $this->patient = $data['patient'] ?? null;
+        $this->professional = $data['professional'] ?? null;
     }
 
     public function toArray(): array

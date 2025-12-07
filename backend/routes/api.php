@@ -54,6 +54,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/professionals', [ProfessionalController::class, 'store']);
     Route::put('/professionals/{id}', [ProfessionalController::class, 'update']);
     Route::delete('/professionals/{id}', [ProfessionalController::class, 'destroy']);
+    Route::get('/professionals/{id}/mypatients', [ProfessionalController::class, 'myPatients']);
 
     Route::post('/consent_record', [ConsentRecordController::class, 'store']);
     Route::put('/consent_record/{id}', [ConsentRecordController::class, 'update']);
@@ -72,8 +73,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/chat_rooms', [ChatRoomController::class, 'store']);
     Route::put('/chat_rooms/{id}', [ChatRoomController::class, 'update']);
     Route::get('/chat_rooms', [ChatRoomController::class, 'index']);
-    Route::get('/chat_rooms/{id}', [ChatRoomController::class, 'show']);
+    Route::get('/chat_rooms/{id}', [ChatRoomController::class, 'show'])->whereNumber('id');
     Route::delete('/chat_rooms/{id}', [ChatRoomController::class, 'destroy']);
+    Route::get('/chat_rooms/my', [ChatRoomController::class, 'myChatRooms']);
 
     Route::post('/services', [ServiceController::class, 'store']);
     Route::put('/services/{id}', [ServiceController::class, 'update']);

@@ -4,6 +4,7 @@ namespace App\Infrastructure\Persistence\Eloquent;
 
 use App\Models\Professional as EloquentProfessional;
 use App\Domain\Models\Professional;
+use App\Models\Booking as EloquentBooking;
 use App\Domain\Interfaces\ProfessionalRepositoryInterface;
 
 class EloquentProfessionalRepository implements ProfessionalRepositoryInterface
@@ -138,4 +139,27 @@ class EloquentProfessionalRepository implements ProfessionalRepositoryInterface
     {
         return (bool) EloquentProfessional::where('professionalID', $id)->delete();
     }
+
+ public function getMyPatients($professionalID)
+{
+    return EloquentBooking::with(['patient.user'])
+        ->where('professionalID', $professionalID)
+        ->get()
+        ->map(fn ($b) => [
+            'patientID' => $b->patient->patientID,
+            'pseudonym' => $b->patient->pseudonym,
+            'user' => [
+                'firstName' => $b->patient->user->firstName,
+                'lastName' => $b->patient->user->lastName,
+                'email' => $b->patient->user->email,
+                'userID' => $b->patient->user->userID,
+            ]
+        ])
+        ->unique('patientID')
+        ->values();
+}
+
+
+
+
 }

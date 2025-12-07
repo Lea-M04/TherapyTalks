@@ -20,5 +20,6 @@ export const DASHBOARD_ROUTES = {
   ADMIN_AUDIT: "/dashboard/admin/audit",
   PROFESSIONAL_AVAILABILITY: "/dashboard/professional/availability",
   PROFESSIONAL_SERVICES: "/dashboard/professional/services",
+  PROFESSIONAL_PATIENTS: "/dashboard/professional/mypatients",
   ADMIN_VERIFICATIONS: "/dashboard/admin/verification",
 };

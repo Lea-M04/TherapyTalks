@@ -16,8 +16,6 @@ export default function Navbar() {
       <div className="flex items-center gap-6">
         <Link href={NAV_ROUTES.HOME}>Home</Link>
         <Link href={NAV_ROUTES.PROFESSIONALS}>Professionals</Link>
-        <Link href={NAV_ROUTES.CHAT}>Chat</Link>
-        <Link href={NAV_ROUTES.BOOKINGS}>Bookings</Link>
         {user && user.role==="professional" && (
             <Link href={DASHBOARD_ROUTES.PROFESSIONAL}>Dashboard</Link>
         )}
@@ -26,6 +24,8 @@ export default function Navbar() {
         )}
         {user ? (
           <div className="flex items-center gap-4">
+            <Link href={NAV_ROUTES.CHAT}>Chat</Link>
+        <Link href={NAV_ROUTES.BOOKINGS}>Bookings</Link>
             <span className="text-white">
               Welcome, {user.firstName}
             </span>

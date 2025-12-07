@@ -6,7 +6,7 @@ use App\Application\Services\ChatRoomService;
 use App\Http\Requests\CreateChatRoomRequest;
 use App\Http\Requests\UpdateChatRoomRequest;
 use App\Http\Resources\ChatRoomResource;
-use App\Domain\Models\ChatRoom;
+use App\Models\ChatRoom;
 use Illuminate\Http\Request;
 
 class ChatRoomController extends Controller
@@ -40,9 +40,14 @@ class ChatRoomController extends Controller
 }
 
 
-    public function show(int $id)
+    public function show($id)
     {
-        $chatRoom = $this->service->get($id);
+         $id = (int) $id;
+       $chatRoom = ChatRoom::with([
+    'patient.user',
+    'professional.user'
+])->find($id);
+
 
         if (!$chatRoom) {
             return response()->json(['message' => 'Chat room not found'], 404);
@@ -56,8 +61,21 @@ class ChatRoomController extends Controller
     public function store(CreateChatRoomRequest $request)
     {
         $this->authorize('create', ChatRoom::class);
-
+        
         $payload = $request->validated();
+          $professionalID = $payload['professionalID'];
+    $patientID = $payload['patientID'];
+
+    $existing = ChatRoom::with(['patient.user', 'professional.user'])->where('professionalID', $professionalID)
+        ->where('patientID', $patientID)
+        ->first();
+
+    if ($existing) {
+        return response()->json([
+            'data' => new ChatRoomResource($existing)
+        ]);
+    }
+
         $chatRoom = $this->service->create($payload);
 
         return (new ChatRoomResource($chatRoom))
@@ -99,4 +117,19 @@ class ChatRoomController extends Controller
 
         return response()->json(null, 204);
     }
+
+    public function myChatRooms()
+{
+    $user = auth()->user();
+
+    $data = $this->service->listForUser($user->userID);
+
+    return response()->json([
+        'data' => array_map(fn($c) => new ChatRoomResource($c), $data)
+    ]);
 }
+
+}
+
+
+

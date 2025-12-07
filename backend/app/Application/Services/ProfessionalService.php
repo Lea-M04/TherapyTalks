@@ -92,4 +92,10 @@ class ProfessionalService
     
         return $deleted;
     }
+
+    public function getMyPatients(int $professionalID)
+{
+    return $this->repo->getMyPatients($professionalID);
+}
+
 }

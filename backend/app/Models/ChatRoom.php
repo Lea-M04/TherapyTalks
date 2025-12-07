@@ -19,4 +19,15 @@ class ChatRoom extends Model
         'professionalID',
         'patientID',
     ];
+
+ public function patient()
+{
+    return $this->belongsTo(Patient::class, 'patientID', 'patientID');
+}
+
+public function professional()
+{
+    return $this->belongsTo(Professional::class, 'professionalID', 'professionalID');
+}
+
 }

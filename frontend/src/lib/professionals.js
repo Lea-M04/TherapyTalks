@@ -45,3 +45,8 @@ export const getUsersWithoutProfessional = async () => {
   const res = await api.get("/admin/users/no-professional");
   return res.data;
 };
+
+export const getMyPatients = async (professionalID) => {
+  const res = await api.get(`/professionals/${professionalID}/mypatients`);
+  return res.data.data;
+};

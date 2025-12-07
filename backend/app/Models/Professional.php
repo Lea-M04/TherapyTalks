@@ -50,4 +50,10 @@ public function services()
     return $this->hasMany(Service::class, 'professionalID', 'professionalID');
 }
 
+
+public function bookings()
+{
+    return $this->hasMany(Booking::class, 'professionalID', 'professionalID');
+}
+
 }

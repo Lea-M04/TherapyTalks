@@ -12,4 +12,6 @@ interface ProfessionalRepositoryInterface
     public function findAll(int $perPage = 15, int $page = 1): array;
     public function update(Professional $professional): Professional;
     public function delete(int $id): bool;
+    public function getMyPatients(int $professionalID);
+
 }
