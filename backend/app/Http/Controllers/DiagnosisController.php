@@ -38,7 +38,7 @@ class DiagnosisController extends Controller
 
     if ($user->role === 'patient') {
 
-        $patient = \App\Models\Patient::where('userID', $user->id)->first();
+        $patient = \App\Models\Patient::where('userID', $user->userID)->first();
 
         if (!$patient) {
             return response()->json(['data' => []]);

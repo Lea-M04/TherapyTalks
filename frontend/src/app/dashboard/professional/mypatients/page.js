@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getMyPatients } from "@/lib/professionals";
 import { useAuth } from "@/lib/context/AuthContext";
 import StartChatButton from "@/components/chat/StartChatButton";
+import Link from "next/link";
 export default function MyPatientsPage() {
   const { user } = useAuth();
   const professional = user?.professional;
@@ -59,6 +60,14 @@ const [search, setSearch] = useState("");
             <StartChatButton professionalID={professional.professionalID} patientID={p.patientID}>
               Start Chat
             </StartChatButton>
+
+        <Link
+          href={`/dashboard/professional/mypatients/${p.patientID}/diagnosis`}
+          className="bg-primary-purple text-white px-4 py-2 rounded"
+        >
+          Add / Edit Diagnosis
+        </Link>
+
           </div>
         ))}
       </div>

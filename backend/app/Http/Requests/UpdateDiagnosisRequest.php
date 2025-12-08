@@ -14,11 +14,11 @@ class UpdateDiagnosisRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'patientID' => 'sometimes|exists:users,userID',
-            'professionalID' => 'sometimes|exists:users,userID',
+            'patientID' => 'sometimes|exists:patients,patientID',
+            'professionalID' => 'sometimes|exists:professionals,professionalID',
             'title' => 'sometimes|string|max:255',
             'description' => 'sometimes|nullable|string',
-            'securityLevel' => 'sometimes|in:low,normal,high',
+            'securityLevel' => 'sometimes|in:normal,sensitive,private',
         ];
     }
 }

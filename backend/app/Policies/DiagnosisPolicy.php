@@ -39,7 +39,7 @@ public function view(User $user, Diagnosis $diagnosis): bool
     {
         return 
             $user->role === 'admin' ||
-            ($user->role === 'professional' && $user->userID === $diagnosis->professionalID);
+            ($user->role === 'professional' && $user->professional->professionalID === $diagnosis->professionalID);
     }
 
     public function delete(User $user, Diagnosis $diagnosis): bool

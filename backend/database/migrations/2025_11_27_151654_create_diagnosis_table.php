@@ -21,15 +21,13 @@ return new class extends Migration
             $table->string('securityLevel')->default('normal');
 
             $table->timestamps();
-
-
             $table->foreign('patientID')
-                  ->references('userID')->on('users')
-                  ->onDelete('cascade');
+                ->references('patientID')->on('patients')
+                ->onDelete('cascade');
 
             $table->foreign('professionalID')
-                  ->references('userID')->on('users')
-                  ->onDelete('cascade');
+                ->references('professionalID')->on('professionals')
+                ->onDelete('cascade');
         });
     }
 

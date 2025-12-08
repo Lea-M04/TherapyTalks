@@ -21,11 +21,11 @@ class Diagnosis extends Model
 
     public function patient()
     {
-        return $this->belongsTo(User::class, 'patientID', 'userID');
+        return $this->belongsTo(Patient::class, 'patientID', 'patientID');
     }
 
     public function professional()
     {
-        return $this->belongsTo(User::class, 'professionalID', 'userID');
+        return $this->belongsTo(Professional::class, 'professionalID', 'professionalID');
     }
 }

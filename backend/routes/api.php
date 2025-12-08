@@ -100,6 +100,8 @@ Route::middleware('auth:api')->group(function () {
     Route::patch('/messages/{id}/read', [MessageController::class, 'markRead']);
     Route::delete('/messages/{id}', [MessageController::class, 'destroy']);
 
+    Route::get('/consent_record/template/{professionalID}', [ConsentRecordController::class, 'getTemplate']);
+Route::post('/consent_record/accept/{templateID}', [ConsentRecordController::class, 'acceptConsent']);
 
     Route::get('/consent_history', [ConsentHistoryController::class, 'index']);
     Route::get('/consent_history/{id}', [ConsentHistoryController::class, 'show']);

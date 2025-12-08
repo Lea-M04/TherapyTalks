@@ -6,6 +6,7 @@ import { updateUser, updatePatient , getFullProfile} from "@/lib/auth";
 import PatientGuard from "@/components/guards/PatientGuard"; 
 import NotificationSettings from "@/components/NotificationSettings";
 import Modal from "@/components/ui/Modal";
+import Link from "next/link";
 export default function PatientProfilePage() {
   const { user, setUser } = useAuth();
   const [editing, setEditing] = useState(false);
@@ -100,6 +101,12 @@ const saveNotificationSettings = () => {
 </button>
 <br></br>
 <br></br>
+<Link 
+  href="/my-diagnosis"
+  className="bg-green-700 text-white px-4 py-2 rounded"
+>
+  View Diagnosis
+</Link>
       {!editing ? (
         <div className="bg-white p-4 rounded shadow text-black space-y-3">
 

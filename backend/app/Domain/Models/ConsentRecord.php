@@ -9,7 +9,7 @@ class ConsentRecord
     public bool $isRevoked;
     public string $signedAt;
     public ?string $revokedAt;
-    public int $patientID;
+    public ?int $patientID=null;
     public int $professionalID;
 
     public ?string $created_at;
@@ -23,7 +23,7 @@ class ConsentRecord
         $this->isRevoked = $data['isRevoked'] ?? false;
         $this->signedAt = $data['signedAt'];
         $this->revokedAt = $data['revokedAt'] ?? null;
-        $this->patientID = $data['patientID'];
+        $this->patientID = $data['patientID'] ?? null;
         $this->professionalID = $data['professionalID'];
         $this->created_at = $data['created_at'] ?? null;
         $this->updated_at = $data['updated_at'] ?? null;
