@@ -6,11 +6,12 @@ import Link from "next/link";
 export default function ChatListPage() {
   const [rooms, setRooms] = useState([]);
 const [search, setSearch] = useState("");
+
   useEffect(() => {
     getMyChatRooms().then(setRooms);
   }, []);
 
- const filtered = rooms.filter((r) => {
+ const filtered = rooms.filter(r => r.otherUser).filter((r) => {
     const first = r.otherUser?.firstName?.toLowerCase() || "";
     const last = r.otherUser?.lastName?.toLowerCase() || "";
    
@@ -20,6 +21,7 @@ const [search, setSearch] = useState("");
       full.includes(search.toLowerCase())
     );
   });
+  
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Your Chats</h1>
@@ -42,7 +44,7 @@ const [search, setSearch] = useState("");
             className="block p-4 border rounded shadow hover:bg-gray-50"
           >
             <p className="font-medium">
-              {r.otherUser.firstName} {r.otherUser.lastName}
+              {r.otherUser?.firstName} {r.otherUser?.lastName}
             </p>
           </Link>
         ))}

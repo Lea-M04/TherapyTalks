@@ -26,13 +26,14 @@ export default function Navbar() {
         {user ? (
           <div className="flex items-center gap-4">
             <Link href={NAV_ROUTES.CHAT}>Chat</Link>
-        <Link href={NAV_ROUTES.BOOKINGS}>Bookings</Link>
         <NotificationDropdown />
             <span className="text-white">
               Welcome, {user.firstName}
             </span>
              {user && user.role==="patient" && (
-            <Link href={NAV_ROUTES.PROFILE}>Profile</Link>
+               <>
+              <Link href={NAV_ROUTES.BOOKINGS}>Bookings</Link>
+              <Link href={NAV_ROUTES.PROFILE}>Profile</Link></>
         )}
             <button onClick={logout} 
             className="px-3 py-1 rounded bg-red-600 text-white">Logout</button>

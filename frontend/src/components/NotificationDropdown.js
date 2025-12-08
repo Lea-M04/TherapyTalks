@@ -3,9 +3,12 @@
 import { useEffect, useState } from "react";
 import { getNotifications, markNotificationRead } from "@/lib/notification";
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 export default function NotificationDropdown() {
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
+    const router = useRouter();
 
   useEffect(() => {
     load();
@@ -13,7 +16,9 @@ export default function NotificationDropdown() {
 
   async function load() {
     const res = await getNotifications();
-    setNotifications(res.data.filter(n => !n.isRead)); 
+    console.log("DATA RECEIVED:", res.data);
+    const list = res.data?.data ?? []; 
+    setNotifications(list.filter(n => !n.isRead)); 
   }
 
   async function markAsRead(id) {
@@ -45,12 +50,13 @@ export default function NotificationDropdown() {
                 key={n.notificationID}
                 href={n.link || "#"}
                 className="p-2 border-b cursor-pointer hover:bg-gray-100"
-                onClick={() => {
-                    markAsRead(n.notificationID);
-                    if (n.link?.startsWith("/chat/")) {
-                    window.location.href = n.link;
-                    }
-                }}>
+                onClick={async (e) => {
+                       e.preventDefault();
+                    await markAsRead(n.notificationID);
+                    setNotifications(prev => prev.filter(x => x.notificationID !== n.notificationID));
+                    router.push(n.link);
+                }}
+                >
                 <p className="font-semibold">{n.title}</p>
                 <p className="text-sm">{n.message}</p>
               </Link>
