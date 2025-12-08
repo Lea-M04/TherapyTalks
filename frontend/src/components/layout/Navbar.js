@@ -4,6 +4,7 @@ import Link from "next/link";
 import { DASHBOARD_ROUTES, NAV_ROUTES } from "@/lib/routes";
 import Button from "../ui/Button";
 import { useAuth } from "@/lib/context/AuthContext";
+import NotificationDropdown from "@/components/NotificationDropdown";
 
 export default function Navbar() {
    const { user, logout } = useAuth();
@@ -26,6 +27,7 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             <Link href={NAV_ROUTES.CHAT}>Chat</Link>
         <Link href={NAV_ROUTES.BOOKINGS}>Bookings</Link>
+        <NotificationDropdown />
             <span className="text-white">
               Welcome, {user.firstName}
             </span>
