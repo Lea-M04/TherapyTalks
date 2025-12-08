@@ -60,4 +60,33 @@ class NotificationController extends Controller
         $this->service->delete($id);
         return response()->json(null,204);
     }
+    public function store(Request $request)
+{
+    $validated = $request->validate([
+        'title' => 'required|string',
+        'message' => 'required|string',
+        'type' => 'required|in:system,booking,message,alert,info',
+        'userID' => 'required|exists:users,userID',
+        'link' => 'nullable|string'
+    ]);
+
+    $notif = $this->service->create($validated);
+
+    return new NotificationResource($notif);
+}
+public function all(Request $request)
+{
+
+    if (auth()->user()->role !== 'admin') {
+        return response()->json(['message' => 'Forbidden'], 403);
+    }
+
+    $per = (int) $request->get('per_page', 50);
+    $page = (int) $request->get('page', 1);
+
+    $result = $this->service->listAll($per, $page);
+
+    return response()->json($result);
+}
+
 }

@@ -4,6 +4,8 @@ namespace App\Application\Services;
 use App\Domain\Interfaces\NotificationRepositoryInterface;
 use App\Models\Notification as EloquentNotification;
 use App\Application\Services\AuditLogService;
+use App\Models\Notification;
+
 
 class NotificationService
 {
@@ -80,5 +82,16 @@ if ($exists) {
     public function findById(int $id) {
     return $this->repo->findById($id);
 }
+public function create(array $data)
+{
+    return Notification::create($data);
+}
+public function listAll($per, $page)
+{
+    return Notification::with('user')
+        ->orderBy('notificationID', 'desc')
+        ->paginate($per, ['*'], 'page', $page);
+}
+
 
 }
