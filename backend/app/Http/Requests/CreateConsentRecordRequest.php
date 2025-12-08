@@ -16,7 +16,7 @@ class CreateConsentRecordRequest extends FormRequest
             'signedAt' => 'required|date',
             'isRevoked' => 'boolean',
             'revokedAt' => 'nullable|date',
-            'patientID' => 'required|exists:patients,patientID',
+            'patientID' => 'nullable|integer|exists:patients,patientID',
             'professionalID' => 'required|exists:professionals,professionalID',
         ];
     }

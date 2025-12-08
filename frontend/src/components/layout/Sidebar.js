@@ -15,6 +15,7 @@ export default function Sidebar({ role }) {
       { label: "Availability", href: DASHBOARD_ROUTES.PROFESSIONAL_AVAILABILITY },
       { label: "Services", href: DASHBOARD_ROUTES.PROFESSIONAL_SERVICES },
       { label: "My Patients", href: DASHBOARD_ROUTES.PROFESSIONAL_PATIENTS },
+      { label: "Consents", href: DASHBOARD_ROUTES.PROFESSIONAL_CONSENT },
 
     ],
     admin: [

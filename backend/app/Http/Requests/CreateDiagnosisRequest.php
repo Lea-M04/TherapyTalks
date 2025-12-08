@@ -14,11 +14,11 @@ class CreateDiagnosisRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'patientID' => 'required|exists:users,userID',
-            'professionalID' => 'required|exists:users,userID',
+            'patientID' => 'required|exists:patients,patientID',
+            'professionalID' => 'required|exists:professionals,professionalID',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'securityLevel' => 'nullable|in:low,normal,high',
+            'securityLevel' => 'nullable|in:normal,sensitive,private',
         ];
     }
 }

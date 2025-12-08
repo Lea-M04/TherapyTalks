@@ -92,4 +92,42 @@ class ConsentRecordController extends Controller
 
         return response()->json(null, 204);
     }
+
+
+    public function getTemplate(int $professionalID)
+{
+    $template = EloquentConsent::whereNull('patientID')
+        ->where('professionalID', $professionalID)
+        ->first();
+
+    if (!$template) {
+        return response()->json(['message' => 'Template not found'], 404);
+    }
+
+    return new ConsentRecordResource($template);
 }
+
+
+public function acceptConsent(Request $req, int $templateID)
+{
+    $patientID = auth()->id();
+
+    $template = $this->service->get($templateID);
+
+    if (!$template) {
+        return response()->json(['message' => 'not found'], 404);
+    }
+
+    $data = $template->toArray();
+    $data['patientID'] = $patientID;
+    $data['signedAt'] = now();
+    $data['isRevoked'] = false;
+    $data['revokedAt'] = null;
+
+    $instance = $this->service->create($data);
+
+    return new ConsentRecordResource($instance);
+}
+
+}
+
