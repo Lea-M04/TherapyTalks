@@ -51,22 +51,23 @@ export default function CheckoutModal({ booking, onClose, onPaid }) {
      init();
    }, [booking]);
 
-  async function handleSuccess(paymentIntent) {
-
-   try {
-    await confirmPaymentOnServer({
-        paymentID: paymentRecord.paymentID,
-        transactionID: paymentIntent.id,
-     });
-      onPaid?.(paymentRecord);
-      onClose?.();
-      alert("Pagesa u krye me sukses! 🎉");
+async function handleSuccess(paymentIntent) {
+    let confirmationSucceeded = true; 
+    try {
+        await confirmPaymentOnServer({
+            paymentID: paymentRecord.paymentID,
+            transactionID: paymentIntent.id,
+        });
+        onPaid?.(paymentRecord);
+        alert("Pagesa u krye me sukses! 🎉");
     } catch (err) {
-      console.error("Confirm error", err);
-      alert("Pagesa u krye, por dështoi konfirmimi në server. Ju lutemi kontaktoni mbështetjen.");
+        confirmationSucceeded = false;
+        console.error("Confirm error", err);
+        alert("Pagesa u krye, por dështoi konfirmimi në server. Ju lutemi kontaktoni mbështetjen.");
+    } finally {
+        onClose?.(); 
     }
-  }
-
+}
 
   if (processing) {
     return (
