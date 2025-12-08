@@ -17,8 +17,11 @@ export default function NotificationDropdown() {
   async function load() {
     const res = await getNotifications();
     console.log("DATA RECEIVED:", res.data);
-    const list = res.data?.data ?? []; 
-    setNotifications(list.filter(n => !n.isRead)); 
+     const list = Array.isArray(res.data)
+    ? res.data
+    : res.data?.data ?? [];
+
+  setNotifications(list.filter(n => !n.isRead));
   }
 
   async function markAsRead(id) {
@@ -42,6 +45,7 @@ export default function NotificationDropdown() {
 
       {open && (
         <div className="absolute right-0 mt-2 w-72 bg-white text-black shadow-lg rounded p-3">
+          <h4 onClick={()=>router.push("/notifications")}>View all</h4>
           {notifications.length === 0 ? (
             <p className="text-sm text-gray-600">No notifications</p>
           ) : (

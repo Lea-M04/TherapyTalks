@@ -21,28 +21,35 @@ class PaymentService
         $this->audit = $audit;
     }
 
-    public function createForBooking(int $bookingID): DomainPayment
-    {
-        $booking = EloquentBooking::findOrFail($bookingID);
-        $service = EloquentService::findOrFail($booking->serviceID);
+   public function createForBooking(int $bookingID): DomainPayment
+{
+    $booking = EloquentBooking::findOrFail($bookingID);
+    $service = EloquentService::findOrFail($booking->serviceID);
 
-        if ($service->price <= 0) {
-         throw new \Exception("Cannot create payment: Service price is zero.");
+    if ($service->price <= 0) {
+        throw new \Exception("Cannot create payment: Service price is zero.");
     }
 
-        $payment = new DomainPayment([
-            'bookingID' => $bookingID,
-            'patientID' => $booking->patientID,
-            'amount' => $service->price,
-            'status' => 'pending',
-        ]);
+    $payment = new DomainPayment([
+        'bookingID' => $bookingID,
+        'patientID' => $booking->patientID,
+        'amount' => $service->price,
+        'status' => 'pending',
+    ]);
 
-        $created = $this->repo->create($payment);
+    $created = $this->repo->create($payment);
+    $userID = $booking->patient->userID;
 
-        $this->audit->write('payment_created', 'Payment', $created->paymentID, 'success', $booking->patientID);
+    $this->audit->write(
+        'payment_created',
+        'Payment',
+        $created->paymentID,
+        'success',
+        $userID
+    );
 
-        return $created;
-    }
+    return $created;
+}
 
    public function markPaid(int $paymentID, string $transactionID): DomainPayment
 {
@@ -53,9 +60,8 @@ class PaymentService
 
     $updated = $this->repo->update($payment);
 
-    $this->audit->write('payment_paid', 'Payment', $updated->paymentID, 'success', $updated->patientID);
-
     $booking = EloquentBooking::find($payment->bookingID);
+    $this->audit->write('payment_paid', 'Payment', $updated->paymentID, 'success',  $booking->patient->userID);
     
 
     $room = app(VirtualRoomService::class)
@@ -65,7 +71,7 @@ class PaymentService
         'title' => 'Virtual Meeting Ready',
         'message' => 'Your meeting link has been created.',
         'type' => 'booking',
-        'userID' => $booking->patientID,
+        'userID' => $booking->patient->userID,
         'link' => $room->link,
         'systemBy' => null,
     ]);
@@ -73,7 +79,7 @@ class PaymentService
         'title' => 'New Virtual Meeting Scheduled',
         'message' => 'A meeting link has been generated.',
         'type' => 'booking',
-        'userID' => $booking->professionalID,
+        'userID' => $booking->professional->userID,
         'link' => $room->link,
         'systemBy' => null,
     ]);
