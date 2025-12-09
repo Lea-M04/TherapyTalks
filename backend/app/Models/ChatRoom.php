@@ -29,5 +29,9 @@ public function professional()
 {
     return $this->belongsTo(Professional::class, 'professionalID', 'professionalID');
 }
+public function creator()
+{
+    return $this->belongsTo(User::class, 'createdBy', 'userID');
+}
 
 }

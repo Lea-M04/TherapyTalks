@@ -21,22 +21,51 @@ class ChatRoomResource extends JsonResource
              $isPatient = true;
         }
         return [
-            'chatRoomID' => $c->chatRoomID,
-            'createdBy' => $c->createdBy,
-            'professionalID' => $c->professionalID,
-            'patientID' => $c->patientID,
-            'created_at' => $c->created_at,
-            'updated_at' => $c->updated_at,
- 'patientUserID' => $c->patient?->user?->userID,
-'professionalUserID' => $c->professional?->user?->userID,
- 'otherUser' => $other ? [
-                'userID' => $other->userID,
-                 'displayName' => $isPatient && $c->patient?->pseudonym
+    'chatRoomID' => $c->chatRoomID,
+    'createdBy' => $c->createdBy,
+    'professionalID' => $c->professionalID,
+    'patientID' => $c->patientID,
+    'created_at' => $c->created_at,
+    'updated_at' => $c->updated_at,
+
+    'patientUserID' => $c->patient?->user?->userID,
+    'professionalUserID' => $c->professional?->user?->userID,
+
+    'otherUser' => $other ? [
+        'userID' => $other->userID,
+        'displayName' => $isPatient && $c->patient?->pseudonym
             ? $c->patient->pseudonym
             : $other->firstName . ' ' . $other->lastName,
-                'firstName' => $other->firstName,
-                'lastName' => $other->lastName,
-            ] : null,
-        ];
+        'firstName' => $other->firstName,
+        'lastName' => $other->lastName,
+    ] : null,
+
+
+    'createdByUser' => $c->createdBy ? [
+    'userID' => $c->createdBy,
+    'firstName' => optional(\App\Models\User::find($c->createdBy))->firstName,
+    'lastName' => optional(\App\Models\User::find($c->createdBy))->lastName,
+] : null,
+
+
+    'professional' => $c->professional ? [
+            'professionalID' => $c->professional->professionalID,
+            'user' => [
+                'userID' => $c->professional->user?->userID,
+                'firstName' => $c->professional->user?->firstName,
+                'lastName' => $c->professional->user?->lastName,
+            ]
+        ] : null,
+
+
+        'patient' => $c->patient ? [
+            'patientID' => $c->patient->patientID,
+            'user' => [
+                'userID' => $c->patient->user?->userID,
+                'firstName' => $c->patient->user?->firstName,
+                'lastName' => $c->patient->user?->lastName,
+            ]
+        ] : null,
+            ];
     }
 }

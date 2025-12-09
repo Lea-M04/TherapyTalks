@@ -26,4 +26,5 @@ export const DASHBOARD_ROUTES = {
   ADMIN_VERIFICATIONS: "/dashboard/admin/verification",
   NOTIFICATION_SETTINGS: "/dashboard/admin/notificationSettings",
   NOTIFICATIONS: "/dashboard/admin/notifications",
+  CHAT_ROOMS: "/dashboard/admin/chatRooms",
 };
