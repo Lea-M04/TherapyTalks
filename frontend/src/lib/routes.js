@@ -24,4 +24,6 @@ export const DASHBOARD_ROUTES = {
   PROFESSIONAL_PATIENTS: "/dashboard/professional/mypatients",
   PROFESSIONAL_CONSENT: "/dashboard/professional/consent",
   ADMIN_VERIFICATIONS: "/dashboard/admin/verification",
+  NOTIFICATION_SETTINGS: "/dashboard/admin/notificationSettings",
+  NOTIFICATIONS: "/dashboard/admin/notifications",
 };

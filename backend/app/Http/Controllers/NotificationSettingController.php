@@ -52,4 +52,11 @@ class NotificationSettingController extends Controller
 
         return new NotificationSettingResource($s);
     }
+    public function index()
+{
+    $settings = NotificationSetting::with('user')->paginate(10);
+
+    return response()->json($settings);
+}
+
 }

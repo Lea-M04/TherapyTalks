@@ -123,11 +123,17 @@ Route::post('/consent_record/accept/{templateID}', [ConsentRecordController::cla
     Route::get('/notifications/{id}', [NotificationController::class,'show']);
     Route::patch('/notifications/{id}/read', [NotificationController::class,'markRead']);
     Route::delete('/notifications/{id}', [NotificationController::class,'destroy']);
+    Route::post('/notifications', [NotificationController::class, 'store']);
+    Route::get('/notifications-all', [NotificationController::class, 'all']);
+
+
 
 
     Route::get('/notification_settings/{userID}', [NotificationSettingController::class, 'show']);
     Route::post('/notification_settings', [NotificationSettingController::class, 'store']);
     Route::put('/notification_settings/{id}', [NotificationSettingController::class, 'update']);
+    Route::get('/notification_settings', [NotificationSettingController::class, 'index']);
+
 
     Route::get('/booking', [BookingController::class, 'index']);
     Route::get('/booking/{id}', [BookingController::class, 'show']);
