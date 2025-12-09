@@ -22,7 +22,7 @@ export default function CompletePatientProfile() {
     async function loadUser() {
       try {
          const data = await me();
-        setUserID(data.user.userID);
+        setUserID(data.userID);
       } catch (err) {
         console.log("ME ERROR:", err);
         router.push("/auth/login");
@@ -44,7 +44,7 @@ export default function CompletePatientProfile() {
         userID,
       });
 
-      router.push("/dashboard/patient");
+      router.push("/");
     } catch (err) {
       console.log("PATIENT ERROR:", err.response?.data);
     }

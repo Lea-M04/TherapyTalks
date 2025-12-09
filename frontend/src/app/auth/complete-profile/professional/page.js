@@ -27,7 +27,7 @@ export default function CompleteProfessionalProfile() {
     async function loadUser() {
       try {
         const data = await me();
-        setUserID(data.user.userID);
+        setUserID(data.userID);
       } catch (err) {
         console.log("ME ERROR:", err);
         router.push("/auth/login");

@@ -20,6 +20,12 @@ export async function login(email, password) {
   };
 }
 
+export async function register(data) {
+  const res = await api.post("/register", data);
+  return res.data;
+}
+
+
 export async function me() {
   const res = await api.get("/me");
   return res.data.user;
