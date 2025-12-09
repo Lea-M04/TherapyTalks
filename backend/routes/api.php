@@ -49,8 +49,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/patients', [PatientController::class, 'store']); 
     Route::put('/patients/{id}', [PatientController::class, 'update']);
     Route::get('/patients', [PatientController::class, 'index']);
-    Route::get('/patients/{id}', [PatientController::class, 'show']);
+    Route::get('/patients/{id}', [PatientController::class, 'show'])->whereNumber('id');;
     Route::delete('/patients/{id}', [PatientController::class, 'destroy']);
+    Route::get('/patients/all', [PatientController::class, 'all']);
 
     Route::post('/professionals', [ProfessionalController::class, 'store']);
     Route::put('/professionals/{id}', [ProfessionalController::class, 'update']);
@@ -100,7 +101,7 @@ Route::middleware('auth:api')->group(function () {
     Route::patch('/messages/{id}/read', [MessageController::class, 'markRead']);
     Route::delete('/messages/{id}', [MessageController::class, 'destroy']);
 
-    Route::get('/consent_record/template/{professionalID}', [ConsentRecordController::class, 'getTemplate']);
+    Route::get('/consent_record/template/{professionalID}', [ConsentRecordController::class, 'getTemplatesByProfessional']);
 Route::post('/consent_record/accept/{templateID}', [ConsentRecordController::class, 'acceptConsent']);
 
     Route::get('/consent_history', [ConsentHistoryController::class, 'index']);

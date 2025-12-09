@@ -18,6 +18,7 @@ class EloquentPatientRepository implements PatientRepositoryInterface
             'emergencyContactPhone' => $p->emergencyContactPhone,
             'insuranceNumber' => $p->insuranceNumber,
             'pseudonym' => $p->pseudonym,
+               'user' => $p->user ? $p->user->toArray() : null,
         ]);
     }
 
@@ -91,4 +92,13 @@ class EloquentPatientRepository implements PatientRepositoryInterface
     {
         return (bool) EloquentPatient::where('patientID', $id)->delete();
     }
+
+public function all()
+{
+    return EloquentPatient::with('user')
+        ->get()
+        ->map(fn($p) => $this->mapToDomain($p))
+        ->all();
+}
+
 }

@@ -20,7 +20,11 @@ const toMySQLDate = (d) => {
 };
   useEffect(() => {
     if (!profID) return;
-    getTemplatesByProfessional(profID).then(setTemplates).catch(console.error);
+   getTemplatesByProfessional(profID)
+  .then(res => {
+    setTemplates(res)})
+  .catch(console.error);
+
   }, [profID]);
 
   const saveTemplate = async () => {
@@ -31,7 +35,7 @@ const toMySQLDate = (d) => {
       const created = await createConsent({ ...form, patientID: null, professionalID: profID,  signedAt: toMySQLDate(new Date()) });
       alert("Template created");
     }
-    // reload
+
     const t = await getTemplatesByProfessional(profID);
     setTemplates(t);
     setEditing(null);

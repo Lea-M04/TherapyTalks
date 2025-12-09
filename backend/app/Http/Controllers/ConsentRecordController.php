@@ -53,9 +53,13 @@ class ConsentRecordController extends Controller
         $payload = $request->validated();
         $consent = $this->service->create($payload);
 
-        return (new ConsentRecordResource($consent))
+        $eloquent = \App\Models\ConsentRecord::with(['patient.user','professional.user'])
+    ->find($consent->consentID);
+
+        return (new ConsentRecordResource($eloquent))
             ->response()
             ->setStatusCode(201);
+
     }
 
     public function update(UpdateConsentRecordRequest $request, int $id)
@@ -71,7 +75,13 @@ class ConsentRecordController extends Controller
         $payload = $request->validated();
         $updated = $this->service->update($id, $payload);
 
-        return new ConsentRecordResource($updated);
+     $eloquent = \App\Models\ConsentRecord::with(['patient.user','professional.user'])
+    ->find($consent->consentID);
+
+        return (new ConsentRecordResource($eloquent))
+            ->response()
+            ->setStatusCode(201);
+
     }
 
     public function destroy(int $id)
@@ -93,19 +103,18 @@ class ConsentRecordController extends Controller
         return response()->json(null, 204);
     }
 
-
-    public function getTemplate(int $professionalID)
+public function getTemplatesByProfessional(int $professionalID)
 {
-    $template = EloquentConsent::whereNull('patientID')
+    $templates = \App\Models\ConsentRecord::with(['patient.user','professional.user'])
+        ->whereNull('patientID')
         ->where('professionalID', $professionalID)
-        ->first();
+        ->get();
 
-    if (!$template) {
-        return response()->json(['message' => 'Template not found'], 404);
-    }
-
-    return new ConsentRecordResource($template);
+    return response()->json(
+        ConsentRecordResource::collection($templates)->resolve()
+    );
 }
+
 
 
 public function acceptConsent(Request $req, int $templateID)

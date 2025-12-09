@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePatientRequest;
 use App\Http\Resources\PatientResource;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\Patient;
 
 class PatientController extends Controller
 {
@@ -25,8 +26,12 @@ class PatientController extends Controller
     $perPage = (int) $request->get('per_page', 15);
     $page = (int) $request->get('page', 1);
 
-    $result = $this->service->list($perPage, $page);
-    $collection = array_map(fn($p) => new PatientResource($p), $result['data']);
+   $result = $this->service->list($perPage, $page);
+
+$collection = array_map(
+    fn($p) => new PatientResource(Patient::with('user')->find($p->patientID)),
+    $result['data']
+);
 
     return response()->json([
         'data' => $collection,
@@ -44,7 +49,7 @@ public function show(int $id)
 
     $this->authorize('view', $patient);
 
-    return new PatientResource($patient);
+  return new PatientResource(Patient::with('user')->find($id));
 }
 
 public function store(CreatePatientRequest $request)
@@ -93,5 +98,17 @@ public function destroy(int $id)
 
     return response()->json(null, 204);
 }
+
+public function all()
+{
+    $this->authorize('viewAny', Patient::class);
+
+    $patients = $this->service->all();
+
+    return response()->json([
+        'data' => array_map(fn($p) => new PatientResource($p), $patients),
+    ]);
+}
+
 
 }

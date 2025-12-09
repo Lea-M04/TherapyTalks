@@ -13,6 +13,7 @@ class Patient
         public ?string $pseudonym;
         public ?string $created_at;
         public ?string $updated_at;
+        public ?array $user;
 
 
         public function __construct(array $data = [])
@@ -27,6 +28,7 @@ class Patient
             $this->pseudonym = $data['pseudonym'] ?? null;
             $this->created_at = $data['created_at'] ?? null;
             $this->updated_at = $data['updated_at'] ?? null;
+            $this->user = $data['user'] ?? null;
         }
 
 
@@ -43,6 +45,7 @@ class Patient
             'pseudonym' => $this->pseudonym,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+              'user' => $this->user,
         ];
         }
 }

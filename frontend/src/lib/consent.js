@@ -1,11 +1,9 @@
 import api from "@/lib/axios";
 
-export const getTemplatesByProfessional = async (professionalID) => {
-  const res = await api.get(`/consent_record?professionalID=${professionalID}`);
-  const data = res.data?.data || res.data || [];
-
-  return data.filter(t => Number(t.professionalID) === Number(professionalID));
-};
+export async function getTemplatesByProfessional(profID) {
+  const res = await api.get(`/consent_record/template/${profID}`);
+  return res.data;
+}
 
 export const getConsentByPatient = async (patientID) => {
   const res = await api.get(`/consent_record?patientID=${patientID}`);
@@ -32,3 +30,9 @@ export const deleteConsent = async (id) => {
   const res = await api.delete(`/consent_record/${id}`);
   return res.data || {};
 };
+
+export async function getConsentRecords(url = "/consent_records") {
+  const res = await api.get(url);
+  return res.data;
+}
+

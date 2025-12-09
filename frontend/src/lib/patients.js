@@ -22,6 +22,12 @@ export async function getPatients(url = "/patients?page=1") {
   return res.data;
 }
 
+export async function getPatientsAll() {
+  const res = await api.get("/patients/all");
+  return res.data;
+}
+
+
 
 export async function getPatientById(id) {
   const res = await api.get(`/patients/${id}`);

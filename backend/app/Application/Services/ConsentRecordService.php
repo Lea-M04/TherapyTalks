@@ -12,7 +12,7 @@ class ConsentRecordService
     private ConsentRecordRepositoryInterface $repo;
     private AuditLogService $audit;
     private ConsentHistoryService $historyService; 
-
+    
     public function __construct(
         ConsentRecordRepositoryInterface $repo,
         AuditLogService $audit,
@@ -23,10 +23,26 @@ class ConsentRecordService
         $this->historyService = $historyService; 
     }
 
-    public function list(int $perPage = 15, int $page = 1): array
-    {
-        return $this->repo->findAll($perPage, $page);
-    }
+    public function list($perPage = 15, $page = 1)
+{
+    $query = \App\Models\ConsentRecord::with([
+        'patient.user',
+        'professional.user'
+    ]);
+
+    $paginator = $query->paginate($perPage, ['*'], 'page', $page);
+
+    return [
+        'data' => $paginator->items(),
+        'meta' => [
+            'current_page' => $paginator->currentPage(),
+            'per_page' => $paginator->perPage(),
+            'total' => $paginator->total(),
+            'last_page' => $paginator->lastPage(),
+        ]
+    ];
+}
+
 
     public function get(int $id): ?DomainConsent
     {
@@ -37,13 +53,14 @@ class ConsentRecordService
     {
         $consent = new DomainConsent($data);
         $created = $this->repo->create($consent);
+$userID = auth()->id();
 
         $this->audit->write(
             action: 'consent_created',
             targetType: 'Consent',
             targetID: $created->consentID,
             status: 'success',
-            performedBy: $created->professionalID
+            performedBy: auth()->id(),
         );
 
         return $created;

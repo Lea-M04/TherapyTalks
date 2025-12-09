@@ -14,10 +14,22 @@ class EloquentConsentRecordRepository implements ConsentRecordRepositoryInterfac
     }
 
     public function create(ConsentRecord $c): ConsentRecord
-    {
-        $eloquent = EloquentConsent::create($c->toArray());
-        return $this->map($eloquent);
-    }
+{
+     $data = $c->toArray();
+
+    $eloquent = EloquentConsent::create([
+        'consentType' => $data['consentType'] ?? null,
+        'description' => $data['description'] ?? null,
+        'isRevoked' => $data['isRevoked'] ?? false,
+        'signedAt' => $data['signedAt'] ?? null,
+        'revokedAt' => $data['revokedAt'] ?? null,
+        'patientID' => $data['patientID'] ?? null,
+        'professionalID' => $data['professionalID'] ?? null,
+    ]);
+
+    return $this->map($eloquent);
+}
+
 
     public function findById(int $id): ?ConsentRecord
     {

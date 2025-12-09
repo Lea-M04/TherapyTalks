@@ -4,6 +4,7 @@ namespace App\Application\Services;
 use App\Domain\Interfaces\PatientRepositoryInterface;
 use App\Domain\Models\Patient as DomainPatient;
 use App\Application\Services\AuditLogService;
+use App\Models\Patient as EloquentPatient;
 
 
 class PatientService
@@ -88,4 +89,12 @@ class PatientService
     
         return $deleted;
     }
+
+public function all()
+{
+    return $this->repo->all(); 
+}
+
+
+
 }
