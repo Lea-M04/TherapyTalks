@@ -6,17 +6,19 @@ import { useAuth } from "@/lib/context/AuthContext";
 
 export default function Sidebar({ role }) {
   const { user, logout } = useAuth();
+ const isApproved = user?.professional?.status === "approved";
   const items = {
     professional: [
       { label: "Home", href: NAV_ROUTES.HOME },
-      { label: "Dashboard", href: DASHBOARD_ROUTES.PROFESSIONAL },
-      { label: "Bookings", href: "/dashboard/professional/bookings" },
-      { label: "Chat", href: "/chat" },
-      { label: "Availability", href: DASHBOARD_ROUTES.PROFESSIONAL_AVAILABILITY },
-      { label: "Services", href: DASHBOARD_ROUTES.PROFESSIONAL_SERVICES },
-      { label: "My Patients", href: DASHBOARD_ROUTES.PROFESSIONAL_PATIENTS },
-      { label: "Consents", href: DASHBOARD_ROUTES.PROFESSIONAL_CONSENT },
-
+      { label: "My Profile", href: DASHBOARD_ROUTES.PROFESSIONAL },
+      ...(isApproved ? [
+        { label: "Bookings", href: "/dashboard/professional/bookings" },
+        { label: "Chat", href: "/chat" },
+        { label: "Availability", href: DASHBOARD_ROUTES.PROFESSIONAL_AVAILABILITY },
+        { label: "Services", href: DASHBOARD_ROUTES.PROFESSIONAL_SERVICES },
+        { label: "My Patients", href: DASHBOARD_ROUTES.PROFESSIONAL_PATIENTS },
+        { label: "Consents", href: DASHBOARD_ROUTES.PROFESSIONAL_CONSENT },
+      ] : []),
     ],
     admin: [
       { label: "Dashboard", href: DASHBOARD_ROUTES.ADMIN },
@@ -29,7 +31,6 @@ export default function Sidebar({ role }) {
       { label: "Notification Settings", href: DASHBOARD_ROUTES.NOTIFICATION_SETTINGS},
       { label: "Notifications", href: DASHBOARD_ROUTES.NOTIFICATIONS},
       { label: "Consents", href: DASHBOARD_ROUTES.ADMIN_CONSENT},
-      { label: "Chat Rooms", href: DASHBOARD_ROUTES.CHAT_ROOMS},
     ],
   };
 

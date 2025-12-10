@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/context/AuthContext";
-import { updateUser, updateProfessional, getFullProfile } from "@/lib/auth";
+import { updateUser, updateProfessional, getFullProfile ,getMyRejectReasons } from "@/lib/auth";
 import ProfessionalGuard from "@/components/guards/ProfessionalGuard";
 
 export default function ProfessionalProfilePage() {
@@ -10,6 +10,7 @@ export default function ProfessionalProfilePage() {
   const API_URL = process.env.NEXT_PUBLIC_URL;
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [rejectReasons, setRejectReasons] = useState([]);
 
   const [userForm, setUserForm] = useState({
     firstName: "",
@@ -36,7 +37,7 @@ export default function ProfessionalProfilePage() {
 
   
 useEffect(() => {
-  getFullProfile().then(data => {
+  getFullProfile().then(async (data) => {
     setUser({
       ...data.user,
       professionalID: data.professional.professionalID,
@@ -64,6 +65,8 @@ useEffect(() => {
       clinicCity: data.professional.clinicCity || "",
       bio: data.professional.bio || "",
     });
+       const reasons = await getMyRejectReasons();
+    setRejectReasons(reasons || []);
   });
 }, []);
 
@@ -104,6 +107,23 @@ useEffect(() => {
         <h1 className="text-2xl font-bold text-white mb-4">
           My Professional Profile
         </h1>
+      {user?.professional?.status === "pending" && (
+  <p className="text-yellow-500 font-bold mb-4">
+    Your account is pending verification. You cannot access full features yet.
+  </p>
+)}
+{user?.professional?.status === "rejected" && (
+  <div className="text-red-500 font-bold">
+    <p>Your verification was rejected.</p>
+   {rejectReasons.length > 0 ? (
+  rejectReasons.map((r) => (
+    <p key={r.reasonID}>Rejection Reason: {r.title}</p>
+  ))
+) : (
+  <p>No rejection reasons provided.</p>
+)}
+  </div>
+)}
 
         {!editing ? (
           <div className="bg-white p-4 rounded shadow text-black space-y-3">

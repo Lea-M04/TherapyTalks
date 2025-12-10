@@ -9,11 +9,21 @@ export default function ProfessionalGuard({ children }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading) {
-      if (!user) router.push("/auth/login");
-      else if (user.role !== "professional") router.push("/");
+    if (loading) return;
+      if (!user)  {
+      router.replace("/auth/login");
+      return;
     }
-  }, [user, loading]);
+      else if (user.role !== "professional") {
+      router.replace("/");
+      return;}
+       if (user?.professional?.status !== "approved") {
+      router.replace("/dashboard/professional");
+      return;
+    }
+  
+    
+  }, [user, loading,router]);
 
   if (loading) return <p>Loading...</p>;
 

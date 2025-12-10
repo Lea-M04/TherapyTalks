@@ -70,3 +70,7 @@ export async function updateUser(id, data) {
 
   return res.data;
 }
+export async function getMyRejectReasons() {
+  const res = await api.get("/reject_reasons");
+  return res.data.data; 
+}
