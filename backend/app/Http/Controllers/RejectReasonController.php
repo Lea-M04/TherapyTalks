@@ -26,14 +26,23 @@ class RejectReasonController extends Controller
                 $reasons = $this->service->getReasonsByProfessional($professionalID);
             }
         }
-        return RejectReasonResource::collection($reasons);
+        $reasonIDs = collect($reasons)->pluck('reasonID')->toArray();
+
+    $eloquentReasons = \App\Models\RejectReason::with('request.professional.user')
+        ->whereIn('reasonID', $reasonIDs)
+        ->get();
+
+    return RejectReasonResource::collection($eloquentReasons);
+
     }
 
     public function show(int $id)
     {
        $reason = $this->service->get($id);
         $this->authorize('view', $reason);
-        return new RejectReasonResource($reason);
+         $eloquentModel = \App\Models\RejectReason::with('request.professional.user')
+        ->findOrFail($id);
+        return new RejectReasonResource($eloquentModel);
     }
 
     public function destroy(int $id)

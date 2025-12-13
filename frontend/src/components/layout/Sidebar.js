@@ -31,6 +31,7 @@ export default function Sidebar({ role }) {
       { label: "Notification Settings", href: DASHBOARD_ROUTES.NOTIFICATION_SETTINGS},
       { label: "Notifications", href: DASHBOARD_ROUTES.NOTIFICATIONS},
       { label: "Consents", href: DASHBOARD_ROUTES.ADMIN_CONSENT},
+      { label: "Rejects", href: DASHBOARD_ROUTES.ADMIN_REJECT},
     ],
   };
 

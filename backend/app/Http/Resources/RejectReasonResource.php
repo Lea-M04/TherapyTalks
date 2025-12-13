@@ -11,6 +11,8 @@ class RejectReasonResource extends JsonResource
             'reasonID' => $this->reasonID,
             'title' => $this->title,
             'description' => $this->description,
+            'created_at' => $this->created_at, 
+            'request' => new VerificationRequestResource($this->whenLoaded('request'))
         ];
     }
 }

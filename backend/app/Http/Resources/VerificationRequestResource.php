@@ -16,6 +16,13 @@ class VerificationRequestResource extends JsonResource
             'verifiedAt' => $this->verifiedAt,
             'reviewedBy' => $this->reviewedBy,
             'comments' => $this->comments,
+            'professional' => new ProfessionalResource(
+            $this->whenLoaded('professional')
+        ),
+            'rejectReasons' => RejectReasonResource::collection(
+    $this->whenLoaded('rejectReasons')
+),
+
         ];
     }
 }

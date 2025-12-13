@@ -19,6 +19,7 @@ export const DASHBOARD_ROUTES = {
   ADMIN_PATIENTS: "/dashboard/admin/patients",
   ADMIN_AUDIT: "/dashboard/admin/audit",
   ADMIN_CONSENT: "/dashboard/admin/consents",
+  ADMIN_REJECT: "/dashboard/admin/rejects",
   PROFESSIONAL_AVAILABILITY: "/dashboard/professional/availability",
   PROFESSIONAL_SERVICES: "/dashboard/professional/services",
   PROFESSIONAL_PATIENTS: "/dashboard/professional/mypatients",
