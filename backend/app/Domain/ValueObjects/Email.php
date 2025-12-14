@@ -2,7 +2,7 @@
 
 namespace App\Domain\ValueObjects;
 
-class Email
+class Email implements \JsonSerializable
 {
     private string $value;
 
@@ -18,4 +18,15 @@ class Email
     {
         return $this->value;
     }
+
+    public function __toString(): string
+{
+    return $this->value;
+}
+
+public function jsonSerialize(): string
+{
+    return $this->value;
+}
+
 }

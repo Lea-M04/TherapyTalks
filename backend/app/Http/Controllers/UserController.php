@@ -28,12 +28,16 @@ class UserController extends Controller
         $page = (int) $request->get('page', 1);
 
         $result = $this->service->list($perPage, $page);
-        $collection = array_map(fn($u) => new UserResource($u), $result['data']);
-
-        return response()->json([
-            'data' => $collection,
-            'meta' => $result['meta'],
-        ]);
+       
+      return UserResource::collection($result['data'])
+    ->additional([
+        'meta' => [
+            'current_page' => $result['meta']['current_page'],
+            'last_page' => $result['meta']['last_page'],
+            'per_page' => $result['meta']['per_page'],
+            'total' => $result['meta']['total'],
+        ]
+    ]);
     }
 
     public function show(int $id)

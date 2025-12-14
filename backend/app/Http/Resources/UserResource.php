@@ -40,6 +40,7 @@ class UserResource extends JsonResource
             'email' => $u->email,
               'dateOfBirth' => $u->dateOfBirth instanceof \DateTimeInterface ? $u->dateOfBirth->format('Y-m-d') : $u->dateOfBirth,
             'role' => $u->role,
+            'gender' => $u->gender,
             'status' => $u->status,
             'profileImage' => $u->profileImage,
             'username' => $u->username,
