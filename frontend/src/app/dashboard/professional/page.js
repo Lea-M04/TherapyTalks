@@ -113,160 +113,212 @@ useEffect(() => {
   if (!user) {
     return (
       <ProfessionalGuard>
-        <p className="text-white p-6">Loading...</p>
+        <div className="flex justify-center items-center py-10">
+          <p className="text-primary-dark text-lg animate-pulse">
+            Loading your profile...
+          </p>
+        </div>
       </ProfessionalGuard>
     );
   }
 
   return (
     <ProfessionalGuard>
-      <div className="p-6">
-        <h1 className="text-2xl font-bold text-white mb-4">
+      <div className="p-6 max-w-4xl mx-auto">
+
+  
+        <h1
+          className="text-4xl font-extrabold mb-8 
+          bg-gradient-to-r from-primary-pink to-primary-purple 
+          bg-clip-text text-transparent tracking-wide"
+        >
           My Professional Profile
         </h1>
-      {user?.professional?.status === "pending" && (
-  <p className="text-yellow-500 font-bold mb-4">
-    Your account is pending verification. You cannot access full features yet.
-  </p>
-)}
-{user?.professional?.status === "rejected" && (
-  <div className="text-red-500 font-bold">
-    <p>Your verification was rejected.</p>
-   {rejectReasons.length > 0 ? (
-  rejectReasons.map((r) => (
-    <p key={r.reasonID}>Rejection Reason: {r.title}</p>
-  ))
-) : (
-  <p>No rejection reasons provided.</p>
-)}
-<button
-  onClick={() =>
-    router.push(`/dashboard/professional/resubmit?id=${user?.professional?.requestID}`)
-  }
-  className="bg-blue-600 text-white px-6 py-2 rounded mt-4"
->
-  Resubmit Verification
-</button>
 
-  </div>
+    
+        {user?.professional?.status === "pending" && (
+          <div className="bg-yellow-100/80 border border-yellow-300 text-yellow-900 p-4 rounded-xl mb-6 shadow-md">
+            <p className="font-semibold text-lg">⏳ Your account is pending verification.</p>
+          </div>
+        )}
+
+        {user?.professional?.status === "rejected" && (
+          <div className="bg-red-100/80 border border-red-300 text-red-800 p-5 rounded-xl mb-6 shadow-md">
+            <p className="font-semibold text-lg">❌ Your verification was rejected</p>
+
+            {rejectReasons.length > 0 ? (
+              rejectReasons.map((r) => (
+                <p key={r.reasonID} className="text-sm mt-1">
+                  • {r.title}
+                </p>
+              ))
+            ) : (
+              <p>No rejection reasons provided.</p>
+            )}
+
+            <button
+              onClick={() =>
+                router.push(`/dashboard/professional/resubmit?id=${user?.professional?.requestID}`)
+              }
+              className="mt-4 bg-primary-purple text-white px-5 py-2 rounded-lg 
+              hover:bg-primary-dark transition shadow"
+            >
+              Resubmit Verification
+            </button>
+          </div>
+        )}
+
   
-)}
-
         {!editing ? (
-          <div className="bg-white p-4 rounded shadow text-black space-y-3">
-       
-            <h2 className="font-bold text-lg">Basic Info</h2>
-             <img 
-  src={`${API_URL}/uploads/profile_images/${user.profileImage}`} 
-  className="w-16 h-16 rounded-full object-cover"
-/>
-            <p><b>First Name:</b> {user.firstName}</p>
-            <p><b>Last Name:</b> {user.lastName}</p>
-            <p><b>Email:</b> {user.email}</p>
-            <p><b>Phone:</b> {user.phoneNumber}</p>
-            <p><b>Date of Birth:</b> {user?.dateOfBirth ? user.dateOfBirth.split("T")[0] : ""}</p>
-            <p><b>Gender:</b> {user.gender}</p>
-            <p><b>Username:</b> {user.username}</p>
+          <div className="bg-white p-6 rounded-xl shadow-lg border border-primary/30 space-y-4">
 
-            <h2 className="font-bold text-lg mt-4">Professional Info</h2>
-            <p><b>Specialization:</b> {user.professional?.specialization}</p>
-            <p><b>License #:</b> {user.professional?.licenseNumber}</p>
-            <p><b>Experience:</b> {user.professional?.experienceYears} years</p>
-            <p><b>Education:</b> {user.professional?.education}</p>
-            <p><b>Clinic Name:</b> {user.professional?.clinicName}</p>
-            <p><b>Clinic Street:</b> {user.professional?.clinicStreet}</p>
-            <p><b>Clinic City:</b> {user.professional?.clinicCity}</p>
-            <p><b>Bio:</b> {user.professional?.bio}</p>
+
+            <div className="flex items-center gap-4">
+              <img
+                src={`${API_URL}/uploads/profile_images/${user.profileImage}`}
+                className="w-20 h-20 rounded-full object-cover border-4 border-primary-pink shadow"
+              />
+              <div>
+                <p className="text-primary-dark font-bold text-3xl">
+                  {user.firstName} {user.lastName}
+                </p>
+                <p className="text-primary-purple">@{user.username}</p>
+              </div>
+            </div>
+
+        
+            <h2 className="text-2xl font-semibold text-primary-dark mt-4">
+              Basic Information
+            </h2>
+
+            <div className="grid grid-cols-2 gap-3 text-md text-primary-dark">
+              <p><b className="text-primary-purple">Email:</b> {user.email}</p>
+              <p><b className="text-primary-purple">Phone:</b> {user.phoneNumber}</p>
+              <p><b className="text-primary-purple">Birth Date:</b> {user?.dateOfBirth?.split("T")[0]}</p>
+              <p><b className="text-primary-purple">Gender:</b> {user.gender}</p>
+            </div>
+
+          
+            <h2 className="text-2xl font-semibold text-primary-dark mt-4">
+              Professional Details
+            </h2>
+
+            <div className="grid grid-cols-2 gap-3 text-md text-primary-dark">
+              <p><b className="text-primary-purple">Specialization:</b> {user.professional?.specialization}</p>
+              <p><b className="text-primary-purple">License #:</b> {user.professional?.licenseNumber}</p>
+              <p><b className="text-primary-purple">Experience:</b> {user.professional?.experienceYears} years</p>
+              <p><b className="text-primary-purple">Education:</b> {user.professional?.education}</p>
+              <p><b className="text-primary-purple">Clinic:</b> {user.professional?.clinicName}</p>
+              <p><b className="text-primary-purple">Street:</b> {user.professional?.clinicStreet}</p>
+              <p><b className="text-primary-purple">City:</b> {user.professional?.clinicCity}</p>
+            </div>
+
+            <p className="mt-3 text-md text-primary-dark">
+              <b className="text-primary-purple">Bio:</b> {user.professional?.bio}
+            </p>
 
             <button
               onClick={() => setEditing(true)}
-              className="mt-4 bg-blue-600 text-white px-6 py-2 rounded"
+              className="mt-6 bg-primary-purple text-white px-6 py-2 rounded-lg 
+              hover:bg-primary-dark transition w-full shadow"
             >
               Edit Profile
             </button>
           </div>
         ) : (
+      
+          <div className="bg-white p-6 rounded-xl shadow-lg border border-primary/30 space-y-6">
+    
+            <h2 className="text-xl font-semibold text-primary-dark">Edit Basic Info</h2>
 
-          <div className="bg-white p-4 rounded shadow text-black space-y-6">
-            <h2 className="font-semibold">Basic Info</h2>
-            <div className="grid grid-cols-2 gap-4">
-           {Object.keys(userForm).map((key) => {
-          if (key === "dateOfBirth") {
-            return (
-              <input
-                key={key}
-                type="date"
-                name={key}
-                value={userForm[key]}
-                onChange={(e) => setUserForm({ ...userForm, [key]: e.target.value })}
-                className="border p-2 rounded"
-              />
-            );
-          }
-
-          if (key === "gender") {
-            return (
-              <select
-                key={key}
-                name={key}
-                value={userForm[key]}
-                onChange={(e) => setUserForm({ ...userForm, gender: e.target.value })}
-                className="border p-2 rounded"
-              >
-                <option value="">Select gender</option>
-                <option value="female">Female</option>
-                <option value="male">Male</option>
-                <option value="other">Other</option>
-              </select>
-            );
-          }   
-            if(key==="profileImage"){
-                    return(
+            <div className="grid grid-cols-2 gap-4 text-primary-dark">
+              {Object.keys(userForm).map((key) => {
+                if (key === "dateOfBirth") {
+                  return (
                     <input
-                    key={key}
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setUserForm({ ...userForm, profileImage: e.target.files[0] })}
-                    />)
-
+                      key={key}
+                      type="date"
+                      value={userForm[key]}
+                      onChange={(e) =>
+                        setUserForm({ ...userForm, [key]: e.target.value })
+                      }
+                      className="border p-2 rounded-lg focus:ring-2 focus:ring-primary-pink"
+                    />
+                  );
                 }
 
-          return (
-            <input
-              key={key}
-              name={key}
-              placeholder={key}
-              value={userForm[key]}
-              onChange={(e) => setUserForm({ ...userForm, [key]: e.target.value })}
-              className="border p-2 rounded"
-            />
-          );
-        })}
+                if (key === "gender") {
+                  return (
+                    <select
+                      key={key}
+                      value={userForm[key]}
+                      onChange={(e) =>
+                        setUserForm({ ...userForm, gender: e.target.value })
+                      }
+                      className="border p-2 rounded-lg focus:ring-2 focus:ring-primary-pink"
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="female">Female</option>
+                      <option value="male">Male</option>
+                      <option value="other">Other</option>
+                    </select>
+                  );
+                }
+
+                if (key === "profileImage") {
+                  return (
+                    <input
+                      key={key}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) =>
+                        setUserForm({
+                          ...userForm,
+                          profileImage: e.target.files[0],
+                        })
+                      }
+                      className="border p-2 rounded-lg bg-gray-50"
+                    />
+                  );
+                }
+
+                return (
+                  <input
+                    key={key}
+                    placeholder={key}
+                    value={userForm[key]}
+                    onChange={(e) =>
+                      setUserForm({ ...userForm, [key]: e.target.value })
+                    }
+                    className="border p-2 rounded-lg focus:ring-2 focus:ring-primary-pink"
+                  />
+                );
+              })}
             </div>
-            <h2 className="font-semibold mt-4">Professional Info</h2>
-            <div className="grid grid-cols-2 gap-4">
+
+            <h2 className="text-xl font-semibold text-primary-dark">Professional Info</h2>
+
+            <div className="grid grid-cols-2 gap-4 text-primary-dark">
               {Object.keys(profForm).map((key) =>
                 key !== "bio" ? (
                   <input
                     key={key}
-                    name={key}
                     placeholder={key}
                     value={profForm[key]}
                     onChange={(e) =>
                       setProfForm({ ...profForm, [key]: e.target.value })
                     }
-                    className="border p-2 rounded"
+                    className="border p-2 rounded-lg focus:ring-2 focus:ring-primary-pink"
                   />
                 ) : (
                   <textarea
                     key={key}
-                    name={key}
-                    placeholder="bio"
-                    value={profForm.bio}
+                    placeholder="Bio"
+                    value={profForm[key]}
                     onChange={(e) =>
                       setProfForm({ ...profForm, bio: e.target.value })
                     }
-                    className="border p-2 rounded col-span-2"
+                    className="border p-2 rounded-lg col-span-2 h-24 focus:ring-2 focus:ring-primary-pink"
                   />
                 )
               )}
@@ -275,14 +327,15 @@ useEffect(() => {
             <div className="flex gap-4">
               <button
                 onClick={save}
-                className="bg-blue-600 text-white px-6 py-2 rounded"
+                className="bg-primary-purple text-white px-6 py-2 rounded-lg 
+                hover:bg-primary-dark transition shadow-md"
               >
                 {loading ? "Saving..." : "Save"}
               </button>
 
               <button
                 onClick={() => setEditing(false)}
-                className="bg-gray-400 text-white px-6 py-2 rounded"
+                className="bg-gray-300 text-black px-6 py-2 rounded-lg hover:bg-gray-400 transition"
               >
                 Cancel
               </button>

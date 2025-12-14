@@ -21,7 +21,8 @@ export default function AvailabilityPage() {
 
     return (
         <div className="p-8">
-            <h1 className="text-3xl font-bold">Manage Availability</h1>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-dark via-primary-purple to-primary-pink
+      text-transparent bg-clip-text">Manage Availability</h1>
 
             <AvailabilityForm professionalID={professionalID} 
              onCreated={() => {
