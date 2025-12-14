@@ -11,6 +11,20 @@ class PaymentResource extends JsonResource
             'paymentID' => $this->paymentID,
             'bookingID' => $this->bookingID,
             'patientID' => $this->patientID,
+
+            'booking' => $this->booking ? [
+                'service' => $this->booking->service ? [
+                    'name' => $this->booking->service->serviceName,
+                ] : null,
+            ] : null,
+
+            'patient' => $this->patient ? [
+                'user' => $this->patient->user ? [
+                    'firstName' => $this->patient->user->firstName,
+                    'lastName'  => $this->patient->user->lastName,
+                ] : null,
+            ] : null,
+
             'amount' => $this->amount,
             'status' => $this->status,
             'provider' => $this->provider,

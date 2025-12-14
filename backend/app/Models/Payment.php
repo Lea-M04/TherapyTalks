@@ -19,9 +19,9 @@ class Payment extends Model
 
     public function booking()
     {
-        return $this->belongsTo(Booking::class, 'bookingID');
+        return $this->belongsTo(Booking::class, 'bookingID', 'bookingID');
     }
-
+    
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'patientID', 'patientID');

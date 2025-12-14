@@ -33,6 +33,8 @@ export default function Sidebar({ role }) {
       { label: "Consents", href: DASHBOARD_ROUTES.ADMIN_CONSENT},
       { label: "Rejects", href: DASHBOARD_ROUTES.ADMIN_REJECT},
       { label: "Availabilities", href: DASHBOARD_ROUTES.ADMIN_AVAILABILITY},
+      { label: "Payments", href: DASHBOARD_ROUTES.PAYMENTS},
+      { label: "Bookings", href: DASHBOARD_ROUTES.BOOKINGS},
     ],
   };
 

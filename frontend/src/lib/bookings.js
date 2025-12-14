@@ -34,3 +34,7 @@ export async function updateBookingStatus(id, status) {
   const res = await api.put(`/booking/${id}/status`, { status });
   return res.data;
 }
+export async function updateBooking(id, data) {
+  const res = await api.put(`/booking/${id}`, data);
+  return res.data;
+}

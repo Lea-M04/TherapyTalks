@@ -53,12 +53,13 @@ class PaymentController extends Controller
     }
 
    public function index()
-    {
-        $this->authorize('viewAny', Payment::class);
-        return PaymentResource::collection(
-            $this->service->getAll()
-        );
-    }
+{
+    $this->authorize('viewAny', \App\Models\Payment::class);
+
+    $payments = collect($this->service->getAll());
+
+    return PaymentResource::collection($payments);
+}
 
     public function myPayments(Request $request)
     {

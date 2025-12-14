@@ -23,12 +23,15 @@ class EloquentPaymentRepository implements PaymentRepositoryInterface
     }
 
     public function all(): array
-    {
-        return EloquentPayment::orderBy('paymentID', 'desc')
-            ->get()
-            ->map(fn($p) => new Payment($p->toArray()))
-            ->toArray();
-    }
+{
+    return EloquentPayment::with([
+            'patient.user',
+            'booking.service'
+        ])
+        ->orderBy('paymentID', 'desc')
+        ->get()
+        ->all(); 
+}
 
     public function getByPatient(int $patientID): array
     {

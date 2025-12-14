@@ -38,16 +38,17 @@ class BookingController extends Controller
 
 
     public function show(int $id)
-    {
-        $booking = $this->service->get($id);
-        if (!$booking) {
-            return response()->json(['message' => 'Booking not found'], 404);
-        }
+{
+    $booking = \App\Models\Booking::with(['service', 'patient.user', 'professional.user'])
+        ->where('bookingID', $id)
+        ->first();
 
-        $this->authorize('view', $booking);
-
-        return new BookingResource($booking);
+    if (!$booking) {
+        return response()->json(['message' => 'Booking not found'], 404);
     }
+
+    return new BookingResource($booking);
+}
 
     public function store(CreateBookingRequest $request)
     {
