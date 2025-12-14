@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/context/AuthContext";
-import { updateUser, updateProfessional, getFullProfile ,getMyRejectReasons } from "@/lib/auth";
+import { updateUser, updateProfessional, getFullProfile ,getMyRejectReasons,  getMyVerificationRequests  } from "@/lib/auth";
 import ProfessionalGuard from "@/components/guards/ProfessionalGuard";
+import { useRouter } from "next/navigation";
+
 
 export default function ProfessionalProfilePage() {
   const { user, setUser } = useAuth();
@@ -11,6 +13,9 @@ export default function ProfessionalProfilePage() {
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [rejectReasons, setRejectReasons] = useState([]);
+  const router = useRouter();
+  
+
 
   const [userForm, setUserForm] = useState({
     firstName: "",
@@ -44,6 +49,20 @@ useEffect(() => {
       professional: data.professional,
     });
 
+    const reasons = await getMyRejectReasons();
+    setRejectReasons(reasons || []);
+
+    const reqs = await getMyVerificationRequests();
+    const lastReq = reqs.length ? reqs[reqs.length - 1] : null;
+
+    setUser(prev => ({
+      ...prev,
+      professional: {
+        ...prev.professional,
+        requestID: lastReq?.requestID ?? null
+      }
+    }));
+
     setUserForm({
       firstName: data.user.firstName || "",
       lastName: data.user.lastName || "",
@@ -65,8 +84,6 @@ useEffect(() => {
       clinicCity: data.professional.clinicCity || "",
       bio: data.professional.bio || "",
     });
-       const reasons = await getMyRejectReasons();
-    setRejectReasons(reasons || []);
   });
 }, []);
 
@@ -122,7 +139,17 @@ useEffect(() => {
 ) : (
   <p>No rejection reasons provided.</p>
 )}
+<button
+  onClick={() =>
+    router.push(`/dashboard/professional/resubmit?id=${user?.professional?.requestID}`)
+  }
+  className="bg-blue-600 text-white px-6 py-2 rounded mt-4"
+>
+  Resubmit Verification
+</button>
+
   </div>
+  
 )}
 
         {!editing ? (

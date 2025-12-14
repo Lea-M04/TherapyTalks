@@ -142,4 +142,34 @@ class VerificationRequestController extends Controller
 
         return VerificationRequestResource::collection($requests);
     }
+    public function resubmit(Request $req, $id)
+{
+    $vr = VerificationRequest::find($id);
+    if (!$vr) {
+        return response()->json(['message' => 'Not found'], 404);
+    }
+
+    if ($vr->status !== 'rejected') {
+        return response()->json(['message' => 'Only rejected requests can be resubmitted.'], 400);
+    }
+
+  
+    if ($req->hasFile('document')) {
+        $path = $req->file('document')->store('verification', 'public');
+        $vr->documentURL = '/storage/' . $path;
+    }
+
+
+    $vr->status = 'pending';
+    $vr->comments = null; 
+    $vr->verifiedAt = null;
+    $vr->reviewedBy = null;
+
+    $vr->save();
+
+    return new VerificationRequestResource(
+        $vr->load(['professional.user', 'rejectReasons'])
+    );
+}
+
 }

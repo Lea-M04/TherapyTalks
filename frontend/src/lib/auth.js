@@ -74,3 +74,7 @@ export async function getMyRejectReasons() {
   const res = await api.get("/reject_reasons");
   return res.data.data; 
 }
+export async function getMyVerificationRequests() {
+  const res = await api.get("/verification/my");
+  return res.data.data;
+}
