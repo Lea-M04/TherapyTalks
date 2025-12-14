@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateAvailabilityRequest;
 use App\Http\Resources\AvailabilityResource;
 use App\Domain\Models\Availability;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
 
 class AvailabilityController extends Controller
 {
@@ -22,7 +23,7 @@ class AvailabilityController extends Controller
 
     public function show(int $id)
     {
-        $a = $this->service->get($id);
+         $a = \App\Models\Availability::with('professional.user')->find($id);
         if (!$a) return response()->json(['message' => 'Not found'], 404);
 
         $this->authorize('view', $a);
@@ -61,4 +62,28 @@ class AvailabilityController extends Controller
         $this->service->delete($id);
         return response()->json(null, 204);
     }
+
+  public function all(Request $request)
+{
+    $this->authorize('viewAny', Availability::class);
+
+    $perPage = (int) $request->get('per_page', 15);
+    $page = (int) $request->get('page', 1);
+
+    $paginator = \App\Models\Availability::with(['professional.user'])
+        ->orderBy('availabilityID', 'desc')
+        ->paginate($perPage, ['*'], 'page', $page);
+
+    return response()->json([
+        'data' => AvailabilityResource::collection($paginator->items()),
+        'meta' => [
+            'total' => $paginator->total(),
+            'per_page' => $paginator->perPage(),
+            'current_page' => $paginator->currentPage(),
+            'last_page' => $paginator->lastPage(),
+        ],
+    ]);
+}
+
+
 }

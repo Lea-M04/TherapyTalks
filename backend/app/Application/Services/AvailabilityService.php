@@ -98,4 +98,26 @@ public function checkAvailability($professionalID, $date, $time)
 }
 
 
+    public function listPaginated(int $perPage = 15, int $page = 1): array
+{
+    $paginator = \App\Models\Availability::with('professional.user')
+        ->orderBy('availabilityID', 'desc')
+        ->paginate($perPage, ['*'], 'page', $page);
+
+    $data = $paginator->getCollection()
+        ->map(fn ($e) => new Availability($e->toArray()))
+        ->all();
+
+    return [
+        'data' => $data,
+        'meta' => [
+            'total' => $paginator->total(),
+            'per_page' => $paginator->perPage(),
+            'current_page' => $paginator->currentPage(),
+            'last_page' => $paginator->lastPage(),
+        ],
+    ];
+}
+
+
 }

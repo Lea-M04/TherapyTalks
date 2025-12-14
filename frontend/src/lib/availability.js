@@ -39,3 +39,14 @@ export async function deleteAvailability(id) {
         throw error;
     }
 }
+
+
+export async function getAllAvailabilities(page = 1, perPage = 15) {
+    try {
+        const res = await api.get(`/availability?page=${page}&per_page=${perPage}`);
+        return res.data;
+    } catch (error) {
+        console.error("Error getting all availabilities:", error);
+        throw error;
+    }
+}

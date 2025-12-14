@@ -66,6 +66,7 @@ Route::middleware('auth:api')->group(function () {
     
     Route::get('/audit_logs', [AuditLogController::class, 'index']);
 
+    Route::get('/availability', [AvailabilityController::class, 'all']);
     Route::get('/availability/{professionalID}', [AvailabilityController::class, 'index']);
     Route::get('/availability/{id}', [AvailabilityController::class, 'show']);
     Route::post('/availability', [AvailabilityController::class, 'store']);
