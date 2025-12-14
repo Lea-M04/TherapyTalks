@@ -60,44 +60,52 @@ export default function DiagnosisPage(props) {
   if (loading) return <p className="p-6">Loading...</p>;
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">
-        {diagnosisID ? "Edit Diagnosis" : "Add Diagnosis"}
-      </h1>
+  <div className="p-6 max-w-2xl mx-auto">
+    <h1 className="text-2xl font-bold mb-4 text-primary-purple">
+      {diagnosisID ? "Edit Diagnosis" : "Add Diagnosis"}
+    </h1>
 
-      <div className="space-y-4 bg-white p-6 rounded shadow text-black">
-        <input
-          className="border w-full p-2 rounded"
-          placeholder="Diagnosis title"
-          value={form.title}
-          onChange={(e) => setForm({ ...form, title: e.target.value })}
-        />
+    <div className="space-y-4 bg-white p-6 rounded-xl shadow-md border border-border">
+      
+      <input
+        className="border border-border w-full p-3 rounded-lg 
+                   focus:outline-none focus:ring-2 focus:ring-primary-pink 
+                   text-black placeholder-gray-500"
+        placeholder="Diagnosis title"
+        value={form.title}
+        onChange={(e) => setForm({ ...form, title: e.target.value })}
+      />
 
-        <textarea
-          className="border w-full p-2 rounded"
-          rows={5}
-          placeholder="Description"
-          value={form.description}
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
-        />
+      <textarea
+        className="border border-border w-full p-3 rounded-lg 
+                   focus:outline-none focus:ring-2 focus:ring-primary-purple 
+                   text-black placeholder-gray-500"
+        rows={5}
+        placeholder="Description"
+        value={form.description}
+        onChange={(e) => setForm({ ...form, description: e.target.value })}
+      />
 
-        <select
-          className="border w-full p-2 rounded"
-          value={form.securityLevel}
-          onChange={(e) => setForm({ ...form, securityLevel: e.target.value })}
-        >
-          <option value="normal">Normal</option>
-          <option value="sensitive">Sensitive</option>
-          <option value="private">Private</option>
-        </select>
+      <select
+        className="border border-border w-full p-3 rounded-lg bg-white 
+                   focus:outline-none focus:ring-2 focus:ring-primary-dark 
+                   text-black"
+        value={form.securityLevel}
+        onChange={(e) => setForm({ ...form, securityLevel: e.target.value })}
+      >
+        <option value="normal">Normal</option>
+        <option value="sensitive">Sensitive</option>
+        <option value="private">Private</option>
+      </select>
 
-        <button
-          onClick={save}
-          className="bg-blue-600 text-white px-6 py-2 rounded"
-        >
-          Save
-        </button>
-      </div>
+      <button
+        onClick={save}
+        className="bg-primary-purple text-white px-6 py-2 rounded-lg 
+                   hover:bg-primary-purple-hover transition shadow-sm"
+      >
+        Save
+      </button>
     </div>
-  );
+  </div>
+);
 }

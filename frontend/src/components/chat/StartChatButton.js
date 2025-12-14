@@ -71,7 +71,7 @@ const handleAccept = async () => {
 
   return (
     <>
-      <button onClick={startChat} className="btn-primary">
+      <button onClick={startChat} className="btn-primary text-primary-dark">
         Start Chat
       </button>
 

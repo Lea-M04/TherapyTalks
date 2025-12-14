@@ -8,28 +8,59 @@ export default function ServiceList({ items = [], onDeleted, onEdit }) {
   }
 
   return (
-    <div className="mt-4">
-      {items.map(s => (
-        <div key={s.serviceID} className="p-3 border rounded flex justify-between items-center">
-          <div>
-            <div className="font-medium">
+  <div className="mt-6 space-y-4">
+    {items.map(s => (
+      <div
+        key={s.serviceID}
+        className="p-4 rounded-lg border shadow-sm bg-white
+                   hover:shadow-md transition-all duration-200"
+        style={{ borderColor: "var(--border)" }}
+      >
+        <div className="flex justify-between items-start">
+
+          {/* LEFT SIDE INFO */}
+          <div className="space-y-1">
+            <div className="font-semibold text-primary-purple">
               {s.serviceName}
-              <span className="text-sm text-gray-500"> ({s.category})</span>
+              <span className="text-sm text-primary-dark ml-1">
+                ({s.category})
+              </span>
             </div>
-            <div className="text-sm text-gray-600">{s.description}</div>
-            <div className="text-sm text-gray-600">{s.durationMinutes} min • ${s.price}</div>
+
+            <div className="text-sm text-primary-dark">
+              {s.description}
+            </div>
+
+            <div className="text-sm text-primary-dark">
+              {s.durationMinutes} min • ${s.price}
+            </div>
           </div>
 
-          <div className="flex gap-2 items-center">
-            <button onClick={() => handleDelete(s.serviceID)} className="text-red-600">
+          {/* ACTION BUTTONS */}
+          <div className="flex gap-3 items-center">
+
+            <button
+              onClick={() => handleDelete(s.serviceID)}
+              className="px-3 py-1.5 text-xs rounded-md
+                         bg-primary-pink text-white
+                         hover:bg-primary-pink-hover transition"
+            >
               Delete
             </button>
-            <button onClick={() => onEdit(s)} className="text-blue-600">
+
+            <button
+              onClick={() => onEdit(s)}
+              className="px-3 py-1.5 text-xs rounded-md
+                         bg-primary-purple text-white
+                         hover:bg-primary-purple-hover transition"
+            >
               Edit
             </button>
+
           </div>
         </div>
-      ))}
-    </div>
-  );
+      </div>
+    ))}
+  </div>
+);
 }

@@ -19,7 +19,8 @@ export default function ProfessionalServicesPage() {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">My Services</h1>
+      <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-primary-dark via-primary-purple to-primary-pink
+      text-transparent bg-clip-text">My Services</h1>
 
       <ServiceForm
         professionalID={professionalID}
