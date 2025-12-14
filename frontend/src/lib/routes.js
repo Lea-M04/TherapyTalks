@@ -30,4 +30,5 @@ export const DASHBOARD_ROUTES = {
   CHAT_ROOMS: "/dashboard/admin/chatRooms",
   ADMIN_AVAILABILITY: "/dashboard/admin/availability",
   PAYMENTS: "/dashboard/admin/payments",
+  BOOKINGS: "/dashboard/admin/bookings",
 };
