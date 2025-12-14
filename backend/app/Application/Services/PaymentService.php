@@ -105,5 +105,9 @@ class PaymentService
 {
     return $this->repo->getByPatient($patientID);
 }
+public function getAll()
+{
+    return $this->repo->all();
+}
 
 }

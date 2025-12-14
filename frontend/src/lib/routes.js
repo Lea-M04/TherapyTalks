@@ -29,4 +29,5 @@ export const DASHBOARD_ROUTES = {
   NOTIFICATIONS: "/dashboard/admin/notifications",
   CHAT_ROOMS: "/dashboard/admin/chatRooms",
   ADMIN_AVAILABILITY: "/dashboard/admin/availability",
+  PAYMENTS: "/dashboard/admin/payments",
 };

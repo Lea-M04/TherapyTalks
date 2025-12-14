@@ -25,3 +25,7 @@ export async function confirmPaymentOnServer({ paymentID, transactionID }) {
   });
   return res.data;
 }
+export async function getAllPayments(page = 1) {
+  const res = await api.get(`/payments?page=${page}`);
+  return res.data;
+}
