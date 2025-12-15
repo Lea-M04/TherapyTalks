@@ -27,6 +27,8 @@ export function AuthProvider({ children }) {
       userID: data.user?.userID ?? null,
   firstName: data.user?.firstName ?? "",
   lastName: data.user?.lastName ?? "",
+  username: data.user?.username ?? "",
+  gender: data.user?.gender ?? "",
   email: data.user?.email ?? "",
   phoneNumber: data.user?.phoneNumber ?? "",
   profileImage: data.user?.profileImage ?? "",

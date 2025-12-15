@@ -88,146 +88,162 @@ const saveNotificationSettings = () => {
 };
 
   if (!user) return <p className="text-white p-6">Loading...</p>;
+return (
+  <PatientGuard>
+    <div className="p-6 max-w-4xl mx-auto">
 
-  return (
-    <PatientGuard>
-    <div className="p-6">
-      <h1 className="text-2xl text-white font-bold mb-4">My Patient Profile</h1>
- <button 
-  onClick={() => setOpenNotifications(true)}
-  className="bg-gray-700 text-white px-4 py-2 rounded"
->
-  Notification Settings
-</button>
-<br></br>
-<br></br>
-<Link 
-  href="/my-diagnosis"
-  className="bg-green-700 text-white px-4 py-2 rounded"
->
-  View Diagnosis
-</Link>
+      <h1
+        className="text-4xl font-extrabold mb-8
+        bg-gradient-to-r from-primary-dark to-primary-purple
+        bg-clip-text text-transparent tracking-wide"
+      >
+        My Patient Profile
+      </h1>
+
+      <div className="flex gap-4 mb-6">
+        <button
+          onClick={() => setOpenNotifications(true)}
+          className="bg-primary-dark text-white px-4 py-2 rounded-lg shadow hover:bg-gray-700 transition"
+        >
+          Notification Settings
+        </button>
+
+        <Link
+          href="/my-diagnosis"
+          className="bg-primary-purple text-white px-4 py-2 rounded-lg shadow hover:bg-primary-pink-hover transition"
+        >
+          View Diagnosis
+        </Link>
+      </div>
+
       {!editing ? (
-        <div className="bg-white p-4 rounded shadow text-black space-y-3">
+        <div className="bg-white p-6 rounded-xl shadow-lg border border-primary/30 space-y-4">
 
-          <h2 className="font-bold text-lg">Basic Info</h2>
-          <img 
-            src={`${API_URL}/uploads/profile_images/${user.profileImage}`} 
-            className="w-16 h-16 rounded-full object-cover"/>
-          <p><b>First Name:</b> {user.firstName}</p>
-          <p><b>Last Name:</b> {user.lastName}</p>
-          <p><b>Email:</b> {user.email}</p>
-          <p><b>Phone:</b> {user.phoneNumber}</p>
-          <p><b>Date of Birth:</b> {user.dateOfBirth?.split("T")[0]}</p>
-          <p><b>Gender:</b> {user.gender}</p>
-          <p><b>Username:</b> {user.username}</p>
+          <div className="flex items-center gap-4">
+            <img
+              src={`${API_URL}/uploads/profile_images/${user.profileImage}`}
+              className="w-20 h-20 rounded-full object-cover border-4 border-primary-pink shadow"
+            />
+            <div>
+              <p className="text-primary-dark font-bold text-3xl">
+                {user.firstName} {user.lastName}
+              </p>
+              <p className="text-primary-purple">@{user.username}</p>
+            </div>
+          </div>
 
-          <h2 className="font-bold text-lg mt-4">Medical Info</h2>
-          <p><b>Medical History:</b> {patientForm.medicalHistory}</p>
-          <p><b>Allergies:</b> {patientForm.allergies}</p>
-          <p><b>Emergency Contact:</b> {patientForm.emergencyContactName}</p>
-          <p><b>Emergency Phone:</b> {patientForm.emergencyContactPhone}</p>
-          <p><b>Insurance Number:</b> {patientForm.insuranceNumber}</p>
-          <p><b>Pseudonym:</b> {patientForm.pseudonym}</p>
+          <h2 className="text-2xl font-semibold text-primary-dark mt-4">
+            Basic Information
+          </h2>
+
+          <div className="grid grid-cols-2 gap-3 text-md text-primary-dark">
+            <p><b className="text-primary-purple">Fist Name:</b> {user.firstName}</p>
+            <p><b className="text-primary-purple">Last Name:</b> {user.lastName}</p>
+            <p><b className="text-primary-purple">Username:</b> {user.username}</p>
+            <p><b className="text-primary-purple">Email:</b> {user.email}</p>
+            <p><b className="text-primary-purple">Phone:</b> {user.phoneNumber}</p>
+            <p><b className="text-primary-purple">Gender:</b> {user.gender}</p>
+          </div>
+
+          <h2 className="text-2xl font-semibold text-primary-dark mt-4">
+            Medical Details
+          </h2>
+
+          <div className="grid grid-cols-2 gap-3 text-md text-primary-dark">
+            <p><b className="text-primary-purple">Medical History:</b> {patientForm.medicalHistory}</p>
+            <p><b className="text-primary-purple">Allergies:</b> {patientForm.allergies}</p>
+            <p><b className="text-primary-purple">Emergency Contact:</b> {patientForm.emergencyContactName}</p>
+            <p><b className="text-primary-purple">Emergency Phone:</b> {patientForm.emergencyContactPhone}</p>
+            <p><b className="text-primary-purple">Insurance #:</b> {patientForm.insuranceNumber}</p>
+            <p><b className="text-primary-purple">Pseudonym:</b> {patientForm.pseudonym}</p>
+          </div>
 
           <button
             onClick={() => setEditing(true)}
-            className="mt-4 bg-blue-600 text-white px-6 py-2 rounded"
+            className="mt-6 bg-primary-purple text-white px-6 py-2 rounded-lg
+            hover:bg-primary-pink-hover transition w-full shadow"
           >
             Edit Profile
           </button>
         </div>
 
       ) : (
+ 
+        <div className="bg-white p-6 rounded-xl shadow-lg border border-primary/30 space-y-6">
 
-        <div className="bg-white p-4 rounded shadow text-black space-y-6">
-
-          <h2 className="font-semibold">Basic Info</h2>
-          <div className="grid grid-cols-2 gap-4">
-                {Object.keys(userForm).map((key) => {
-                if (key === "dateOfBirth") {
-                    return (
-                    <input
-                        key={key}
-                        type="date"
-                        name={key}
-                        value={userForm[key]}
-                        onChange={(e) =>
-                        setUserForm({ ...userForm, [key]: e.target.value })
-                        }
-                        className="border p-2 rounded"
-                    />
-                    );
-                }
-
-                if (key === "gender") {
-                    return (
-                    <select
-                        key={key}
-                        name={key}
-                        value={userForm[key]}
-                        onChange={(e) =>
-                        setUserForm({ ...userForm, gender: e.target.value })
-                        }
-                        className="border p-2 rounded"
-                    >
-                        <option value="">Select gender</option>
-                        <option value="female">Female</option>
-                        <option value="male">Male</option>
-                        <option value="other">Other</option>
-                    </select>
-                    );
-                }
-                if(key==="profileImage"){
-                    return(
-                    <input
+          <h2 className="text-xl font-semibold text-primary-dark">Edit Basic Info</h2>
+          <div className="grid grid-cols-2 gap-4 text-primary-dark">
+            {Object.keys(userForm).map((key) => {
+              if (key === "dateOfBirth") {
+                return (
+                  <input
+                    key={key}
+                    type="date"
+                    value={userForm[key]}
+                    onChange={(e) => setUserForm({ ...userForm, [key]: e.target.value })}
+                    className="border p-2 rounded-lg focus:ring-2 focus:ring-primary-pink"
+                  />
+                );
+              }
+              if (key === "gender") {
+                return (
+                  <select
+                    key={key}
+                    value={userForm[key]}
+                    onChange={(e) => setUserForm({ ...userForm, gender: e.target.value })}
+                    className="border p-2 rounded-lg focus:ring-2 focus:ring-primary-pink"
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                    <option value="other">Other</option>
+                  </select>
+                );
+              }
+              if (key === "profileImage") {
+                return (
+                  <input
                     key={key}
                     type="file"
                     accept="image/*"
                     onChange={(e) => setUserForm({ ...userForm, profileImage: e.target.files[0] })}
-                    />)
-
-                }
-
-                return (
-                    <input
-                    key={key}
-                    name={key}
-                    placeholder={key}
-                    value={userForm[key]}
-                    onChange={(e) =>
-                        setUserForm({ ...userForm, [key]: e.target.value })
-                    }
-                    className="border p-2 rounded"
-                    />
+                    className="border p-2 rounded-lg bg-gray-50"
+                  />
                 );
-                })}
-
+              }
+              return (
+                <input
+                  key={key}
+                  placeholder={key}
+                  value={userForm[key]}
+                  onChange={(e) => setUserForm({ ...userForm, [key]: e.target.value })}
+                  className="border p-2 rounded-lg focus:ring-2 focus:ring-primary-pink"
+                />
+              );
+            })}
           </div>
-
-          <h2 className="font-semibold mt-4">Patient Info</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <h2 className="text-xl font-semibold text-primary-dark">Patient Information</h2>
+          <div className="grid grid-cols-2 gap-4 text-primary-dark">
             {Object.keys(patientForm).map((key) =>
               key !== "medicalHistory" ? (
                 <input
                   key={key}
-                  name={key}
                   placeholder={key}
                   value={patientForm[key]}
                   onChange={(e) =>
                     setPatientForm({ ...patientForm, [key]: e.target.value })
                   }
-                  className="border p-2 rounded"
+                  className="border p-2 rounded-lg focus:ring-2 focus:ring-primary-pink"
                 />
               ) : (
                 <textarea
                   key={key}
-                  placeholder="medicalHistory"
-                  value={patientForm.medicalHistory}
+                  placeholder="Medical History"
+                  value={patientForm[key]}
                   onChange={(e) =>
                     setPatientForm({ ...patientForm, medicalHistory: e.target.value })
                   }
-                  className="border p-2 rounded col-span-2"
+                  className="border p-2 rounded-lg col-span-2 h-24 focus:ring-2 focus:ring-primary-pink"
                 />
               )
             )}
@@ -236,29 +252,28 @@ const saveNotificationSettings = () => {
           <div className="flex gap-4">
             <button
               onClick={save}
-              className="bg-blue-600 text-white px-6 py-2 rounded"
+              className="bg-primary-purple text-white px-6 py-2 rounded-lg
+              hover:bg-primary-pink-hover transition shadow-md"
             >
               {loading ? "Saving..." : "Save"}
             </button>
 
             <button
               onClick={() => setEditing(false)}
-              className="bg-gray-400 text-white px-6 py-2 rounded"
+              className="bg-gray-300 text-black px-6 py-2 rounded-lg hover:bg-gray-400 transition"
             >
               Cancel
             </button>
           </div>
         </div>
       )}
-    </div>
-   
       <Modal open={openNotifications} onClose={() => setOpenNotifications(false)}>
         <h2 className="text-xl font-bold text-primary-dark mb-4">Notification Settings</h2>
         <p className="mb-4 text-primary-dark">Customize how you want to get notifications</p>
         <NotificationSettings user={user} onSave={saveNotificationSettings} />
-        <div className="flex justify-end gap-3">
-        </div>
       </Modal>
-    </PatientGuard>
-  );
+
+    </div>
+  </PatientGuard>
+);
 }

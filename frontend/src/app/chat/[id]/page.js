@@ -89,8 +89,8 @@ if (!chatRoom) {
   );
 }
     return (
-    <div className="flex flex-col h-screen w-[80%] justify-self-center bg-gray-100">
-      <div className="p-4 bg-white shadow flex items-center gap-3">
+     <div className="flex flex-col h-screen w-[80%] mx-auto bg-gray-300 rounded-3xl overflow-hidden shadow-lg">
+      <div className="p-4 bg-primary-dark shadow flex items-center gap-3">
         <div className="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
           {chatRoom.otherUser.displayName[0]}
         </div>
@@ -118,18 +118,18 @@ if (!chatRoom) {
 
         <div ref={bottomRef}></div>
       </div>
-      <div className="p-4 bg-white flex items-center gap-3 border-t">
+      <div className="p-4 bg-primary-dark text-black flex items-center gap-3 border-t">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
           placeholder="Write a message..."
-          className="flex-1 px-4 py-2 border rounded-full bg-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="flex-1 text-black px-4 py-2 border rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
         <button
           onClick={handleSend}
-          className="px-4 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition"
+          className="px-4 py-2 bg-gray-300 text-black rounded-full hover:bg-primary transition"
         >
           Send
         </button>

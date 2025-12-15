@@ -16,58 +16,75 @@ export default function ProfessionalDetails({ professional }) {
   }, [professional.professionalID]);
 
   return (
-    <div className="p-6 border rounded-xl shadow space-y-4">
+  <div className="p-6 max-w-5xl mx-auto">
+  
+    <h1
+      className="text-4xl font-extrabold mb-2
+      text-primary-purple
+     "
+    >
+      {user.firstName} {user.lastName}
+    </h1>
+     <div className="flex justify-start mb-4  text-lg">
+      <StartChatButton professionalID={professional.professionalID} />
+    </div>
 
-<StartChatButton professionalID={professional.professionalID} />
-      <h1 className="text-3xl font-semibold">
-        {user.firstName} {user.lastName}
-      </h1>
+    <div className="bg-white p-6 rounded-xl shadow-lg border border-primary/30 space-y-6">
 
-      <div className="text-gray-700">
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Phone:</strong> {user.phoneNumber}</p>
+      <div className="flex items-center gap-4">
+        {user.profileImage && (
+          <img
+            src={user.profileImage}
+            alt="Profile"
+            className="w-24 h-24 rounded-full object-cover border-4
+            border-primary-pink shadow-md"
+          />
+        )}
+
+        <div>
+          <p className="text-primary-dark font-bold text-2xl">
+            {professional.specialization}
+          </p>
+          <p className="text-primary-purple">@{user.username}</p>
+        </div>
       </div>
 
-      {user.profileImage && (
-        <img
-          src={user.profileImage}
-          alt="Profile"
-          className="w-28 h-28 rounded-full object-cover border"
-        />
-      )}
-
-      <p className="text-lg font-medium text-gray-800">
-        {professional.specialization}
-      </p>
-
-      <p className="text-gray-600">
-        <strong>Experience:</strong> {professional.experienceYears} years
-      </p>
-
-      {professional.education && (
-        <p className="text-gray-700">
-          <strong>Education:</strong> {professional.education}
-        </p>
-      )}
+      <h2 className="text-2xl font-semibold text-primary-dark">Basic Information</h2>
+      <div className="grid grid-cols-2 gap-3 text-md text-primary-dark">
+        <p><b className="text-primary-purple">Email:</b> {user.email}</p>
+        <p><b className="text-primary-purple">Phone:</b> {user.phoneNumber}</p>
+      </div>
 
       {professional.bio && (
-        <p className="text-gray-700 whitespace-pre-line">
-          <strong>Bio:</strong> {professional.bio}
+        <p className="text-primary-dark whitespace-pre-line">
+          <b className="text-primary-purple">Bio:</b> {professional.bio}
         </p>
       )}
 
-      {professional.availability?.length > 0 && (
-        <div className="mt-4">
-          <h2 className="text-xl font-semibold">Availability</h2>
+      {professional.education && (
+        <p className="text-primary-dark">
+          <b className="text-primary-purple">Education:</b> {professional.education}
+        </p>
+      )}
 
-          <div className="mt-2 space-y-2">
+      <p className="text-primary-dark">
+        <b className="text-primary-purple">Experience:</b> {professional.experienceYears} years
+      </p>
+
+      {professional.availability?.length > 0 && (
+        <div>
+          <h2 className="text-2xl font-semibold text-primary-dark mt-4">Availability</h2>
+
+          <div className="mt-3 space-y-2">
             {professional.availability.map((slot, index) => (
               <div
                 key={index}
-                className="p-3 border rounded-lg bg-primary-50 flex justify-between"
+                className="p-3 border rounded-lg shadow-sm bg-primary-50 flex justify-between items-center"
               >
-                <span className="font-medium">{slot.dayOfWeek}</span>
-                <span>{slot.startTime} - {slot.endTime}</span>
+                <span className="font-medium text-primary-dark">{slot.dayOfWeek}</span>
+                <span className="text-primary-purple">
+                  {slot.startTime} - {slot.endTime}
+                </span>
               </div>
             ))}
           </div>
@@ -76,18 +93,29 @@ export default function ProfessionalDetails({ professional }) {
 
       {services.length > 0 && (
         <div>
-          <h2 className="text-xl font-semibold mt-4">Services Offered</h2>
+          <h2 className="text-2xl font-semibold text-primary-dark mt-4">
+            Services Offered
+          </h2>
 
-          <div className="mt-2 space-y-2">
-            {services.map(s => (
-              <div key={s.serviceID} className="p-3 border rounded-lg shadow">
-                <h3 className="font-medium text-lg">{s.serviceName}</h3>
+          <div className="mt-3 space-y-3">
+            {services.map((s) => (
+              <div
+                key={s.serviceID}
+                className="p-4 border rounded-lg shadow-md bg-white"
+              >
+                <h3 className="font-medium text-lg text-primary-dark">{s.serviceName}</h3>
                 <p className="text-gray-600">{s.description}</p>
-                <p className="text-gray-700">{s.durationMinutes} min • ${s.price}</p>
+                <p className="text-primary-purple font-semibold">
+                  {s.durationMinutes} min • ${s.price}
+                </p>
 
                 <button
-                  onClick={() => { setSelectedService(s); setOpenBooking(true); }}
-                  className="mt-2 bg-blue-600 text-white px-4 py-2 rounded"
+                  onClick={() => {
+                    setSelectedService(s);
+                    setOpenBooking(true);
+                  }}
+                  className="mt-3 bg-primary-purple text-white px-5 py-2 rounded-lg
+                  hover:bg-primary-dark transition shadow"
                 >
                   Book
                 </button>
@@ -96,16 +124,16 @@ export default function ProfessionalDetails({ professional }) {
           </div>
         </div>
       )}
-
-      {openBooking && (
-  <BookingModal
-    professional={professional}
-    selectedService={selectedService}
-    onClose={() => setOpenBooking(false)}
-    onBooked={() => setOpenBooking(false)}
-  />
-)}
-
     </div>
-  );
+
+    {openBooking && (
+      <BookingModal
+        professional={professional}
+        selectedService={selectedService}
+        onClose={() => setOpenBooking(false)}
+        onBooked={() => setOpenBooking(false)}
+      />
+    )}
+  </div>
+);
 }

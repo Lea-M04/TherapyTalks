@@ -32,21 +32,30 @@ export default function ProfessionalsPage() {
   return matchesName || matchesService;
 });
 
-    return (
-            <div className="p-6">
+  return (
+    <div className="p-6 max-w-6xl mx-auto">
+      <h1
+        className="text-4xl font-extrabold mb-8
+        bg-gradient-to-r from-primary-purple to-primary-pink
+        bg-clip-text text-transparent"
+      >
+        Find a Professional
+      </h1>
+
       <input
         type="text"
         placeholder="Search professionals or specialization..."
-        className="border px-3 py-2 rounded w-full mb-6"
+        className="border px-4 py-3 rounded-lg w-full mb-8
+        shadow focus:ring-2 focus:ring-primary-purple outline-none text-primary-dark"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
-               {filtered.map((p) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        {filtered.map((p) => (
           <ProfessionalCard key={p.professionalID} professional={p} />
         ))}
       </div>
     </div>
-    );
+  );
 }
