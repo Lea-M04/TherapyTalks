@@ -29,31 +29,45 @@ export default function ResubmitVerificationPage() {
   };
 
   return (
-    <div className="p-6 text-white">
-      <h1 className="text-xl font-bold mb-4">Resubmit Verification</h1>
+  <div className="p-6 text-primary-dark">
 
-      <select
-        className="w-full p-2 mb-4 text-black"
-        value={documentType}
-        onChange={(e) => setDocumentType(e.target.value)}
-      >
-        <option value="license">License</option>
-        <option value="id_card">ID Card</option>
-        <option value="certificate">Certificate</option>
-      </select>
+    <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-primary-dark via-primary-purple to-primary-pink text-transparent bg-clip-text">
+      Resubmit Verification
+    </h1>
 
-      <input 
-        type="file"
-        className="w-full p-2 text-black mb-4"
-        onChange={(e) => setDocument(e.target.files[0])}
-      />
+    <div className="bg-white p-6 rounded-lg shadow-lg border border-primary/20 space-y-4">
+
+      <div>
+        <label className="block mb-2 font-semibold">Document Type</label>
+        <select
+          className="w-full p-2 rounded border border-primary/20 focus:outline-none focus:ring-2 focus:ring-primary-purple text-primary-dark"
+          value={documentType}
+          onChange={(e) => setDocumentType(e.target.value)}
+        >
+          <option value="license">License</option>
+          <option value="id_card">ID Card</option>
+          <option value="certificate">Certificate</option>
+        </select>
+      </div>
+
+      <div>
+        <label className="block mb-2 font-semibold">Upload Document</label>
+        <input
+          type="file"
+          className="w-full p-2 rounded border border-primary/20 bg-white text-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-purple"
+          onChange={(e) => setDocument(e.target.files[0])}
+        />
+      </div>
 
       <button
         onClick={submit}
-        className="bg-primary-dark py-2 px-6 rounded"
+        className="w-full py-2 bg-primary-purple text-white rounded-lg shadow hover:bg-primary-purple-hover transition"
       >
         Resubmit
       </button>
+
     </div>
-  );
+
+  </div>
+);
 }

@@ -39,69 +39,84 @@ export default function RejectReasonsPage() {
   };
 
   return (
-    <div className="p-6">
-      <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
-        <h2 className="text-xl font-bold mb-4">Delete Reason</h2>
-        <p className="mb-4">A je e sigurt që don me e fshi këtë reason?</p>
+  <div className="p-6">
+
+    <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
+      <div className="p-6 bg-white rounded-lg shadow-lg border border-primary/20">
+        <h2 className="text-xl font-bold mb-4 text-primary-dark">Delete Reason</h2>
+        <p className="mb-4 text-primary-dark">
+          A je e sigurt që don me e fshi këtë reason?
+        </p>
 
         <div className="flex justify-end gap-3">
           <button
             onClick={() => setOpenDeleteModal(false)}
-            className="px-4 py-2 bg-gray-300 rounded"
+            className="px-4 py-2 bg-primary-purple/20 text-primary-purple rounded hover:bg-primary-purple-hover hover:text-white transition"
           >
             Cancel
           </button>
 
           <button
             onClick={confirmDelete}
-            className="px-4 py-2 bg-red-600 text-white rounded"
+            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
           >
             Delete
           </button>
         </div>
-      </Modal>
+      </div>
+    </Modal>
 
-      <h1 className="text-2xl text-primary-dark font-bold mb-4">
+    <div className="flex justify-between items-center mb-6">
+      <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-dark via-primary-purple to-primary-pink text-transparent bg-clip-text">
         Reject Reasons
       </h1>
+    </div>
 
-      <table className="w-full text-primary-dark border">
-        <thead className="bg-gray-100">
+    <div className="overflow-hidden rounded-lg border border-primary/20 shadow-sm bg-white">
+      <table className="w-full text-primary-dark">
+        <thead className="bg-primary/20">
           <tr>
-            <th className="p-2 border">ID</th>
-            <th className="p-2 border">Request ID</th>
-            <th className="p-2 border">Professional</th>
-            <th className="p-2 border">Title</th>
-            <th className="p-2 border">Description</th>
-            <th className="p-2 border">Created At</th>
-            <th className="p-2 border">Actions</th>
+            {["ID", "Request ID", "Professional", "Title", "Description", "Created At", "Actions"]
+              .map((h) => (
+                <th
+                  key={h}
+                  className="p-3 border border-primary/10 text-left text-sm font-semibold"
+                >
+                  {h}
+                </th>
+              ))}
           </tr>
         </thead>
 
         <tbody>
           {reasons.map((reason) => (
-            <tr key={reason.reasonID}>
-              <td className="p-2 border">{reason.reasonID}</td>
-              <td className="p-2 border">{reason.request.requestID}</td>
-              <td className="p-2 border">
+            <tr
+              key={reason.reasonID}
+              className="hover:bg-primary-pink/10 transition"
+            >
+              <td className="p-3 border border-primary/10">{reason.reasonID}</td>
+              <td className="p-3 border border-primary/10">{reason.request.requestID}</td>
+
+              <td className="p-3 border border-primary/10">
                 {reason.request?.professional
                   ? `${reason.request.professional.user.firstName} ${reason.request.professional.user.lastName}`
                   : "-"}
               </td>
 
-              <td className="p-2 border">{reason.title}</td>
-              <td className="p-2 border">{reason.description || "-"}</td>
-              <td className="p-2 border">
+              <td className="p-3 border border-primary/10">{reason.title}</td>
+              <td className="p-3 border border-primary/10">{reason.description || "-"}</td>
+
+              <td className="p-3 border border-primary/10">
                 {new Date(reason.created_at).toLocaleString()}
               </td>
 
-              <td className="p-2 border">
+              <td className="p-3 border border-primary/10">
                 <button
                   onClick={() => {
                     setDeleteId(reason.reasonID);
                     setOpenDeleteModal(true);
                   }}
-                  className="bg-red-600 text-white px-3 py-1 rounded"
+                  className="px-3 py-1 bg-primary-purple text-white rounded hover:bg-primary-purple-hover transition"
                 >
                   Delete
                 </button>
@@ -111,30 +126,33 @@ export default function RejectReasonsPage() {
 
           {reasons.length === 0 && (
             <tr>
-              <td colSpan="7" className="p-4 text-center">
+              <td colSpan="7" className="p-4 text-center text-primary-dark">
                 No reject reasons found
               </td>
             </tr>
           )}
         </tbody>
       </table>
-      <div className="flex justify-center items-center gap-6 mt-4">
-        <button
-          disabled={!pagination.prev_page_url}
-          onClick={() => loadPage(pagination.current_page - 1)}
-          className="text-primary-dark font-bold text-lg disabled:opacity-50"
-        >
-          Prev
-        </button>
-
-        <button
-          disabled={!pagination.next_page_url}
-          onClick={() => loadPage(pagination.current_page + 1)}
-          className="text-primary-dark font-bold text-lg disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
     </div>
-  );
+
+    <div className="flex justify-center items-center gap-6 mt-6 text-primary-dark">
+      <button
+        disabled={!pagination.prev_page_url}
+        onClick={() => loadPage(pagination.current_page - 1)}
+        className="px-4 py-2 rounded bg-primary/20 hover:bg-primary/40 disabled:opacity-40 transition"
+      >
+        Prev
+      </button>
+
+      <button
+        disabled={!pagination.next_page_url}
+        onClick={() => loadPage(pagination.current_page + 1)}
+        className="px-4 py-2 rounded bg-primary/20 hover:bg-primary/40 disabled:opacity-40 transition"
+      >
+        Next
+      </button>
+    </div>
+
+  </div>
+);
 }

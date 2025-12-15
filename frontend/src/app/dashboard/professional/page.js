@@ -143,7 +143,7 @@ useEffect(() => {
         )}
 
         {user?.professional?.status === "rejected" && (
-          <div className="bg-red-100/80 border border-red-300 text-red-800 p-5 rounded-xl mb-6 shadow-md">
+          <div className="bg-red-100/30 border border-red-300 text-red-800 p-5 rounded-xl mb-6 shadow-md">
             <p className="font-semibold text-lg">❌ Your verification was rejected</p>
 
             {rejectReasons.length > 0 ? (

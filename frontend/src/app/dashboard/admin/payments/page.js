@@ -24,65 +24,105 @@ export default function PaymentsPage() {
   }, []);
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl text-primary-dark font-bold mb-4">
-        Payments
-      </h1>
+  <div className="p-6">
 
-      <table className="w-full text-primary-dark border">
-        <thead className="bg-gray-100">
+    <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r 
+        from-primary-dark via-primary-purple to-primary-pink 
+        text-transparent bg-clip-text">
+      Payments
+    </h1>
+
+    <div className="overflow-hidden rounded-lg border border-primary/20 shadow-sm bg-white">
+      <table className="w-full text-primary-dark">
+        <thead className="bg-primary/20">
           <tr>
-            <th className="p-2 border">ID</th>
-            <th className="p-2 border">Booking</th>
-            <th className="p-2 border">Patient</th>
-            <th className="p-2 border">Amount (€)</th>
-            <th className="p-2 border">Status</th>
-            <th className="p-2 border">Provider</th>
-            <th className="p-2 border">Transaction</th>
-            <th className="p-2 border">Created</th>
+            {[
+              "ID",
+              "Booking",
+              "Patient",
+              "Amount (€)",
+              "Status",
+              "Provider",
+              "Transaction",
+              "Created",
+            ].map((h) => (
+              <th
+                key={h}
+                className="p-3 border border-primary/10 text-left text-sm font-semibold"
+              >
+                {h}
+              </th>
+            ))}
           </tr>
         </thead>
 
         <tbody>
-          {payments.map(p => (
-            <tr key={p.paymentID}>
-              <td className="p-2 border">{p.paymentID}</td>
-              <td className="p-2 border">{p.booking?.service?.name ?? "-"}</td>
-              <td className="p-2 border">{p.patient?.user
-    ? `${p.patient.user.firstName} ${p.patient.user.lastName}`: "-"}</td>
-              <td className="p-2 border">{p.amount}</td>
-              <td className="p-2 border font-semibold">
+          {payments.map((p) => (
+            <tr
+              key={p.paymentID}
+              className="hover:bg-primary-pink/10 transition"
+            >
+              <td className="p-3 border border-primary/10">{p.paymentID}</td>
+
+              <td className="p-3 border border-primary/10">
+                {p.booking?.service?.name ?? "-"}
+              </td>
+
+              <td className="p-3 border border-primary/10">
+                {p.patient?.user
+                  ? `${p.patient.user.firstName} ${p.patient.user.lastName}`
+                  : "-"}
+              </td>
+
+              <td className="p-3 border border-primary/10">{p.amount}</td>
+
+              <td className="p-3 border border-primary/10 font-semibold">
                 {p.status}
               </td>
-              <td className="p-2 border">{p.provider}</td>
-              <td className="p-2 border">
+
+              <td className="p-3 border border-primary/10">{p.provider}</td>
+
+              <td className="p-3 border border-primary/10">
                 {p.transactionID ?? "-"}
               </td>
-              <td className="p-2 border">
+
+              <td className="p-3 border border-primary/10">
                 {new Date(p.created_at).toLocaleString()}
               </td>
             </tr>
           ))}
+
+          {payments.length === 0 && (
+            <tr>
+              <td
+                colSpan="8"
+                className="p-4 text-center text-primary-dark"
+              >
+                No payments found
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
-
-      <div className="flex justify-center items-center gap-6 mt-6">
-        <button
-          disabled={!pagination.prev_page_url}
-          onClick={() => loadPage(pagination.current_page - 1)}
-          className="text-primary-dark font-bold text-lg disabled:opacity-40"
-        >
-          Prev
-        </button>
-
-        <button
-          disabled={!pagination.next_page_url}
-          onClick={() => loadPage(pagination.current_page + 1)}
-          className="text-primary-dark font-bold text-lg disabled:opacity-40"
-        >
-          Next
-        </button>
-      </div>
     </div>
-  );
+
+    <div className="flex justify-center items-center gap-6 mt-6 text-primary-dark">
+      <button
+        disabled={!pagination.prev_page_url}
+        onClick={() => loadPage(pagination.current_page - 1)}
+        className="px-4 py-2 rounded bg-primary/20 hover:bg-primary/40 disabled:opacity-40 transition"
+      >
+        Prev
+      </button>
+
+      <button
+        disabled={!pagination.next_page_url}
+        onClick={() => loadPage(pagination.current_page + 1)}
+        className="px-4 py-2 rounded bg-primary/20 hover:bg-primary/40 disabled:opacity-40 transition"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+);
 }

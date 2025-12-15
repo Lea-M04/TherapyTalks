@@ -35,80 +35,89 @@ export default function BookingsPage() {
   };
 
   return (
-    <div className="p-6 text-primary-dark">
+  <div className="p-6 text-primary-dark">
 
-      <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
-        <h2 className="text-xl font-bold mb-4">Delete Booking</h2>
-        <p className="mb-4">Are you sure you want to delete this booking?</p>
+    <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
+      <div className="p-6 bg-white rounded-lg shadow-lg border border-primary/20">
+        <h2 className="text-xl font-bold mb-3 text-primary-dark">Delete Booking</h2>
+        <p className="mb-4 text-primary-dark">Are you sure you want to delete this booking?</p>
 
         <div className="flex justify-end gap-3">
           <button
+            className="px-4 py-2 bg-primary-purple/20 text-primary-purple rounded hover:bg-primary-purple-hover hover:text-white transition"
             onClick={() => setOpenDeleteModal(false)}
-            className="px-4 py-2 bg-gray-300 rounded"
           >
             Cancel
           </button>
 
           <button
+            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
             onClick={confirmDelete}
-            className="px-4 py-2 bg-red-600 text-white rounded"
           >
             Delete
           </button>
         </div>
-      </Modal>
-
-      <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-bold">Bookings</h1>
-
-        <Link
-          href="/dashboard/admin/bookings/create"
-          className="bg-primary-dark text-white px-4 py-2 rounded"
-        >
-          + Create Booking
-        </Link>
       </div>
+    </Modal>
 
-      <table className="w-full border">
-        <thead className="bg-gray-100">
+    <div className="flex justify-between items-center mb-6">
+      <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-dark via-primary-purple to-primary-pink text-transparent bg-clip-text">
+        Bookings
+      </h1>
+
+      <Link
+        href="/dashboard/admin/bookings/create"
+        className="bg-primary-purple text-white px-4 py-2 rounded-lg shadow hover:bg-primary-purple-hover transition"
+      >
+        + Create Booking
+      </Link>
+    </div>
+
+    <div className="overflow-hidden rounded-lg border border-primary/20 shadow-sm bg-white">
+      <table className="w-full text-primary-dark">
+        <thead className="bg-primary/20">
           <tr>
-            <th className="border p-2">ID</th>
-            <th className="border p-2">Patient</th>
-            <th className="border p-2">Professional</th>
-            <th className="border p-2">Service</th>
-            <th className="border p-2">Date</th>
-            <th className="border p-2">Time</th>
-            <th className="border p-2">Status</th>
-            <th className="border p-2">Actions</th>
+            {[
+              "ID", "Patient", "Professional", "Service", "Date", "Time",
+              "Status", "Actions"
+            ].map((h) => (
+              <th
+                key={h}
+                className="p-3 border border-primary/10 text-left text-sm font-semibold"
+              >
+                {h}
+              </th>
+            ))}
           </tr>
         </thead>
 
         <tbody>
           {bookings.map((b) => (
-            <tr key={b.bookingID}>
-              <td className="border p-2">{b.bookingID}</td>
+            <tr
+              key={b.bookingID}
+              className="hover:bg-primary-pink/10 transition"
+            >
+              <td className="p-3 border border-primary/10">{b.bookingID}</td>
 
-              <td className="border p-2">
+              <td className="p-3 border border-primary/10">
                 {b.patientFirstName} {b.patientLastName}
               </td>
 
-              <td className="border p-2">
+              <td className="p-3 border border-primary/10">
                 {b.professionalFirstName} {b.professionalLastName}
               </td>
 
-              <td className="border p-2">{b.serviceName}</td>
+              <td className="p-3 border border-primary/10">{b.serviceName}</td>
 
-              <td className="border p-2">{b.appointmentDate}</td>
-              <td className="border p-2">{b.appointmentTime}</td>
+              <td className="p-3 border border-primary/10">{b.appointmentDate}</td>
+              <td className="p-3 border border-primary/10">{b.appointmentTime}</td>
 
-              <td className="border p-2 font-semibold">
-                {b.status}
-              </td>
+              <td className="p-3 border border-primary/10 font-semibold">{b.status}</td>
 
-              <td className="border p-2 flex gap-2">
+              <td className="p-3 border border-primary/10 flex gap-2">
                 <Link
                   href={`/dashboard/admin/bookings/${b.bookingID}/edit`}
-                  className="px-3 py-1 bg-primary-pink text-white rounded"
+                  className="px-3 py-1 bg-primary-pink text-white rounded hover:bg-primary-pink-hover transition"
                 >
                   Edit
                 </Link>
@@ -118,7 +127,7 @@ export default function BookingsPage() {
                     setDeleteId(b.bookingID);
                     setOpenDeleteModal(true);
                   }}
-                  className="px-3 py-1 bg-red-600 text-white rounded"
+                  className="px-3 py-1 bg-primary-purple text-white rounded hover:bg-primary-purple-hover transition"
                 >
                   Delete
                 </button>
@@ -128,7 +137,7 @@ export default function BookingsPage() {
 
           {bookings.length === 0 && (
             <tr>
-              <td colSpan="8" className="p-4 text-center">
+              <td colSpan="8" className="p-4 text-center text-primary-dark">
                 No bookings found
               </td>
             </tr>
@@ -136,5 +145,6 @@ export default function BookingsPage() {
         </tbody>
       </table>
     </div>
-  );
+  </div>
+);
 }

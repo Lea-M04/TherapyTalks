@@ -87,7 +87,7 @@ export default function BookingForm({ params }) {
 
   return (
     <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">
+      <h1 className="text-xl font-bold mb-4 text-primary-dark">
         {isEdit ? "Edit Booking" : "Create Booking"}
       </h1>
 
@@ -96,7 +96,7 @@ export default function BookingForm({ params }) {
           <>
 
             <select
-              className="border p-2 w-full"
+              className="border p-2 w-full text-primary-dark"
               value={form.patientID}
               onChange={(e) =>
                 setForm({ ...form, patientID: e.target.value })
@@ -111,7 +111,7 @@ export default function BookingForm({ params }) {
             </select>
 
             <select
-              className="border p-2 w-full"
+              className="border p-2 w-full text-primary-dark"
               value={form.professionalID}
               onChange={(e) =>
                 setForm({ ...form, professionalID: e.target.value })
@@ -126,7 +126,7 @@ export default function BookingForm({ params }) {
             </select>
 
             <select
-              className="border p-2 w-full"
+              className="border p-2 w-full text-primary-dark"
               value={form.serviceID}
               onChange={(e) =>
                 setForm({ ...form, serviceID: e.target.value })
@@ -142,7 +142,7 @@ export default function BookingForm({ params }) {
 
             <input
               type="date"
-              className="border p-2 w-full"
+              className="border p-2 w-full text-primary-dark"
               value={form.appointmentDate}
               onChange={(e) =>
                 setForm({ ...form, appointmentDate: e.target.value })
@@ -151,7 +151,7 @@ export default function BookingForm({ params }) {
 
             <input
               type="time"
-              className="border p-2 w-full"
+              className="border p-2 w-full text-primary-dark"
               value={form.appointmentTime}
               onChange={(e) =>
                 setForm({ ...form, appointmentTime: e.target.value })
@@ -161,7 +161,7 @@ export default function BookingForm({ params }) {
         )}
 
         <select
-          className="border p-2 w-full"
+          className="border p-2 w-full text-primary-dark"
           value={form.status}
           onChange={(e) => setForm({ ...form, status: e.target.value })}
         >

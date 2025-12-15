@@ -39,14 +39,32 @@ export default function Sidebar({ role }) {
   };
 
   return (
-    <aside className="w-64 h-screen border-r p-4 flex flex-col gap-3 bg-primary-dark">
+  <aside className="w-64 h-screen bg-white border-r border-primary/20 p-5 flex flex-col justify-between shadow-sm">
+
+    <div className="flex flex-col gap-2">
+      <h2 className="text-xl font-bold mb-3 bg-gradient-to-r from-primary-dark via-primary-purple to-primary-pink text-transparent bg-clip-text">
+        Menu
+      </h2>
+
       {items[role]?.map((item) => (
-        <Link key={item.href} href={item.href} className="p-2 rounded hover:bg-gray-200">
+        <Link
+          key={item.href}
+          href={item.href}
+          className="p-3 rounded-lg text-primary-dark border border-primary/10 hover:bg-primary/10 hover:border-primary transition font-medium"
+        >
           {item.label}
         </Link>
       ))}
-      <button onClick={logout} 
-            className="px-3 py-1 rounded bg-red-600 text-white">Logout</button>
-    </aside>
-  );
+    </div>
+
+    <button
+      onClick={logout}
+      className="w-full px-4 py-2 bg-primary-dark text-white rounded-lg shadow hover:bg-gray-800 transition"
+    >
+      Logout
+    </button>
+
+  </aside>
+);
 }
+
