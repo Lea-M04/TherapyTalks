@@ -22,57 +22,88 @@ const loadPage = (page) => {
   }, []);
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl text-primary-dark font-bold mb-4">Audit Logs</h1>
+  <div className="p-6">
+    <div className="flex justify-between items-center mb-6">
+      <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-dark via-primary-purple to-primary-pink text-transparent bg-clip-text">
+        Audit Logs
+      </h1>
+    </div>
 
-      <table className="w-full text-primary-dark border">
-        <thead className="bg-gray-100">
+    <div className="overflow-hidden rounded-lg border border-primary/20 shadow-sm bg-white">
+      <table className="w-full text-primary-dark">
+        <thead className="bg-primary/20">
           <tr>
-            <th className="p-2 border">ID</th>
-            <th className="p-2 border">Action</th>
-            <th className="p-2 border">Target Type</th>
-            <th className="p-2 border">Target ID</th>
-            <th className="p-2 border">Status</th>
-            <th className="p-2 border">Timestamp</th>
-            <th className="p-2 border">User</th>
+            {[
+              "ID",
+              "Action",
+              "Target Type",
+              "Target ID",
+              "Status",
+              "Timestamp",
+              "User"
+            ].map((h) => (
+              <th
+                key={h}
+                className="p-3 border border-primary/10 text-left text-sm font-semibold"
+              >
+                {h}
+              </th>
+            ))}
           </tr>
         </thead>
 
         <tbody>
-          {logs.map(log => (
-            <tr key={log.logID}>
-              <td className="p-2 border">{log.logID}</td>
-              <td className="p-2 border">{log.action}</td>
-              <td className="p-2 border">{log.targetType}</td>
-              <td className="p-2 border">{log.targetID ?? "-"}</td>
-              <td className="p-2 border">{log.status}</td>
-              <td className="p-2 border">
+          {logs.map((log) => (
+            <tr key={log.logID} className="hover:bg-primary-pink/10 transition">
+              <td className="p-3 border border-primary/10">{log.logID}</td>
+              <td className="p-3 border border-primary/10">{log.action}</td>
+              <td className="p-3 border border-primary/10">{log.targetType}</td>
+              <td className="p-3 border border-primary/10">
+                {log.targetID ?? "-"}
+              </td>
+              <td className="p-3 border border-primary/10">{log.status}</td>
+              <td className="p-3 border border-primary/10">
                 {new Date(log.timestamp).toLocaleString()}
               </td>
-              <td className="p-2 border">
-                {log.user ? `${log.user.firstName} ${log.user.lastName}` : "System"}
+              <td className="p-3 border border-primary/10">
+                {log.user
+                  ? `${log.user.firstName} ${log.user.lastName}`
+                  : "System"}
               </td>
             </tr>
           ))}
+
+          {logs.length === 0 && (
+            <tr>
+              <td
+                colSpan="7"
+                className="p-4 text-center text-primary-dark"
+              >
+                No logs found
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
-
-    <div className="flex justify-center items-center gap-6">
-      <button
-  disabled={!pagination.prev_page_url}
-  onClick={() => loadPage(pagination.current_page - 1)}
-  className="text-primary-dark font-bold text-lg"
->
-  Prev
-</button>
-
-<button
-  disabled={!pagination.next_page_url}
-  onClick={() => loadPage(pagination.current_page + 1)}
-   className="text-primary-dark font-bold text-lg"
->
-  Next
-</button></div>
     </div>
-  );
+
+    <div className="flex justify-center items-center gap-6 mt-6 text-primary-dark">
+      <button
+        disabled={!pagination.prev_page_url}
+        onClick={() => loadPage(pagination.current_page - 1)}
+        className="px-4 py-2 rounded bg-primary/20 hover:bg-primary/40 disabled:opacity-40 transition"
+      >
+        Prev
+      </button>
+
+      <button
+        disabled={!pagination.next_page_url}
+        onClick={() => loadPage(pagination.current_page + 1)}
+        className="px-4 py-2 rounded bg-primary/20 hover:bg-primary/40 disabled:opacity-40 transition"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+);
 }

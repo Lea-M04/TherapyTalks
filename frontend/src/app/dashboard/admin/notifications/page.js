@@ -53,113 +53,154 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="p-6">
-     
+  <div className="p-6">
 
-      {pagination && (
-        <>
-          <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
-            <h2 className="text-xl font-bold mb-4">Delete Notification</h2>
-            <p className="mb-4">Are you sure you want to delete this notification?</p>
+    <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
+      <div className="p-6 bg-white rounded-lg shadow-lg border border-primary/20">
+        <h2 className="text-xl font-bold mb-4 text-primary-dark">
+          Delete Notification
+        </h2>
 
-            <div className="flex justify-end gap-3">
-              <button onClick={() => setOpenDeleteModal(false)} className="px-4 py-2 bg-gray-300 rounded">
-                Cancel
-              </button>
+        <p className="mb-4 text-primary-dark">
+          Are you sure you want to delete this notification?
+        </p>
 
-              <button onClick={confirmDelete} className="px-4 py-2 bg-red-600 text-white rounded">
-                Delete
-              </button>
-            </div>
-          </Modal>
+        <div className="flex justify-end gap-3">
+          <button
+            className="px-4 py-2 bg-primary-purple/20 text-primary-purple rounded
+                       hover:bg-primary-purple-hover hover:text-white transition"
+            onClick={() => setOpenDeleteModal(false)}
+          >
+            Cancel
+          </button>
 
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl text-primary-dark font-bold">Notifications</h1>
+          <button
+            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+            onClick={confirmDelete}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </Modal>
 
-            <Link href="/dashboard/admin/notifications/create" className="bg-primary-dark text-white px-4 py-2 rounded">
-              + Create Notification
-            </Link>
-          </div>
+    <div className="flex justify-between items-center mb-6">
+      <h1 className="text-3xl font-bold 
+                     bg-gradient-to-r from-primary-dark via-primary-purple to-primary-pink 
+                     text-transparent bg-clip-text">
+        Notifications
+      </h1>
 
-          <table className="w-full text-primary-dark border">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="p-2 border">ID</th>
-                <th className="p-2 border">Title</th>
-                <th className="p-2 border">Message</th>
-                <th className="p-2 border">Type</th>
-                <th className="p-2 border">User</th>
-                <th className="p-2 border">Status</th>
-                <th className="p-2 border">Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {notifications.map((n) => (
-                <tr key={n.notificationID}>
-                  <td className="p-2 border">{n.notificationID}</td>
-                  <td className="p-2 border">{n.title}</td>
-                  <td className="p-2 border">{n.message}</td>
-                  <td className="p-2 border">{n.type}</td>
-                  <td className="p-2 border">
-                    {n.user?.firstName} {n.user?.lastName}
-                  </td>
-                  <td className="p-2 border">
-                    {n.isRead ? "Read" : "Unread"}
-                  </td>
-
-                  <td className="p-2 border flex gap-2">
-                    {!n.isRead && (
-                      <button
-                        onClick={() => handleMarkRead(n.notificationID)}
-                        className="px-3 py-1 bg-blue-600 text-white rounded"
-                      >
-                        Mark Read
-                      </button>
-                    )}
-
-                    <button
-                      onClick={() => {
-                        setDeleteId(n.notificationID);
-                        setOpenDeleteModal(true);
-                      }}
-                      className="px-3 py-1 bg-primary-purple text-white rounded"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-
-              {notifications.length === 0 && (
-                <tr>
-                  <td colSpan="7" className="p-4 text-center">
-                    No notifications found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-
-          <div className="flex justify-center items-center gap-6 mt-3">
-            <button
-              disabled={!pagination?.prev_page_url}
-              onClick={() => loadPage(pagination.current_page - 1)}
-              className="text-primary-dark font-bold text-lg disabled:opacity-40"
-            >
-              Prev
-            </button>
-
-            <button
-              disabled={!pagination?.next_page_url}
-              onClick={() => loadPage(pagination.current_page + 1)}
-              className="text-primary-dark font-bold text-lg disabled:opacity-40"
-            >
-              Next
-            </button>
-          </div>
-        </>
-      )}
+      <Link
+        href="/dashboard/admin/notifications/create"
+        className="bg-primary-purple text-white px-4 py-2 rounded-lg shadow 
+                   hover:bg-primary-purple-hover transition"
+      >
+        + Create Notification
+      </Link>
     </div>
-  );
+
+
+    <div className="overflow-hidden rounded-lg border border-primary/20 shadow-sm bg-white">
+      <table className="w-full text-primary-dark">
+        <thead className="bg-primary/20">
+          <tr>
+            {["ID", "Title", "Message", "Type", "User", "Status", "Actions"].map((h) => (
+              <th
+                key={h}
+                className="p-3 border border-primary/10 text-left text-sm font-semibold"
+              >
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+
+        <tbody>
+          {notifications.map((n) => (
+            <tr
+              key={n.notificationID}
+              className="hover:bg-primary-pink/10 transition"
+            >
+              <td className="p-3 border border-primary/10">{n.notificationID}</td>
+              <td className="p-3 border border-primary/10">{n.title}</td>
+              <td className="p-3 border border-primary/10">{n.message}</td>
+              <td className="p-3 border border-primary/10">{n.type}</td>
+
+              <td className="p-3 border border-primary/10">
+                {n.user?.firstName} {n.user?.lastName}
+              </td>
+
+              <td className="p-3 border border-primary/10">
+                <span
+                  className={
+                    n.isRead
+                      ? "text-green-700 font-semibold"
+                      : "text-red-600 font-semibold"
+                  }
+                >
+                  {n.isRead ? "Read" : "Unread"}
+                </span>
+              </td>
+
+              <td className="p-3 border border-primary/10 flex gap-2">
+                {!n.isRead && (
+                  <button
+                    onClick={() => handleMarkRead(n.notificationID)}
+                    className="px-3 py-1 bg-primary-pink text-white rounded 
+                               hover:bg-primary-pink-hover transition"
+                  >
+                    Mark Read
+                  </button>
+                )}
+
+                <button
+                  onClick={() => {
+                    setDeleteId(n.notificationID);
+                    setOpenDeleteModal(true);
+                  }}
+                  className="px-3 py-1 bg-primary-purple text-white rounded
+                             hover:bg-primary-purple-hover transition"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+
+          {notifications.length === 0 && (
+            <tr>
+              <td
+                colSpan="7"
+                className="p-4 text-center text-primary-dark"
+              >
+                No notifications found
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+
+    <div className="flex justify-center items-center gap-6 mt-6 text-primary-dark">
+      <button
+        disabled={!pagination?.prev_page_url}
+        onClick={() => loadPage(pagination.current_page - 1)}
+        className="px-4 py-2 rounded bg-primary/20 hover:bg-primary/40 
+                   disabled:opacity-40 transition"
+      >
+        Prev
+      </button>
+
+      <button
+        disabled={!pagination?.next_page_url}
+        onClick={() => loadPage(pagination.current_page + 1)}
+        className="px-4 py-2 rounded bg-primary/20 hover:bg-primary/40 
+                   disabled:opacity-40 transition"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+);
 }
