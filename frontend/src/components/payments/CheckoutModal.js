@@ -30,7 +30,7 @@ export default function CheckoutModal({ booking, onClose, onPaid }) {
         const amount = payment.amount; 
         
         if (!amount || typeof amount !== 'number' || amount < 0.5) { 
-            throw new Error(`Shuma e pagesës e pavlefshme: ${amount} EUR. Kërkohet të jetë të paktën 0.50 EUR.`);
+            throw new Error(`The amount is not enough: ${amount} EURO. It should be minimun .50c`);
         }
 
          const intent = await createStripeIntent({
@@ -42,7 +42,7 @@ export default function CheckoutModal({ booking, onClose, onPaid }) {
         setClientSecret(intent.clientSecret);
      } catch (err) {
         console.error("Checkout init error", err);
-        setError(err?.message || "Gabim gjatë përgatitjes së pagesës.");
+        setError(err?.message || "Error while making payment.");
      } finally {
          setProcessing(false);
       }
@@ -59,11 +59,11 @@ async function handleSuccess(paymentIntent) {
             transactionID: paymentIntent.id,
         });
         onPaid?.(paymentRecord);
-        alert("Pagesa u krye me sukses! 🎉");
+        alert("Payment successful");
     } catch (err) {
         confirmationSucceeded = false;
         console.error("Confirm error", err);
-        alert("Pagesa u krye, por dështoi konfirmimi në server. Ju lutemi kontaktoni mbështetjen.");
+        alert("Payment done, but error in the backend");
     } finally {
         onClose?.(); 
     }
@@ -72,7 +72,7 @@ async function handleSuccess(paymentIntent) {
   if (processing) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-        <div className="bg-white p-6 rounded">Duke përgatitur pagesën...</div>
+        <div className="bg-white p-6 rounded">Preparing payment....</div>
       </div>
     );
   }
@@ -82,7 +82,7 @@ async function handleSuccess(paymentIntent) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
       <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold">Checkout për Rezervimin #{booking.bookingID}</h3>
+          <h3 className="text-lg font-semibold">Checkout for Reservation #{booking.bookingID}</h3>
           <button onClick={() => onClose?.()}>✕</button>
         </div>
 
@@ -93,12 +93,12 @@ async function handleSuccess(paymentIntent) {
             </div>
         )}
 
-        {!clientSecret && !error && <div>Duke pritur konfigurimin e pagesës...</div>}
+        {!clientSecret && !error && <div>Waiting payment configuration...</div>}
 
        {clientSecret && (
           <Elements stripe={stripePromise} options={{ clientSecret }}>
             <div className="mb-4 font-bold text-xl text-center">
-                Pagesa Totale: {paymentRecord?.amount.toFixed(2)} EUR
+                Total: {paymentRecord?.amount.toFixed(2)} EUR
             </div>
             <CheckoutForm
               clientSecret={clientSecret}

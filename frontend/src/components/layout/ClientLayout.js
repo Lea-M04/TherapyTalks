@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 import { useAuth } from "@/lib/context/AuthContext";
 import Sidebar from "./Sidebar";
 
@@ -21,6 +22,7 @@ export default function ClientLayout({ children }) {
       <div className="flex-1">
         {!isDashboard && showNavbar && <Navbar />}
         <main className="p-6">{children}</main>
+         {!isDashboard && showNavbar && <Footer />}
       </div>
     </div>
   );
