@@ -20,8 +20,8 @@ class PaymentService
         $this->repo = $repo;
         $this->audit = $audit;
     }
+public function createForBooking(int $bookingID): \App\Models\Payment
 
-   public function createForBooking(int $bookingID): DomainPayment
 {
     $booking = EloquentBooking::findOrFail($bookingID);
     $service = EloquentService::findOrFail($booking->serviceID);
@@ -48,10 +48,12 @@ class PaymentService
         $userID
     );
 
-    return $created;
+return \App\Models\Payment::find($created->paymentID);
 }
 
-   public function markPaid(int $paymentID, string $transactionID): DomainPayment
+
+
+   public function markPaid(int $paymentID, string $transactionID): \App\Models\Payment
 {
     $payment = $this->repo->findById($paymentID);
 
@@ -98,7 +100,8 @@ class PaymentService
         )
     );
 
-    return $updated;
+   return \App\Models\Payment::find($updated->paymentID);
+
 }
 
     public function getForPatient(int $patientID)

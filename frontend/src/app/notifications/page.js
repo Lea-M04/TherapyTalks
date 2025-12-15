@@ -34,47 +34,52 @@ export default function NotificationsPage() {
     await deleteNotification(id);
      setList(prev => prev.filter(x => x.notificationID !== id));
   }
+return (
+  <div className="p-10 max-w-3xl mx-auto">
+    <h1 className="text-3xl font-bold mb-8 text-primary-dark">
+      Notifications
+    </h1>
 
-  return (
-    <div className="p-10">
-      <h1 className="text-3xl font-bold mb-6">Notifications</h1>
+    <div className="space-y-4">
+      {list.map((n) => (
+        <div
+          key={n.notificationID}
+          onClick={() => openNotification(n)}
+          className="
+            p-5 rounded-xl border bg-white text-primary-dark shadow-sm
+            cursor-pointer transition 
+            hover:shadow-md hover:border-primary-purple hover:-translate-y-1
+          "
+        >
+          <p className="font-semibold text-lg">{n.title}</p>
+          <p className="text-gray-700 mt-1">{n.message}</p>
 
-      <div className="space-y-4">
-        {list.map(n => (
-          <div
-            key={n.notificationID}
-            className="p-4 border text-primary-dark rounded bg-white shadow cursor-pointer hover:bg-gray-50"
-            onClick={() => openNotification(n)}
-          >
-            <p className="font-semibold">{n.title}</p>
-            <p>{n.message}</p>
-
-            <div className="flex gap-4 mt-3">
-              {!n.isRead && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openNotification(n);
-                  }}
-                  className="text-blue-600"
-                >
-                  Mark as read & open
-                </button>
-              )}
-
+          <div className="flex gap-5 mt-4">
+            {!n.isRead && (
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleDelete(n.notificationID);
+                  openNotification(n);
                 }}
-                className="text-red-600"
+                className="text-primary-purple font-medium hover:underline"
               >
-                Delete
+                Mark as read & open
               </button>
-            </div>
+            )}
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete(n.notificationID);
+              }}
+              className="text-red-600 font-medium hover:underline"
+            >
+              Delete
+            </button>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
-  );
+  </div>
+);
 }

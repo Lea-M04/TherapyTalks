@@ -46,7 +46,7 @@ export default function CheckoutForm({ clientSecret, onSuccess, onError }) {
         <button
           type="submit"
           disabled={!stripe || loading}
-          className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-60"
+          className="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded disabled:opacity-60"
         >
           {loading ? "Processing..." : "Pay"}
         </button>
