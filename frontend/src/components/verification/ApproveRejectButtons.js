@@ -45,7 +45,7 @@ export default function ApproveRejectButtons({ requestID }) {
         <button
           disabled={loading}
           onClick={handleApprove}
-          className="bg-green-600 text-white px-4 py-2 rounded"
+          className="bg-primary-pink text-white px-4 py-2 rounded"
         >
           Approve
         </button>
@@ -53,7 +53,7 @@ export default function ApproveRejectButtons({ requestID }) {
         <button
           disabled={loading}
           onClick={() => setShowReject(true)}
-          className="bg-red-600 text-white px-4 py-2 rounded"
+          className="bg-primary-purple text-white px-4 py-2 rounded"
         >
           Reject
         </button>

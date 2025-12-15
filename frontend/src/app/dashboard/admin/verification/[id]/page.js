@@ -26,25 +26,56 @@ export default function VerificationDetailPage() {
   if (!req) return <p className="p-6">Request not found.</p>;
 
   return (
-    <div className="p-6 space-y-4">
-      <h1 className="text-2xl font-bold">Request #{req.requestID}</h1>
+  <div className="p-6 space-y-6">
 
-      <div className="border rounded p-4">
-        <p><strong>Professional ID:</strong> {req.professionalID}</p>
-        <p><strong>Status:</strong> {req.status}</p>
-        <p><strong>Submitted:</strong> {req.submittedAt}</p>
-        {req.documentURL && (
-          <p>
-            <strong>Document:</strong>{" "}
-            <a href={req.documentURL} target="_blank" rel="noreferrer" className="text-blue-600 underline">
-              Open
-            </a>
-          </p>
-        )}
-        {req.comments && <p><strong>Comments:</strong> {req.comments}</p>}
-      </div>
+    <h1
+      className="text-3xl font-bold bg-gradient-to-r
+      from-primary-dark via-primary-purple to-primary-pink
+      text-transparent bg-clip-text"
+    >
+      Request #{req.requestID}
+    </h1>
 
-      <ApproveRejectButtons requestID={req.requestID} />
+    <div className="rounded-lg border border-primary/20 bg-white shadow-sm p-6 space-y-3 text-primary-dark">
+
+      <p>
+        <strong className="text-primary-purple">Professional ID:</strong>{" "}
+        {req.professionalID}
+      </p>
+
+      <p>
+        <strong className="text-primary-purple">Status:</strong>{" "}
+        {req.status}
+      </p>
+
+      <p>
+        <strong className="text-primary-purple">Submitted:</strong>{" "}
+        {req.submittedAt.split("T")[0]}
+      </p>
+
+      {req.documentURL && (
+        <p>
+          <strong className="text-primary-purple">Document:</strong>{" "}
+          <a
+            href={req.documentURL}
+            target="_blank"
+            rel="noreferrer"
+            className="text-primary-pink underline hover:text-primary-pink-hover"
+          >
+            Open
+          </a>
+        </p>
+      )}
+
+      {req.comments && (
+        <p>
+          <strong className="text-primary-purple">Comments:</strong>{" "}
+          {req.comments}
+        </p>
+      )}
     </div>
-  );
+
+    <ApproveRejectButtons requestID={req.requestID} />
+  </div>
+);
 }

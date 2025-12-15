@@ -39,72 +39,84 @@ export default function PatientsPage() {
   };
 
   return (
-    <div className="p-6">
-      <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
-        <h2 className="text-xl font-bold mb-4">Delete Patient</h2>
-        <p className="mb-4">Are you sure you want to delete this patient?</p>
+  <div className="p-6">
+  
+    <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
+      <div className="p-6 bg-white rounded-lg shadow-lg border border-primary/20">
+        <h2 className="text-xl font-bold mb-4 text-primary-dark">Delete Patient</h2>
+        <p className="mb-4 text-primary-dark">Are you sure you want to delete this patient?</p>
 
         <div className="flex justify-end gap-3">
           <button
+            className="px-4 py-2 bg-primary-purple/20 text-primary-purple rounded hover:bg-primary-purple-hover hover:text-white transition"
             onClick={() => setOpenDeleteModal(false)}
-            className="px-4 py-2 bg-gray-300 rounded"
           >
             Cancel
           </button>
 
           <button
+            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
             onClick={confirmDelete}
-            className="px-4 py-2 bg-red-600 text-white rounded"
           >
             Delete
           </button>
         </div>
-      </Modal>
-
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl text-primary-dark font-bold">Patients</h1>
-
-        <Link
-          href="/dashboard/admin/patients/create"
-          className="bg-primary-dark text-white px-4 py-2 rounded"
-        >
-          + Create Patient
-        </Link>
       </div>
+    </Modal>
 
-      <table className="w-full text-primary-dark border">
-        <thead className="bg-gray-100">
+    <div className="flex justify-between items-center mb-6">
+      <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-dark via-primary-purple to-primary-pink text-transparent bg-clip-text">
+        Patients
+      </h1>
+
+      <Link
+        href="/dashboard/admin/patients/create"
+        className="bg-primary-purple text-white px-4 py-2 rounded-lg shadow hover:bg-primary-purple-hover transition"
+      >
+        + Create Patient
+      </Link>
+    </div>
+
+    <div className="overflow-hidden rounded-lg border border-primary/20 shadow-sm bg-white">
+      <table className="w-full text-primary-dark">
+        <thead className="bg-primary/20">
           <tr>
-            <th className="p-2 border">ID</th>
-            <th className="p-2 border">User</th>
-            <th className="p-2 border">Medical History</th>
-            <th className="p-2 border">Allergies</th>
-            <th className="p-2 border">Emergency Contact Name</th>
-            <th className="p-2 border">Emergency Contact Phone</th>
-            <th className="p-2 border">Insurance Number</th>
-            <th className="p-2 border">Pseudonym</th>
-            <th className="p-2 border">Actions</th>
+            {[
+              "ID", 
+              "User", 
+              "Medical History", 
+              "Allergies", 
+              "Emergency Contact Name",
+              "Emergency Contact Phone", 
+              "Insurance Number",
+              "Pseudonym",
+              "Actions"
+            ].map((h) => (
+              <th key={h} className="p-3 border border-primary/10 text-left text-sm font-semibold">
+                {h}
+              </th>
+            ))}
           </tr>
         </thead>
 
         <tbody>
           {patients.map((p) => (
-            <tr key={p.patientID}>
-              <td className="p-2 border">{p.patientID}</td>
-              <td className="p-2 border">
+            <tr key={p.patientID} className="hover:bg-primary-pink/10 transition">
+              <td className="p-3 border border-primary/10">{p.patientID}</td>
+              <td className="p-3 border border-primary/10">
                 {p.user?.firstName} {p.user?.lastName}
               </td>
-              <td className="p-2 border">{p.medicalHistory}</td>
-              <td className="p-2 border">{p.allergies}</td>
-              <td className="p-2 border">{p.emergencyContactName}</td>
-              <td className="p-2 border">{p.emergencyContactPhone}</td>
-              <td className="p-2 border">{p.insuranceNumber}</td>
-              <td className="p-2 border">{p.pseudonym}</td>
+              <td className="p-3 border border-primary/10">{p.medicalHistory}</td>
+              <td className="p-3 border border-primary/10">{p.allergies}</td>
+              <td className="p-3 border border-primary/10">{p.emergencyContactName}</td>
+              <td className="p-3 border border-primary/10">{p.emergencyContactPhone}</td>
+              <td className="p-3 border border-primary/10">{p.insuranceNumber}</td>
+              <td className="p-3 border border-primary/10">{p.pseudonym}</td>
 
-              <td className="p-2 border flex gap-2">
+              <td className="p-3 border border-primary/10 flex gap-2">
                 <Link
                   href={`/dashboard/admin/patients/${p.patientID}/edit`}
-                  className="px-3 py-1 bg-primary-pink text-white rounded"
+                  className="px-3 py-1 bg-primary-pink text-white rounded hover:bg-primary-pink-hover transition"
                 >
                   Edit
                 </Link>
@@ -114,7 +126,7 @@ export default function PatientsPage() {
                     setDeleteId(p.patientID);
                     setOpenDeleteModal(true);
                   }}
-                  className="px-3 py-1 bg-primary-purple text-white rounded"
+                  className="px-3 py-1 bg-primary-purple text-white rounded hover:bg-primary-purple-hover transition"
                 >
                   Delete
                 </button>
@@ -124,29 +136,32 @@ export default function PatientsPage() {
 
           {patients.length === 0 && (
             <tr>
-              <td colSpan="9" className="p-4 text-center">
+              <td colSpan="9" className="p-4 text-center text-primary-dark">
                 No patients found
               </td>
             </tr>
           )}
         </tbody>
       </table>
-       <div className="flex justify-center items-center gap-6">
-      <button
-  disabled={!pagination.prev_page_url}
-  onClick={() => loadPage(pagination.current_page - 1)}
-  className="text-primary-dark font-bold text-lg disabled:opacity-40"
->
-  Prev
-</button>
-
-<button
-  disabled={!pagination.next_page_url}
-  onClick={() => loadPage(pagination.current_page + 1)}
-   className="text-primary-dark font-bold text-lg disabled:opacity-40"
->
-  Next
-</button></div>
     </div>
-  );
+
+    <div className="flex justify-center items-center gap-6 mt-6 text-primary-dark">
+      <button
+        disabled={pagination.current_page <= 1}
+        onClick={() => loadPage(pagination.current_page - 1)}
+        className="px-4 py-2 rounded bg-primary/20 hover:bg-primary/40 disabled:opacity-40 transition"
+      >
+        Prev
+      </button>
+
+      <button
+        disabled={pagination.current_page >= pagination.last_page}
+        onClick={() => loadPage(pagination.current_page + 1)}
+        className="px-4 py-2 rounded bg-primary/20 hover:bg-primary/40 disabled:opacity-40 transition"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+);
 }

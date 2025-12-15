@@ -64,7 +64,6 @@ const toMySQLDate = (d) => {
       Consent Templates
     </h1>
 
-    {/* FORM CARD */}
     <div className="mb-8 bg-white p-6 rounded-xl shadow-sm 
                     border border-primary/20">
       
@@ -114,12 +113,10 @@ const toMySQLDate = (d) => {
       </div>
     </div>
 
-    {/* LIST TITLE */}
     <h2 className="font-semibold mb-3 text-primary-dark text-lg">
       Existing Templates
     </h2>
 
-    {/* LIST */}
     <div className="space-y-4">
       {templates.map((t) => (
         <div
