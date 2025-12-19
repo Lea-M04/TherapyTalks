@@ -9,12 +9,12 @@ class PatientPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->role === 'admin';
+        return $user->role === 'admin' || $user->role === 'auditor' ;
     }
 
     public function view(User $user, DomainPatient $model): bool
     {
-         return $user->role === 'admin' || $user->userID === $model->userID;
+         return $user->role === 'admin' || $user->role === 'auditor' || $user->userID === $model->userID;
     }
 
     public function create(User $user): bool

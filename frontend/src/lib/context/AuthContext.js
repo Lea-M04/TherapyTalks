@@ -2,13 +2,13 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { me as meApi, setAuthToken, getFullProfile } from "@/lib/auth";
-
+import { useRouter } from "next/navigation";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+ const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -54,8 +54,15 @@ export function AuthProvider({ children }) {
     setUser(null);
      window.location.href = "/";
   };
+   const requireAuth = () => {
+    if (!user) {
+      router.push("/auth/login");
+      return false;
+    }
+    return true;
+  };
   return (
-    <AuthContext.Provider value={{ user, setUser, loading , logout}}>
+    <AuthContext.Provider value={{ user, setUser, loading , logout, requireAuth }}>
       {children}
     </AuthContext.Provider>
   );

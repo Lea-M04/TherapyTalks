@@ -10,13 +10,13 @@ class ConsentRecordPolicy
 
     public function viewAny(User $user): bool
     {
-        return in_array($user->role, ['admin', 'professional', 'patient']);
+        return in_array($user->role, ['admin', 'professional', 'patient', 'moderator', 'auditor']);
     }
 
 
     public function view(User $user, ConsentRecord $c): bool
     {
-        if ($user->role === 'admin') return true;
+        if ($user->role === 'admin'|| $user->role === 'moderator' || $user->role === 'moderator') return true;
 
         if ($user->role === 'professional') {
             return $c->professionalID === $user->professional?->professionalID;

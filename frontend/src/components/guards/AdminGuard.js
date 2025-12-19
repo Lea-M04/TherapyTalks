@@ -11,7 +11,7 @@ export default function AdminGuard({ children }) {
   useEffect(() => {
     if (!loading) {
       if (!user) router.push("/auth/login");
-      else if (user.role !== "admin") router.push("/");
+      else if (user.role !== "admin" && user.role !== "moderator" && user.role !== "auditor") router.push("/");
     }
   }, [user, loading]);
 

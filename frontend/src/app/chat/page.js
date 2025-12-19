@@ -59,7 +59,10 @@ const [search, setSearch] = useState("");
           transition flex items-center justify-between"
         >
           <p className="font-semibold text-primary-dark text-lg">
-            {r.otherUser?.firstName} {r.otherUser?.lastName}
+          {r.otherUser.displayName
+    ? r.otherUser.displayName
+    : `${r.otherUser?.firstName ?? ""} ${r.otherUser?.lastName ?? ""}`
+  }
           </p>
 
           <span className="text-xs bg-primary-pink text-white px-3 py-1 rounded-full shadow">

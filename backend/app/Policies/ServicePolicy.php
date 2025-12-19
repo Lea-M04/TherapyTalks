@@ -15,13 +15,13 @@ class ServicePolicy
     public function view(User $user, DomainService $service): bool
     {
         return $user->role === 'admin'
-             || ($user->role === 'professional'
+             || ($user->role === 'professional' || $user->role === 'moderator'
                 && $user->professional->professionalID === $service->professionalID);
     }
 
     public function create(User $user): bool
     {
-        return $user->role === 'professional' || $user->role === 'admin';
+        return $user->role === 'professional' || $user->role === 'admin' || $user->role === 'moderator';
     }
 
     public function update(User $user, DomainService $service): bool

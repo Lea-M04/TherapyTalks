@@ -5,7 +5,6 @@ import { getTemplatesByProfessional, createConsent } from "@/lib/consent";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ConsentPopup from "../consent/ConsentModal";
-
 export default function StartChatButton({ professionalID, patientID }) {
   const { user } = useAuth();
   const router = useRouter();
@@ -18,6 +17,10 @@ const toMySQLDate = (d) => {
   return new Date(d).toISOString().slice(0, 19).replace("T", " ");
 };
   const startChat = async () => {
+    if (!user) {
+    router.push("/auth/login");
+    return;
+  }
     const rooms = await getChatRooms();
     const existing = rooms.find(
       r => r.patientID === finalPatientID && r.professionalID === professionalID
@@ -67,8 +70,6 @@ const handleAccept = async () => {
 
   router.push(`/chat/${room.chatRoomID}`);
 };
-
-
   return (
     <>
       <button onClick={startChat} className="btn-primary text-primary-dark">

@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/context/AuthContext";
 import { getBookings } from "@/lib/bookings";
 import CheckoutModal from "@/components/payments/CheckoutModal";
-
+import { useRouter } from "next/navigation";
 export default function BookingsPage() {
   const { user, loading: authLoading } = useAuth();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-
+const router = useRouter();
   const [checkoutBooking, setCheckoutBooking] = useState(null);
 
   useEffect(() => {
@@ -19,6 +19,9 @@ export default function BookingsPage() {
       setLoading(false);
       return;
     }
+     if (user && !user?.patient?.patientID) {
+    router.refresh();
+  }
 
     const patientID = user?.patient?.patientID;
     if (!patientID) {
@@ -30,7 +33,7 @@ export default function BookingsPage() {
       .then((res) => setBookings(res?.data || res || []))
       .catch(() => setBookings([]))
       .finally(() => setLoading(false));
-  }, [user, authLoading]);
+  }, [user, authLoading, router]);
 
   if (loading) return <div className="p-6">Loading...</div>;
   if (!user) return <div className="p-6">Please login</div>;

@@ -19,16 +19,16 @@ class ProfessionalPolicy
 
     public function create(User $user): bool
     {
-        return in_array($user->role, ['admin', 'professional']);
+        return in_array($user->role, ['admin', 'professional', 'moderator']);
     }
 
     public function update(User $user, DomainProfessional $model): bool
     {
-        return $user->role === 'admin' || $user->userID === $model->userID;
+        return $user->role === 'admin' || $user->role === 'moderator' || $user->userID === $model->userID;
     }
 
     public function delete(User $user, DomainProfessional $model): bool
     {
-        return $user->role === 'admin';
+        return $user->role === 'admin' || $user->role === 'moderator';
     }
 }

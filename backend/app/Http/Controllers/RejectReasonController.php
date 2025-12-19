@@ -18,7 +18,7 @@ class RejectReasonController extends Controller
        $user = Auth::user();
         $reasons = [];
 
-        if ($user->role === 'admin') {
+        if ($user->role === 'admin' || $user->role === 'auditor' || $user->role === 'moderator') {
             $reasons = $this->service->all();
         } elseif ($user->role === 'professional') {
             if ($user->professional) {

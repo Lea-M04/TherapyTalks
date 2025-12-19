@@ -44,7 +44,7 @@ setIsLoading(true);
         userID,
       });
 
-      router.push("/");
+      router.push("/auth/login");
     } catch (err) {
       console.log("PATIENT ERROR:", err.response?.data);
     }

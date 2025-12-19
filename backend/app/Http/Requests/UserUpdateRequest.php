@@ -20,7 +20,7 @@ class UserUpdateRequest extends FormRequest
             'email' => 'sometimes|email|unique:users,email,' . $this->route('id') . ',userID',
             'dateOfBirth'   => 'sometimes|nullable|date',
             'gender'        => 'sometimes|nullable|in:male,female,other',
-            'role'          => 'sometimes|in:patient,professional,admin',
+            'role'          => 'sometimes|in:patient,professional,admin,moderator,auditor',
             'status'        => 'sometimes|in:active,inactive,banned',
            'profileImage' => 'sometimes|nullable|image|mimes:jpg,jpeg,png|max:2048',
             'username'      => 'sometimes|string|unique:users,username,' . $this->route('id') . ',userID',

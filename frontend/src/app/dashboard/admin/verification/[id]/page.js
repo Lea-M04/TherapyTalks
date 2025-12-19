@@ -9,7 +9,7 @@ export default function VerificationDetailPage() {
   const { id } = useParams();
   const [req, setReq] = useState(null);
   const [loading, setLoading] = useState(true);
-
+const BACKEND_URL = "http://localhost:8000";
   useEffect(() => {
     if (!id) return;
     setLoading(true);
@@ -57,7 +57,7 @@ export default function VerificationDetailPage() {
         <p>
           <strong className="text-primary-purple">Document:</strong>{" "}
           <a
-            href={req.documentURL}
+            href={`${BACKEND_URL}${req.documentURL}`}
             target="_blank"
             rel="noreferrer"
             className="text-primary-pink underline hover:text-primary-pink-hover"

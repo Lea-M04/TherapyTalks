@@ -20,7 +20,7 @@ class RegisterUserRequest extends FormRequest
             'email'         => 'required|email|unique:users,email',
             'dateOfBirth'   => 'nullable|date',
             'gender'        => 'nullable|in:male,female,other',
-            'role'          => 'nullable|in:patient,professional,admin',
+            'role'          => 'nullable|in:patient,professional,admin,moderator,auditor',
             'status'        => 'nullable|in:active,inactive,banned',
             'profileImage'  => 'nullable|string',
             'username'      => 'required|string|unique:users,username',

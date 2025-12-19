@@ -134,8 +134,8 @@ export default function UserForm({ params }) {
           <option value="patient">Patient</option>
           <option value="professional">Professional</option>
           <option value="admin">Admin</option>
-          <option value="admin">Moderator</option>
-          <option value="admin">Auditor</option>
+          <option value="moderator">Moderator</option>
+          <option value="auditor">Auditor</option>
         </select>
 
         <select

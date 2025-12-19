@@ -1,19 +1,31 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getServicesByProfessional } from "@/lib/services";
 import BookingModal from "@/app/professionals/[id]/BookingModal";
 import StartChatButton from "@/components/chat/StartChatButton";
+import { useAuth } from "@/lib/context/AuthContext";
+import { useRouter } from "next/navigation";
 export default function ProfessionalDetails({ professional }) {
   const user = professional.user || {};
   const [services, setServices] = useState([]);
   const [openBooking, setOpenBooking] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
-
+  const router=useRouter();
+const { requireAuth } = useAuth();
+const hasRefreshed = useRef(false);
    useEffect(() => {
     getServicesByProfessional(professional.professionalID)
       .then(setServices)
       .catch(() => setServices([]));
   }, [professional.professionalID]);
+   useEffect(() => {
+    if (!requireAuth) return;
+
+    if (!requireAuth?.patient?.patientID && !hasRefreshed.current) {
+      hasRefreshed.current = true;
+      router.refresh();
+    }
+  }, [requireAuth, router]);
 
   return (
   <div className="p-6 max-w-5xl mx-auto">
@@ -111,6 +123,7 @@ export default function ProfessionalDetails({ professional }) {
 
                 <button
                   onClick={() => {
+                     if (!requireAuth()) return;
                     setSelectedService(s);
                     setOpenBooking(true);
                   }}

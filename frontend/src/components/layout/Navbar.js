@@ -44,7 +44,7 @@ export default function Navbar() {
             </Link>
           )}
           
-          {user && user.role === "admin" && (
+          {user && (user.role === "admin" || user.role==='auditor' || user.role==='moderator') && (
             <Link 
               href={DASHBOARD_ROUTES.ADMIN}
               className="text-primary-dark hover:text-primary-purple font-medium font-onest transition-colors"

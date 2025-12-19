@@ -8,12 +8,16 @@ use App\Models\VerificationRequest;
 class RejectReasonPolicy
 {
    public function viewAny(User $user): bool {
-        return $user->role === 'admin' || $user->role === 'professional';
+        return $user->role === 'admin' || $user->role === 'professional' || $user->role === 'moderator' || $user->role === 'auditor';
     }
 
     public function view(User $user, RejectReason $reason): bool
     {
         if ($user->role === 'admin') {
+        return true;
+    } if ($user->role === 'moderator') {
+        return true;
+    } if ($user->role === 'auditor') {
         return true;
     }
 
@@ -33,6 +37,6 @@ class RejectReasonPolicy
     }
 
     public function delete(User $user, RejectReason $r): bool {
-        return $user->role === 'admin';
+        return $user->role === 'admin' || $user->role === 'moderator';
     }
 }
